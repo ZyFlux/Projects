@@ -1,23 +1,41 @@
-﻿[System.Serializable]
-public class Requests
+﻿using System.Collections.Generic;
+
+[System.Serializable]
+public class QueryRequest
 {
     public string requestType;
 
 }
 
-public class Receive : Requests
+public class ReceiveRequest : QueryRequest
 {
     int receiverId;
 }
 
-public class StateQuerry : Requests
+public class StateRequest : QueryRequest
 {
     int actorId;
 }
 
-public class TagActor : Requests
+public class TagActorRequest : QueryRequest
 {
     int actorId;
-    bool wantToTag; //True- Tag, False- Untag
+    bool toTag; //True- Tag, False- Untag
+}
+
+
+[System.Serializable]
+public class QueryResponse
+{
+    public string responseType;
+}
+
+public class StateResponse : QueryResponse
+{
+    string state;
+}
+public class ReceiveResponse : QueryResponse
+{
+    List<ActorEvent> events;
 }
 
