@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//TODO- Get Actor descriptor as prefab from Resources
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public static class VisualizationHandler
     public static void Handle (ActorCreated currEvent)
     {
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        go.tag = "Actor";
         go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         go.transform.position = new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(1.75f, 2.0f), Random.Range(-2.0f, 2.0f));
         go.transform.name = currEvent.actorId;

@@ -1,3 +1,5 @@
+//IMPORTANT- A hack to make the radial buttons work. SendMessage doesn't work for some reason..
+
 // Radial Menu|Prefabs|0040
 namespace VRTK
 {
@@ -105,6 +107,8 @@ namespace VRTK
             int buttonID = (int)mod(((angle + (buttonAngle / 2f)) / buttonAngle), buttons.Count); //Convert angle into ButtonID (This is the magic)
             var pointer = new PointerEventData(EventSystem.current); //Create a new EventSystem (UI) Event
 
+
+            
             //If we changed buttons while moving, un-hover and un-click the last button we were on
             if (currentHover != buttonID && currentHover != -1)
             {
@@ -120,10 +124,12 @@ namespace VRTK
             if (evt == ButtonEvent.click) //Click button if click, and keep track of current press (executes button action)
             {
                 ExecuteEvents.Execute(menuButtons[buttonID], pointer, ExecuteEvents.pointerDownHandler);
+                
                 currentPress = buttonID;
                 if (!executeOnUnclick)
                 {
                     buttons[buttonID].OnClick.Invoke();
+                    UserInputHandler.HandleRightRadial(buttonID);
                     AttempHapticPulse(baseHapticStrength * 2.5f);
                 }
             }

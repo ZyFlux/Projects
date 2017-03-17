@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//Now defunct because of network programming
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
