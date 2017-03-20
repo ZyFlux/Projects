@@ -17,6 +17,7 @@ public class TraceImplement : MonoBehaviour {
     {
         if (Trace.pointerToCurrEvent < Trace.allEvents.Count)
         {                   //index
+
             Trace.allEvents[Trace.pointerToCurrEvent].HandleVisualization();
             Trace.pointerToCurrEvent++; //Let's move to the next event
         }

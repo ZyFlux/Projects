@@ -72,6 +72,33 @@ public class ActorFunctionality : MonoBehaviour
         Destroy(consumedMessage);
     }
 
+
+    public void ChangeColour(string colour)
+    {
+        Debug.Log("About to change colour");
+        MeshRenderer goRenderer = GetComponent<MeshRenderer>();
+
+        Material mat = new Material(Shader.Find("Standard")); //Use the standard shader 
+        //TODO: optimize
+
+        switch (colour)
+        {
+            case "RED":
+                mat.color = Color.red;
+                break;
+            case "GREEN":
+                mat.color = Color.green;
+                break;
+            case "BLUE":
+                mat.color = Color.blue;
+                break;
+            default:
+                mat.color = Color.gray;
+                break;
+        }
+
+        goRenderer.material = mat;
+    }
 }
 
 

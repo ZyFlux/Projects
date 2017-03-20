@@ -13,10 +13,15 @@ public static class NetworkInterface
         {
             case "STATE_RESPONSE":
                 //Send message to the concerned actor
+                StateResponse curr = (JsonUtility.FromJson<StateResponse>(jsonResponse));
+                GameObject go = Actors.allActors[curr.actorId];
+                Debug.Log("Sending a message to " + curr.actorId + " to change colour to " + curr.state);
+                SendMessageContext context = new SendMessageContext(go, "ChangeColour", curr.state, SendMessageOptions.RequireReceiver);
+                SendMessageHelper.RegisterSendMessage(context);
                 break;
             case "RECEIVE_RESPONSE":
                 ReceiveResponse currReceive = (JsonUtility.FromJson<ReceiveResponse>(jsonResponse));
-                foreach (string ev in currReceive.eventJsons)
+                foreach (string ev in currReceive.events)
                     EventUnwrapper(ev);
                 break;
             default:
@@ -60,8 +65,16 @@ public static class NetworkInterface
 
     }
 
-    public static void HandleStateRequestToBeSent(StateRequest curr)
+    public static void HandleRequest(StateRequest curr)
     {
         string toSend = JsonUtility.ToJson(curr);
+        AsynchronousClient.Send(AsynchronousClient.client, toSend);
+    }
+
+    public static void HandleRequest(ReceiveRequest curr)
+    {
+        string toSend = JsonUtility.ToJson(curr);
+        AsynchronousClient.Send(AsynchronousClient.client, toSend);
     }
 }
+

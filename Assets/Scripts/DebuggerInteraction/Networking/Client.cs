@@ -14,14 +14,14 @@ public class StateObject
     // Client socket.
     public Socket workSocket = null;
     // Size of receive buffer.
-    public const int BufferSize = 1024;
+    public const int BufferSize = 8000; //Currently, our size is 8000 bytes, as we don't check for a complete read
     // Receive buffer.
     public byte[] buffer = new byte[BufferSize];
     // Received data string.
     public StringBuilder sb = new StringBuilder();
 }
 
-public class AsynchronousClient
+public static class AsynchronousClient
 {
     // The port number for the remote device.
     private const int port = 2772;
@@ -36,7 +36,8 @@ public class AsynchronousClient
 
     // The response from the remote device.
     private static String response = String.Empty;
-
+    
+    public static Socket client;
     public static void StartClient()
     {
         // Connect to a remote device.
@@ -52,7 +53,7 @@ public class AsynchronousClient
             IPEndPoint remoteEP = new IPEndPoint(System.Net.IPAddress.Parse(/*"139.19.183.125"*/"127.0.0.1"), port);
 
             // Create a TCP/IP socket.
-            Socket client = new Socket(AddressFamily.InterNetwork,
+            client = new Socket(AddressFamily.InterNetwork,
                 SocketType.Stream, ProtocolType.Tcp);
 
             // Connect to the remote endpoint.
@@ -61,25 +62,17 @@ public class AsynchronousClient
             connectDone.WaitOne();
 
             //Send an initial query request
-            ReceiveRequest initialRequest = new ReceiveRequest("");
+            ReceiveRequest initialRequest = new ReceiveRequest("init");
             string initialRequestString = JsonUtility.ToJson(initialRequest);
+            
+            
             // Send test data to the remote device.
-            Send(client, initialRequestString + "<EOF>");
-            sendDone.WaitOne();
-            Debug.Log("We sent " + initialRequestString);         
+            Send(client, initialRequestString);
+            Debug.Log("We sent " + initialRequestString);
+      
             
-            // Receive the response from the remote device.
-            Receive(client);
-            receiveDone.WaitOne();
+            
 
-            // Write the response to the console.
-            response = response.Remove(response.Length - 5, 5);
-            Debug.Log("Response received : " + response);
-            NetworkInterface.HandleResponseReceived(response);
-            
-            // Release the socket.
-            client.Shutdown(SocketShutdown.Both);
-            client.Close();
 
         }
         catch (Exception e)
@@ -87,7 +80,12 @@ public class AsynchronousClient
             Debug.Log(e.ToString());
         }
     }
-
+    public static void FreeSocket()
+    {
+        // Release the socket.
+        client.Shutdown(SocketShutdown.Both);
+        client.Close();
+    }
     private static void ConnectCallback(IAsyncResult ar)
     {
         try
@@ -109,7 +107,7 @@ public class AsynchronousClient
         }
     }
 
-    private static void Receive(Socket client)
+    public static void Receive(Socket client)
     {
         try
         {
@@ -143,21 +141,29 @@ public class AsynchronousClient
             {
                 // There might be more data, so store the data received so far.
                 state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
-
+                NetworkInterface.HandleResponseReceived(state.sb.ToString());
+                /*
                 // Get the rest of the data.
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                     new AsyncCallback(ReceiveCallback), state);
+                    */
+                    
             }
+            /*
             else
             {
                 // All the data has arrived; put it in response.
                 if (state.sb.Length > 1)
                 {
                     response = state.sb.ToString();
+                    
                 }
+                
                 // Signal that all bytes have been received.
                 receiveDone.Set();
-            }
+            }*/
+
+            receiveDone.Set();
         }
         catch (Exception e)
         {
@@ -165,7 +171,7 @@ public class AsynchronousClient
         }
     }
 
-    private static void Send(Socket client, String data)
+    public static void Send(Socket client, String data)
     {
         // Convert the string data to byte data using ASCII encoding.
         byte[] byteData = Encoding.ASCII.GetBytes(data);
@@ -193,6 +199,8 @@ public class AsynchronousClient
         {
             Debug.Log(e.ToString());
         }
+
+        Receive(client); //After each send, we receive something
     }
 
 }

@@ -11,7 +11,7 @@ public class QueryRequest
 
 public class ReceiveRequest : QueryRequest
 {
-    string receiverId;
+    public string receiverId;
     public ReceiveRequest(string actorToReceive)
     {
         receiverId = actorToReceive;
@@ -22,7 +22,7 @@ public class ReceiveRequest : QueryRequest
 
 public class StateRequest : QueryRequest
 {
-    string actorId;
+    public string actorId;
     public StateRequest (string id)
     {
         requestType = "STATE_REQUEST";
@@ -32,8 +32,8 @@ public class StateRequest : QueryRequest
 
 public class TagActorRequest : QueryRequest
 {
-    string actorId;
-    bool toTag; //True- Tag, False- Untag
+    public string actorId;
+    public bool toTag; //True- Tag, False- Untag
     public TagActorRequest (string id, bool flag)
     {
         requestType = "TAGACTOR_REQUEST";
@@ -53,13 +53,14 @@ public class QueryResponse
 
 public class StateResponse : QueryResponse
 {
+    public string actorId;
     public string state;
     public override void HandleThis()
     { Debug.Log("State Response class"); }
 }
 public class ReceiveResponse : QueryResponse
 {
-    public List<string> eventJsons;
+    public List<string> events;
     public override void HandleThis()
     { Debug.Log("Receive Response class"); }
 }

@@ -13,7 +13,7 @@ public class MessageFunctionality : MonoBehaviour
     public bool isActive = false; //Activity state of the message
 
     //Internal usage for curve drawing
-    public int bezierPointResolution = 200; //Number of points in the trajectory
+    public int bezierPointResolution = 500; //Number of points in the trajectory
     private int arrayCountKeeper = 0; //Where are we
     private float t = 0.0f;
 

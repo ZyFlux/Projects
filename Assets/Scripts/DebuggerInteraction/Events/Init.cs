@@ -17,6 +17,11 @@ public class Init : MonoBehaviour {
             AsynchronousClient.StartClient();
         }
     }
-	
+
+    private void OnApplicationQuit()
+    {
+        AsynchronousClient.FreeSocket();
+    }
+
 
 }
