@@ -80,13 +80,15 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Events.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Init.cs" />
-    <Compile Include="Assets\Scripts\DebuggerInteraction\Events\ReadAndBuildTrace.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Trace.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\Client.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\NetworkInterface.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Requests\Requests.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\ActorFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\Actors.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\ChangeState.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\ChangeVarsText.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\DestroyArcAfterSteps.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\MessageFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\SendMessageHelper.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\TraceImplement.cs" />

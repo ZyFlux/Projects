@@ -1,5 +1,4 @@
-//IMPORTANT- A hack to make the radial buttons work. SendMessage doesn't work for some reason..
-
+//IMPORTANT- A hack to make the radial buttons work.
 // Radial Menu|Prefabs|0040
 namespace VRTK
 {
@@ -27,6 +26,8 @@ namespace VRTK
     public class RadialMenu : MonoBehaviour
     {
         #region Variables
+        [Tooltip("Ticked for right, unticked for left")]
+        public bool isRight;
         [Tooltip("An array of Buttons that define the interactive buttons required to be displayed as part of the radial menu.")]
         public List<RadialMenuButton> buttons;
         [Tooltip("The base for each button in the menu, by default set to a dynamic circle arc that will fill up a portion of the menu.")]
@@ -129,7 +130,10 @@ namespace VRTK
                 if (!executeOnUnclick)
                 {
                     buttons[buttonID].OnClick.Invoke();
-                    UserInputHandler.HandleRightRadial(buttonID);
+                    if(isRight)
+                        UserInputHandler.HandleRightRadial(buttonID); //Indirect hook
+                    else
+                        UserInputHandler.HandleLeftRadial(buttonID); //Indirect hook
                     AttempHapticPulse(baseHapticStrength * 2.5f);
                 }
             }

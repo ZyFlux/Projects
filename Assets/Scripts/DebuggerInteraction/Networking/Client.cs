@@ -50,7 +50,7 @@ public static class AsynchronousClient
             IPHostEntry ipHostInfo = Dns.Resolve("wks-55-71");
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             */
-            IPEndPoint remoteEP = new IPEndPoint(System.Net.IPAddress.Parse(/*"139.19.183.125"*/"127.0.0.1"), port);
+            IPEndPoint remoteEP = new IPEndPoint(System.Net.IPAddress.Parse(/*"139.19.183.216"*/"127.0.0.1"), port);
 
             // Create a TCP/IP socket.
             client = new Socket(AddressFamily.InterNetwork,
@@ -62,7 +62,7 @@ public static class AsynchronousClient
             connectDone.WaitOne();
 
             //Send an initial query request
-            ReceiveRequest initialRequest = new ReceiveRequest("init");
+            ActionRequest initialRequest = new ActionRequest("__INIT__");
             string initialRequestString = JsonUtility.ToJson(initialRequest);
             
             

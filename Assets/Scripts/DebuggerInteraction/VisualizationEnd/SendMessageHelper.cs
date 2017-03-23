@@ -6,10 +6,10 @@ public class SendMessageContext
 {
     public GameObject Target;
     public string MethodName;
-    public string Value;
+    public object Value;
     public SendMessageOptions Options = SendMessageOptions.RequireReceiver;
 
-    public SendMessageContext(GameObject target, string methodName, string value, SendMessageOptions options)
+    public SendMessageContext(GameObject target, string methodName, object value, SendMessageOptions options)
     {
         this.Target = target;
         this.MethodName = methodName;

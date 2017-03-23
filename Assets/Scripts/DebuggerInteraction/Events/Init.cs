@@ -11,7 +11,9 @@ public class Init : MonoBehaviour {
         if (isActive)
         {
             ActorCreated deadLetters = new ActorCreated("Actor[akka://sys/deadLetters]");
-            Trace.allEvents.Add(deadLetters);
+            List<ActorEvent> tempList = new List<ActorEvent>(); //Make a temporary list to hold this
+            tempList.Add(deadLetters);
+            Trace.allEvents.Add(tempList);
 
             Debug.Log("About to start the client..");
             AsynchronousClient.StartClient();
@@ -20,7 +22,7 @@ public class Init : MonoBehaviour {
 
     private void OnApplicationQuit()
     {
-        AsynchronousClient.FreeSocket();
+        AsynchronousClient.FreeSocket(); //Free socket after everything
     }
 
 

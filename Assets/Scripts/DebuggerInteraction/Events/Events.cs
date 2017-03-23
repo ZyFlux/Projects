@@ -19,6 +19,7 @@ public class ActorCreated : ActorEvent
     public ActorCreated(string id)
     { actorId = id; }
 }
+
 [System.Serializable]
 public class ActorDestroyed : ActorEvent
 {
@@ -34,11 +35,27 @@ public class MessageSent : ActorEvent
     public string msg;
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
 }
+
 [System.Serializable]
 public class MessageReceived : ActorEvent
 {
     public string receiverId;
     public string senderId;
     public string msg;
+    public override void HandleVisualization() { VisualizationHandler.Handle(this); }
+}
+
+[System.Serializable]
+public class Log : ActorEvent
+{
+    public int type;
+    /*
+     * 0 = Debug
+     * 1 = Info
+     * 2 = Warning
+     * 3 = Error
+     * 
+     */
+    public string text; //To be displayed on the big screen
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
 }

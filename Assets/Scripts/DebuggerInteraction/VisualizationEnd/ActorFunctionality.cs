@@ -16,13 +16,36 @@ public class ActorFunctionality : MonoBehaviour
     private static GameObject prefabMessageSphereInstance;
 
 
+    private Material mat; //Holds the material
+
+    public bool getState = true; //Initially, we show all states
+
+    private static GameObject prefabVarScreen;
+    private GameObject varScreen;
 
     void Awake()
     {
-        //Initialize all prefabs and important stuff
-        prefabNameText = Resources.Load("NameText") as GameObject;
 
-        prefabMessageSphereInstance = Resources.Load("Message") as GameObject;
+        //Initialize all prefabs and important stuff
+        if(!prefabNameText)
+            prefabNameText = Resources.Load("NameText") as GameObject;
+        if(!prefabMessageSphereInstance)
+            prefabMessageSphereInstance = Resources.Load("Message") as GameObject;
+        if (!mat)
+            mat = Resources.Load("White") as Material;
+        if(!prefabVarScreen)
+            prefabVarScreen = Resources.Load("VarsScreen") as GameObject;
+        
+        
+        //Set up stuff for grab capability
+        VRTK.VRTK_InteractableObject vrio = gameObject.AddComponent<VRTK.VRTK_InteractableObject>();//Make it grabbable for drag drop
+        vrio.isGrabbable = true;
+
+
+        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.angularDrag = 100.0f;
+        rb.drag = 100.0f;
 
     }
 
@@ -36,10 +59,17 @@ public class ActorFunctionality : MonoBehaviour
             nameText = Instantiate(prefabNameText);
             nameText.GetComponent<TextMesh>().text = this.gameObject.name; //say my name..
             nameText.transform.parent = this.transform; //Who's the daddy?
-            nameText.transform.position = this.transform.position - new Vector3(0, 0.1f, 0); //With a small offset
+            nameText.transform.position = this.transform.position; //With no offset
         }
         else
             Debug.LogError("Error! Prefab not found!");
+
+        varScreen = Instantiate(prefabVarScreen);
+        varScreen.transform.parent = this.transform; //Who's the daddy?
+        varScreen.transform.position = this.transform.position - new Vector3(0, 0.3f, 0); //With a small offset
+
+        //Set material
+        this.GetComponent<MeshRenderer>().material = mat;
 
     } 
 
@@ -73,32 +103,44 @@ public class ActorFunctionality : MonoBehaviour
     }
 
 
-    public void ChangeColour(string colour)
+    public void ChangeColour(Color colour)
     {
         Debug.Log("About to change colour");
-        MeshRenderer goRenderer = GetComponent<MeshRenderer>();
-
-        Material mat = new Material(Shader.Find("Standard")); //Use the standard shader 
-        //TODO: optimize
-
-        switch (colour)
-        {
-            case "RED":
-                mat.color = Color.red;
-                break;
-            case "GREEN":
-                mat.color = Color.green;
-                break;
-            case "BLUE":
-                mat.color = Color.blue;
-                break;
-            default:
-                mat.color = Color.gray;
-                break;
-        }
-
-        goRenderer.material = mat;
+        mat.color = colour;
     }
+
+    public void UpdateState(State st)
+    {
+        ChangeColour(st.behavior); //change colour of the actor
+
+        foreach (Transform child in transform) //re-enable the renderers
+        {
+            if (child.CompareTag("State"))
+            {
+                transform.GetComponent<MeshRenderer>().enabled = true; //Turn off MeshRenderer
+            }
+        }
+    }
+
+    public void SwitchStateOff()
+    {
+        getState = false;
+        ChangeColour(Color.white); //Set colour to white
+        //Turn off MeshRenderer for all children 
+        foreach (Transform child in transform)
+        {
+            if(child.CompareTag("State"))
+            {
+                transform.GetComponent<MeshRenderer>().enabled = false; //Turn off MeshRenderer
+            }
+        }
+    }
+
+    public void NewStateReceived(State st) //Broadcast a message about change of state
+    {
+        BroadcastMessage("UpdateState", st, SendMessageOptions.RequireReceiver);
+    }
+
 }
 
 

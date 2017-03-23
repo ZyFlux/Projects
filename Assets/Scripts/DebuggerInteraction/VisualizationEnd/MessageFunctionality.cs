@@ -10,10 +10,11 @@ public class MessageFunctionality : MonoBehaviour
     public GameObject prefabLink3DText; //A reference to the prefab that is used for 3D info text
     public GameObject infoText; //Is used by other scripts to enable or disable
 
+    public float durationOfLine = 2f;
     public bool isActive = false; //Activity state of the message
 
     //Internal usage for curve drawing
-    public int bezierPointResolution = 500; //Number of points in the trajectory
+    public int bezierPointResolution = 50; //Number of points in the trajectory
     private int arrayCountKeeper = 0; //Where are we
     private float t = 0.0f;
 
@@ -41,10 +42,18 @@ public class MessageFunctionality : MonoBehaviour
             isActive = false;
 
             this.gameObject.GetComponent<SphereCollider>().isTrigger = false; //We need this no more
-            this.gameObject.GetComponent<Rigidbody>().isKinematic = false; //Rigidbody is a pain
-                                                                           //There has been a collision, now to reset the sender status and make more dynamic changes
-
+            Rigidbody rb = this.gameObject.GetComponent<Rigidbody>();
+            rb.isKinematic = false;   //Rigidbody is a pain
+                                      //There has been a collision, now to reset the sender status and make more dynamic changes
+            
+            transform.DetachChildren(); //Detach the trail renderer
+  
             transform.rotation = recipient.transform.rotation; //Make sure the message faces the same way as the recipient block
+
+            //Now, we put this somewhere special                                                                                        //To add a little more leeway
+            transform.position = new Vector3(recipient.transform.position.x, recipient.transform.position.y + (transform.localScale.y * 2.1f * recipient.GetComponent<ActorFunctionality>().messageQueue.Count), recipient.transform.position.z);
+            rb.useGravity = true;
+
         }
 
     }

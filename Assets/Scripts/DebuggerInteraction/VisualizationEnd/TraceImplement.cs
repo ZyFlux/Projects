@@ -5,21 +5,37 @@ using UnityEngine;
 public class TraceImplement : MonoBehaviour {
 
     public float timeDelay = 0.1f;
-
-	// Starts after Awake()
+    private AudioSource audioS;
+	void Awake()
+    {
+        audioS = GetComponent<AudioSource>();
+    }
 	void Start ()
     {
         Debug.Log("We now begin implementing the trace");
         InvokeRepeating("ImplementNext", 0.0f, timeDelay);
     }
 
-    void ImplementNext()
+    void ImplementNext() //Implement the next thing
     {
-        if (Trace.pointerToCurrEvent < Trace.allEvents.Count)
-        {                   //index
+        if (Trace.pointerToCurrAtomicStep != Trace.allEvents.Count)
+        {
+            if (Trace.pointerToCurrEvent < Trace.allEvents[Trace.pointerToCurrAtomicStep].Count)
+            {                   //index
 
-            Trace.allEvents[Trace.pointerToCurrEvent].HandleVisualization();
-            Trace.pointerToCurrEvent++; //Let's move to the next event
+                Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
+                Trace.pointerToCurrEvent++; //Let's move to the next event
+            }
+            else
+            {
+                if (Trace.pointerToCurrAtomicStep < Trace.allEvents.Count)
+                {
+                    Debug.Log("Moving to the next atomic step");
+                    Trace.pointerToCurrAtomicStep++;
+                    //Make sound
+                    audioS.Play();
+                }
+            }
         }
     }
 

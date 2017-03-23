@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿//These are sent by the program to us
+
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,13 +11,13 @@ public class QueryRequest
 
 }
 
-public class ReceiveRequest : QueryRequest
+public class ActionRequest : QueryRequest
 {
     public string receiverId;
-    public ReceiveRequest(string actorToReceive)
+    public ActionRequest(string actorToReceive)
     {
         receiverId = actorToReceive;
-        requestType = "RECEIVE_REQUEST";
+        requestType = "ACTION_REQUEST";
     }
 
 }
@@ -23,10 +25,12 @@ public class ReceiveRequest : QueryRequest
 public class StateRequest : QueryRequest
 {
     public string actorId;
-    public StateRequest (string id)
+    public bool toGet; //Is it toggle on or toggle off?
+    public StateRequest (string id, bool onOff)
     {
         requestType = "STATE_REQUEST";
         actorId = id;
+        toGet = onOff;
     }
 }
 
@@ -43,6 +47,16 @@ public class TagActorRequest : QueryRequest
 }
 
 
+//New architecture
+[System.Serializable]
+public class State
+{
+    public string actorId;
+    public Color behavior;
+    public string vars; //All variables separated by new line
+}
+
+
 [System.Serializable]
 public class QueryResponse
 {
@@ -51,10 +65,24 @@ public class QueryResponse
     { Debug.LogError("Control has passed to the base QueryResponse class"); }
 }
 
+[System.Serializable]
+public class ActionResponse : QueryResponse
+{
+    public List<string> events;
+    public List<State> states;
+     
+    public override void HandleThis()
+    { Debug.Log("Receive Response class"); }
+}
+/*
 public class StateResponse : QueryResponse
 {
     public string actorId;
     public string state;
+
+    //Also, we echo state variables
+    public string vars;
+
     public override void HandleThis()
     { Debug.Log("State Response class"); }
 }
@@ -65,3 +93,4 @@ public class ReceiveResponse : QueryResponse
     { Debug.Log("Receive Response class"); }
 }
 
+*/
