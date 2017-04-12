@@ -1,10 +1,15 @@
-﻿//TODO- Get Actor descriptor as prefab from Resources
+﻿//Has the 'Log' shared resource
+
+//TODO- Get Actor descriptor as prefab from Resources
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class VisualizationHandler
 {
+    //Some shared data 
+    public static Log logInfo;
+
     public static void Handle (ActorCreated currEvent)
     {
         //TODO: Optimize this by putting it in a prefab
@@ -41,8 +46,13 @@ public static class VisualizationHandler
     
     public static void Handle(Log currEvent)
     {
-        //Send message to the light to change colour for error
         //Maybe also play an error sound?
         //Send message to the main screen to change the text
+        logInfo = currEvent;
+     }
+
+    public static void Handle(MessageDropped currEvent)
+    {
+        //Do some animation to show disappearing message
     }
 }

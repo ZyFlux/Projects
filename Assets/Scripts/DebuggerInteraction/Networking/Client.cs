@@ -1,4 +1,6 @@
 ﻿//Initialized by init
+//The __INIT__ message to the server is also sent from here
+
 
 //Inspired from https://msdn.microsoft.com/en-us/library/bew39x2a(v=vs.80).aspx (minor changes)
 using UnityEngine;
@@ -53,16 +55,19 @@ public static class AsynchronousClient
             IPEndPoint remoteEP = new IPEndPoint(System.Net.IPAddress.Parse(/*"139.19.183.216"*/"127.0.0.1"), port);
 
             // Create a TCP/IP socket.
-            client = new Socket(AddressFamily.InterNetwork,
-                SocketType.Stream, ProtocolType.Tcp);
+            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); //We create a socket here
+
 
             // Connect to the remote endpoint.
             client.BeginConnect(remoteEP,
                 new AsyncCallback(ConnectCallback), client);
-            connectDone.WaitOne();
+            
+            
+            //connectDone.WaitOne();
+            //WaitOne causes the block
 
             //Send an initial query request
-            ActionRequest initialRequest = new ActionRequest("__INIT__");
+            ActionRequest initialRequest = new ActionRequest("__INIT__","");
             string initialRequestString = JsonUtility.ToJson(initialRequest);
             
             
@@ -190,7 +195,7 @@ public static class AsynchronousClient
 
             // Complete sending the data to the remote device.
             int bytesSent = client.EndSend(ar);
-            Debug.Log("Sent  " + bytesSent.ToString() + " bytes to server." );
+            //Debug.Log("Sent  " + bytesSent.ToString() + " bytes to server." );
 
             // Signal that all bytes have been sent.
             sendDone.Set();

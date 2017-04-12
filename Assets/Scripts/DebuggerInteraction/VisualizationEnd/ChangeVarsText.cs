@@ -21,6 +21,6 @@ public class ChangeVarsText : MonoBehaviour {
     public void UpdateState(State st)
     {
         tm.text = st.vars;
-        Debug.Log("Successfully changed state");
+        Debug.Log("Successfully updated state variables");
     }
 }

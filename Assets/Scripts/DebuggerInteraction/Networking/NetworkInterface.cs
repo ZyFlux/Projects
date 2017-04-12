@@ -27,7 +27,7 @@ public static class NetworkInterface
                 break;
                 */
             case "ACTION_RESPONSE":
-                Debug.Log("Received an action response");
+                //Debug.Log("Received an action response");
                 ActionResponse curr = (JsonUtility.FromJson<ActionResponse>(jsonResponse));
                 //One ActionResponse includes a list of events for one atomic step
                 List<ActorEvent> tempList = new List<ActorEvent>();
@@ -52,7 +52,7 @@ public static class NetworkInterface
     {
         ActorEvent ev = (JsonUtility.FromJson<ActorEvent>(line)); //Read into the event parent class
         //Now assign a specific class
-        switch (ev.eventType)
+        switch (ev.eventType) //Go through all possible event types
         {
             case "ACTOR_CREATED":
                 ActorCreated specificActorCreatedEvent = (JsonUtility.FromJson<ActorCreated>(line));
@@ -69,6 +69,15 @@ public static class NetworkInterface
             case "ACTOR_DESTROYED":
                 ActorDestroyed specificActorDestroyedEvent = (JsonUtility.FromJson<ActorDestroyed>(line));
                 ev = specificActorDestroyedEvent;
+                break;
+            case "LOG":
+                Debug.Log("Log received");
+                Log newLog = (JsonUtility.FromJson<Log>(line));
+                ev = newLog;
+                break;
+            case "MESSAGE_DROPPED":
+                MessageDropped specificMessageDroppedEvent = (JsonUtility.FromJson<MessageDropped>(line));
+                ev = specificMessageDroppedEvent;
                 break;
             default:
                 //We don't know what this event is

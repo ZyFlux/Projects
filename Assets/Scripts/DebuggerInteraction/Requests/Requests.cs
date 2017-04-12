@@ -14,9 +14,16 @@ public class QueryRequest
 public class ActionRequest : QueryRequest
 {
     public string receiverId;
-    public ActionRequest(string actorToReceive)
+    public string actionId;
+
+
+    public ActionRequest(string action, string actorInvolved)
     {
-        receiverId = actorToReceive;
+        if (action != null) //Pass the actionId
+            actionId = action;
+        else
+            actionId = "";
+        receiverId = actorInvolved;
         requestType = "ACTION_REQUEST";
     }
 

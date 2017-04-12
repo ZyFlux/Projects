@@ -18,7 +18,7 @@ public class ActorFunctionality : MonoBehaviour
 
     private Material mat; //Holds the material
 
-    public bool getState = true; //Initially, we show all states
+    public bool getState = false; //Initially, weshow no state
 
     private static GameObject prefabVarScreen;
     private GameObject varScreen;
@@ -32,7 +32,7 @@ public class ActorFunctionality : MonoBehaviour
         if(!prefabMessageSphereInstance)
             prefabMessageSphereInstance = Resources.Load("Message") as GameObject;
         if (!mat)
-            mat = Resources.Load("White") as Material;
+            mat = new Material(Resources.Load("White") as Material); //mat must be a new material- each actor has its own
         if(!prefabVarScreen)
             prefabVarScreen = Resources.Load("VarsScreen") as GameObject;
         
@@ -73,6 +73,10 @@ public class ActorFunctionality : MonoBehaviour
 
     } 
 
+    //---------------------------------------------------------------------------------------------------------------------------------------------------
+    //Auxiliary functions
+
+   
     public void GenerateMessage(GameObject recipient)
     {
         GameObject MessageSphereInstance = Instantiate(prefabMessageSphereInstance, transform.position, transform.rotation) as GameObject; //Instantiate message sphere prefab
@@ -113,7 +117,7 @@ public class ActorFunctionality : MonoBehaviour
     {
         ChangeColour(st.behavior); //change colour of the actor
 
-        foreach (Transform child in transform) //re-enable the renderers
+        foreach (Transform child in transform) //re-enable the renderers (if they aren't already enabled)
         {
             if (child.CompareTag("State"))
             {
@@ -122,7 +126,7 @@ public class ActorFunctionality : MonoBehaviour
         }
     }
 
-    public void SwitchStateOff()
+    public void SwitchStateOff() //Turn off getting state for actor
     {
         getState = false;
         ChangeColour(Color.white); //Set colour to white

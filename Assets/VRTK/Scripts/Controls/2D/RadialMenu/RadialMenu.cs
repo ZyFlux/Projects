@@ -130,10 +130,7 @@ namespace VRTK
                 if (!executeOnUnclick)
                 {
                     buttons[buttonID].OnClick.Invoke();
-                    if(isRight)
-                        UserInputHandler.HandleRightRadial(buttonID); //Indirect hook
-                    else
-                        UserInputHandler.HandleLeftRadial(buttonID); //Indirect hook
+     
                     AttempHapticPulse(baseHapticStrength * 2.5f);
                 }
             }
