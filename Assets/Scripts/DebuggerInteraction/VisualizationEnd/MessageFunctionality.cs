@@ -9,18 +9,25 @@ public class MessageFunctionality : MonoBehaviour
 
     public GameObject prefabLink3DText; //A reference to the prefab that is used for 3D info text
     public GameObject infoText; //Is used by other scripts to enable or disable
+    
 
-    public float durationOfLine = 2f;
+    public int durationOfLineInSteps = 5; //Number of steps after linerenderer is destroyed
+
     public bool isActive = false; //Activity state of the message
+
+
 
     //Internal usage for curve drawing
     public int bezierPointResolution = 50; //Number of points in the trajectory
+
     private int arrayCountKeeper = 0; //Where are we
     private float t = 0.0f;
-
+    private int stepsOnStart;
+    private GameObject lineRenderer; //Reference to LineRenderer set in Start()
 
     void Start()
     {
+        lineRenderer = transform.GetChild(0).gameObject; //This is the LineRenderer. There is also an option to getbyname but this one chose for performance
         if (prefabLink3DText != null)
         {
             infoText = Instantiate(prefabLink3DText); //Instantiate the infoText
@@ -32,6 +39,8 @@ public class MessageFunctionality : MonoBehaviour
         }
         else
             Debug.LogError("Error! Prefab not found!");
+
+        stepsOnStart = Trace.numOfStepsElapsed;
     }
 
 
@@ -46,7 +55,7 @@ public class MessageFunctionality : MonoBehaviour
             rb.isKinematic = false;   //Rigidbody is a pain
                                       //There has been a collision, now to reset the sender status and make more dynamic changes
             
-            transform.DetachChildren(); //Detach the trail renderer
+            transform.DetachChildren(); //Detach the trail renderer- we do some fancy stuff to show the queue
   
             transform.rotation = recipient.transform.rotation; //Make sure the message faces the same way as the recipient block
 
@@ -69,8 +78,10 @@ public class MessageFunctionality : MonoBehaviour
                 //The overflow of arrayCountKeeper is handled by the MessageSphere
             }
         }
-
         //If not active, wait
+
+        if((stepsOnStart + durationOfLineInSteps) == Trace.numOfStepsElapsed) //Destroy linerenderer after durationOfLineInSteps
+        { Destroy(lineRenderer); }
     }
 
     Vector3 GetBezierPoint(Vector3 p0, Vector3 p1, Vector3 p2, float t) //Thanks to Wikipedia & catlikecoding internet tutorial 

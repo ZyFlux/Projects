@@ -13,11 +13,14 @@ public class UserInputHandler : MonoBehaviour
     }
     public void TagUntagActor()
     {
-        Debug.Log("About to tag/untag actor");
-        //TagActorRequest tar = new TagActorRequest(laserPointedActor.name, true);
-        //TODO
-        //NetworkInterface.HandleTagUntagRequestToBeSent(tar);
-        Debug.LogError("Not yet implemented");
+        
+        if (laserPointedActor != null && laserPointedActor.CompareTag("Actor"))
+        {
+            Debug.Log("About to tag/untag actor");
+
+            bool toggle = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().ToggleTag();
+            NetworkInterface.HandleTagUntagRequestToBeSent(toggle, laserPointedActor.name);
+        }
     }
 
     public void ReceiveFromActor()
@@ -45,10 +48,9 @@ public class UserInputHandler : MonoBehaviour
         if (laserPointedActor != null && laserPointedActor.CompareTag("Actor"))
         {
 
-            bool toggle = (laserPointedActor.gameObject.GetComponent<ActorFunctionality>().getState) ? false : true;
-            if (!toggle)
-                laserPointedActor.gameObject.GetComponent<ActorFunctionality>().SwitchStateOff();
-            Debug.Log("About to query state "+toggle.ToString());
+            bool toggle = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().ToggleState() ;
+
+            Debug.Log("Button press for state "+ toggle.ToString());
             StateRequest sr = new StateRequest(laserPointedActor.name, toggle);
             NetworkInterface.HandleRequest(sr);
         }
@@ -62,7 +64,6 @@ public class UserInputHandler : MonoBehaviour
 
     public void NextStep() //Go to the next step
     {
-        Trace.pointerToCurrAtomicStep++; //Increment the atomic step counter
         //Send the next message to dispatcher
         ActionRequest ar = new ActionRequest("__NEXT__", ""); //TODO-Make things safe and clear so that the __NEXT__ is only possible at the correct moments
         NetworkInterface.HandleRequest(ar);

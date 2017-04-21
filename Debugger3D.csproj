@@ -86,7 +86,6 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Requests\Requests.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\ActorFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\Actors.cs" />
-    <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\ChangeState.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\ChangeVarsText.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\DestroyArcAfterSteps.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\VisualizationEnd\LogDisplayer.cs" />

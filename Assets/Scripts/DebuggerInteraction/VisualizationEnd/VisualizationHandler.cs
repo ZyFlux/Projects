@@ -32,15 +32,17 @@ public static class VisualizationHandler
     }
     public static void Handle(MessageSent currEvent)
     {
+        GameObject senderGO = Actors.allActors[currEvent.senderId];
         //Use dictionary of actors to do this
-        ActorFunctionality af = Actors.allActors[currEvent.senderId].GetComponent<ActorFunctionality>();
+        ActorFunctionality af = senderGO.GetComponent<ActorFunctionality>();
         af.GenerateMessage(Actors.allActors[currEvent.receiverId]);
       
     }
     public static void Handle(MessageReceived currEvent)
     {
+        GameObject recGO = Actors.allActors[currEvent.receiverId];
         //Use dictionary of actors to do this
-        ActorFunctionality af = Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>();
+        ActorFunctionality af = recGO.GetComponent<ActorFunctionality>(); //TODO- Problem here!
         af.ReceiveMessageFromQueue(Actors.allActors[currEvent.senderId]);
     }
     
@@ -54,5 +56,8 @@ public static class VisualizationHandler
     public static void Handle(MessageDropped currEvent)
     {
         //Do some animation to show disappearing message
+        //Currently, this is visualized like MessageReceived
+        ActorFunctionality af = Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>();
+        af.ReceiveMessageFromQueue();
     }
 }

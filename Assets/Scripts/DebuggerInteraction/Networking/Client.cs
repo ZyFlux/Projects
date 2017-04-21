@@ -52,7 +52,7 @@ public static class AsynchronousClient
             IPHostEntry ipHostInfo = Dns.Resolve("wks-55-71");
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             */
-            IPEndPoint remoteEP = new IPEndPoint(System.Net.IPAddress.Parse(/*"139.19.183.216"*/"127.0.0.1"), port);
+            IPEndPoint remoteEP = new IPEndPoint(System.Net.IPAddress.Parse(/*"139.19.183.9"*/"127.0.0.1"), port);
 
             // Create a TCP/IP socket.
             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); //We create a socket here
@@ -63,21 +63,8 @@ public static class AsynchronousClient
                 new AsyncCallback(ConnectCallback), client);
             
             
-            //connectDone.WaitOne();
+            connectDone.WaitOne();
             //WaitOne causes the block
-
-            //Send an initial query request
-            ActionRequest initialRequest = new ActionRequest("__INIT__","");
-            string initialRequestString = JsonUtility.ToJson(initialRequest);
-            
-            
-            // Send test data to the remote device.
-            Send(client, initialRequestString);
-            Debug.Log("We sent " + initialRequestString);
-      
-            
-            
-
 
         }
         catch (Exception e)
@@ -110,6 +97,15 @@ public static class AsynchronousClient
         {
             Debug.Log(e.ToString());
         }
+
+        //Send an initial query request
+        ActionRequest initialRequest = new ActionRequest("__INIT__", "");
+        string initialRequestString = JsonUtility.ToJson(initialRequest);
+
+
+        // Send test data to the remote device.
+        Send(client, initialRequestString);
+        Debug.Log("We sent " + initialRequestString);
     }
 
     public static void Receive(Socket client)
@@ -132,6 +128,7 @@ public static class AsynchronousClient
 
     private static void ReceiveCallback(IAsyncResult ar)
     {
+       
         try
         {
             // Retrieve the state object and the client socket 
@@ -146,15 +143,12 @@ public static class AsynchronousClient
             {
                 // There might be more data, so store the data received so far.
                 state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
-                NetworkInterface.HandleResponseReceived(state.sb.ToString());
                 /*
                 // Get the rest of the data.
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                     new AsyncCallback(ReceiveCallback), state);
-                    */
-                    
             }
-            /*
+            
             else
             {
                 // All the data has arrived; put it in response.
@@ -163,17 +157,20 @@ public static class AsynchronousClient
                     response = state.sb.ToString();
                     
                 }
-                
                 // Signal that all bytes have been received.
                 receiveDone.Set();
+                
             }*/
-
-            receiveDone.Set();
+                NetworkInterface.HandleResponseReceived(state.sb.ToString()); //Perform appropriate action on response received
+            }
         }
         catch (Exception e)
         {
             Debug.Log(e.ToString());
         }
+        // Signal that all bytes have been received.
+
+
     }
 
     public static void Send(Socket client, String data)

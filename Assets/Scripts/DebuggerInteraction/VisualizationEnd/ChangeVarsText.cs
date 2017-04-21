@@ -1,22 +1,26 @@
-﻿using System.Collections;
+﻿//Attached to Vars (G.O. in Resources)
+//Idea is to use the UpdateState function
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangeVarsText : MonoBehaviour {
 
     TextMesh tm;
-
+    public GameObject varsWindow;
     // Use this for initialization
-    void Start () {
 
-        tm = GetComponent<TextMesh>();
-        tm.text = "Waiting for initial state..";
+    void Start () {
+        if (varsWindow != null)
+        {
+            tm = varsWindow.GetComponent<TextMesh>();
+            tm.text = "Waiting for initial state..";
+        }
+        else
+            Debug.LogError("The vars window is undefined!");
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void UpdateState(State st)
     {

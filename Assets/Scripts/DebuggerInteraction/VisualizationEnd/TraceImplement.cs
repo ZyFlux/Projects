@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//We have the concept of an atomic step, which is a list of events. We need to cycle through each atomic step and each event within this step.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,17 +21,15 @@ public class TraceImplement : MonoBehaviour {
 
     public void ImplementNext() //Implement the next thing
     {
-        if (Trace.pointerToCurrAtomicStep != Trace.allEvents.Count)
+        if (Trace.NewStepPossible())
         {
-
-            if (Trace.pointerToCurrEvent < Trace.allEvents[Trace.pointerToCurrAtomicStep].Count)
-            {                   //index
-                audioS.Play(); //Play a sound
-                Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
-                Trace.pointerToCurrEvent++; //Let's move to the next event
-            }
-
+            audioS.Play(); //Play a sound
+            Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
+            Trace.IncrementPointer(); //Let's move to the next event
         }
+        else
+            Debug.Log("End of trace reached.");
+
     }
 
 }

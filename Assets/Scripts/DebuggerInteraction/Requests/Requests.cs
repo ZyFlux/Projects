@@ -14,15 +14,15 @@ public class QueryRequest
 public class ActionRequest : QueryRequest
 {
     public string receiverId;
-    public string actionId;
+    public string actionType;
 
 
     public ActionRequest(string action, string actorInvolved)
     {
         if (action != null) //Pass the actionId
-            actionId = action;
+            actionType = action;
         else
-            actionId = "";
+            actionType = "";
         receiverId = actorInvolved;
         requestType = "ACTION_REQUEST";
     }
@@ -81,23 +81,3 @@ public class ActionResponse : QueryResponse
     public override void HandleThis()
     { Debug.Log("Receive Response class"); }
 }
-/*
-public class StateResponse : QueryResponse
-{
-    public string actorId;
-    public string state;
-
-    //Also, we echo state variables
-    public string vars;
-
-    public override void HandleThis()
-    { Debug.Log("State Response class"); }
-}
-public class ReceiveResponse : QueryResponse
-{
-    public List<string> events;
-    public override void HandleThis()
-    { Debug.Log("Receive Response class"); }
-}
-
-*/

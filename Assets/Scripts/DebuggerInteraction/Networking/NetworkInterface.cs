@@ -8,24 +8,10 @@ public static class NetworkInterface
 	
     public static void HandleResponseReceived(string jsonResponse)
     {
+        Debug.Log("Debugger sent us " + jsonResponse);
         QueryResponse currResponse = (JsonUtility.FromJson<QueryResponse>(jsonResponse));
         switch (currResponse.responseType)
         {
-            /*
-            case "STATE_RESPONSE":
-                //Send message to the concerned actor
-                StateResponse curr = (JsonUtility.FromJson<StateResponse>(jsonResponse));
-                GameObject go = Actors.allActors[curr.actorId];
-                Debug.Log("Sending a message to " + curr.actorId + " to change colour to " + curr.state);
-                SendMessageContext context = new SendMessageContext(go, "ChangeColour", curr.state, SendMessageOptions.RequireReceiver);
-                SendMessageHelper.RegisterSendMessage(context);
-                break;
-            case "RECEIVE_RESPONSE":
-                ReceiveResponse currReceive = (JsonUtility.FromJson<ReceiveResponse>(jsonResponse));
-                foreach (string ev in currReceive.events)
-                    EventUnwrapper(ev);
-                break;
-                */
             case "ACTION_RESPONSE":
                 //Debug.Log("Received an action response");
                 ActionResponse curr = (JsonUtility.FromJson<ActionResponse>(jsonResponse));
@@ -33,8 +19,8 @@ public static class NetworkInterface
                 List<ActorEvent> tempList = new List<ActorEvent>();
                 foreach (string ev in curr.events)
                     tempList.Add(EventUnwrapper(ev));
-
-                Trace.allEvents.Add(tempList);
+                if(tempList.Count > 0)
+                    Trace.allEvents.Add(tempList);
 
                 foreach (State st in curr.states)
                     StateUnwrapper(st);
@@ -42,7 +28,7 @@ public static class NetworkInterface
                 break;
 
             default:
-                Debug.LogError("Unable to response to a particular class");
+                Debug.LogError("Unable to resolve to a particular class");
                 break;
         }
 
@@ -95,9 +81,12 @@ public static class NetworkInterface
         SendMessageHelper.RegisterSendMessage(context);
     }
 
-    public static void HandleTagUntagRequestToBeSent()
+    public static void HandleTagUntagRequestToBeSent(bool toggle, string actorId)
     {
-        Debug.LogError("HandleTagUntagRequestToBeSent not yet implemented");
+        TagActorRequest curr = new TagActorRequest(actorId, toggle);
+        string toSend = JsonUtility.ToJson(curr);
+        AsynchronousClient.Send(AsynchronousClient.client, toSend);
+        Debug.Log("We sent a tag actor request");
     }
 
     public static void HandleRequest(StateRequest curr)

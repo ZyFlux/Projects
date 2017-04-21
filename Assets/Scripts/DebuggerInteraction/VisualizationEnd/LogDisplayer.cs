@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//Attached to LogText and uses shared structures VisualizationHandler.logInfo
+
+using UnityEngine;
 
 public class LogDisplayer : MonoBehaviour
 {
@@ -31,7 +33,6 @@ public class LogDisplayer : MonoBehaviour
                     Debug.LogError("Log type not identified");
                     break;
             }
-
         }
     } 
 }

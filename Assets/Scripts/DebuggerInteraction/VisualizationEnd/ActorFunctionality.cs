@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class ActorFunctionality : MonoBehaviour
 {
     //3D text and other prefabs that actor nodes own the asses of
-
     private static GameObject prefabNameText; //A reference to the prefab that is used for each individual actor
     public GameObject nameText; //Is used by other scripts to enable or disable
 
@@ -18,10 +17,11 @@ public class ActorFunctionality : MonoBehaviour
 
     private Material mat; //Holds the material
 
-    public bool getState = false; //Initially, weshow no state
+    public bool getState = false; //Is the state shown (or not)?
+    public bool getTag = false;//Is the actor tagged (or not)?
 
     private static GameObject prefabVarScreen;
-    private GameObject varScreen;
+    private GameObject varScreen; //Reference to the varScreen
 
     void Awake()
     {
@@ -35,7 +35,6 @@ public class ActorFunctionality : MonoBehaviour
             mat = new Material(Resources.Load("White") as Material); //mat must be a new material- each actor has its own
         if(!prefabVarScreen)
             prefabVarScreen = Resources.Load("VarsScreen") as GameObject;
-        
         
         //Set up stuff for grab capability
         VRTK.VRTK_InteractableObject vrio = gameObject.AddComponent<VRTK.VRTK_InteractableObject>();//Make it grabbable for drag drop
@@ -52,7 +51,7 @@ public class ActorFunctionality : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        Debug.Log("Created actor called " + transform.name);
         //My name is..
         if (prefabNameText != null)
         {
@@ -67,6 +66,7 @@ public class ActorFunctionality : MonoBehaviour
         varScreen = Instantiate(prefabVarScreen);
         varScreen.transform.parent = this.transform; //Who's the daddy?
         varScreen.transform.position = this.transform.position - new Vector3(0, 0.3f, 0); //With a small offset
+        varScreen.SetActive(false); //Initially not visible
 
         //Set material
         this.GetComponent<MeshRenderer>().material = mat;
@@ -91,14 +91,15 @@ public class ActorFunctionality : MonoBehaviour
         
     }
 
-    public void ReceiveMessageFromQueue() //NO strict queue consistency checks
+    public void ReceiveMessageFromQueue() //Used for MessageDroppped
     {
        
-        GameObject consumedMessage = messageQueue.Dequeue(); //Consume message from queue
-        
-        Debug.Log("Message " + consumedMessage.ToString() + " accepted by " + this.gameObject.ToString());
+        GameObject consumedMessage = messageQueue.Dequeue(); //Consume message from queuesssss
+        Debug.Log("Message " + consumedMessage.ToString() + " dropped by " + this.gameObject.ToString());
         Destroy(consumedMessage);
     }
+
+
     public void ReceiveMessageFromQueue(GameObject sender)
     {
         GameObject consumedMessage = messageQueue.Dequeue(); //Consume message from queue
@@ -116,35 +117,53 @@ public class ActorFunctionality : MonoBehaviour
     public void UpdateState(State st)
     {
         ChangeColour(st.behavior); //change colour of the actor
-
-        foreach (Transform child in transform) //re-enable the renderers (if they aren't already enabled)
-        {
-            if (child.CompareTag("State"))
-            {
-                transform.GetComponent<MeshRenderer>().enabled = true; //Turn off MeshRenderer
-            }
-        }
-    }
-
-    public void SwitchStateOff() //Turn off getting state for actor
-    {
-        getState = false;
-        ChangeColour(Color.white); //Set colour to white
-        //Turn off MeshRenderer for all children 
-        foreach (Transform child in transform)
-        {
-            if(child.CompareTag("State"))
-            {
-                transform.GetComponent<MeshRenderer>().enabled = false; //Turn off MeshRenderer
-            }
-        }
     }
 
     public void NewStateReceived(State st) //Broadcast a message about change of state
     {
-        BroadcastMessage("UpdateState", st, SendMessageOptions.RequireReceiver);
+        if (getState)
+        {
+            gameObject.BroadcastMessage("UpdateState", st);
+            Debug.Log("Updating state on " + transform.name);
+        }
+        else
+            Debug.LogError("Updated state received even though the getState bool is false");
     }
 
+
+    //-----------------------Variable switches
+    public bool ToggleState()
+    {
+        if (getState)
+        {
+            getState = false;
+            varScreen.SetActive(false); //Disable the var screen
+            ChangeColour(Color.white); //Set colour to white- generic
+            return false;
+        }
+        else
+        {
+            getState = true;
+            varScreen.SetActive(true);
+            return true;
+        }
+    }
+
+    public bool ToggleTag()
+    {
+        if (getTag)
+        {
+            getTag = false;
+ 
+            return false;
+        }
+        else
+        {
+            getTag = true;
+        
+            return true;
+        }
+    }
 }
 
 

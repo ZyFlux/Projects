@@ -10,12 +10,12 @@ public class Init : MonoBehaviour {
 	void Awake () {
         if (isActive)
         {
-            ActorCreated deadLetters = new ActorCreated("Actor[akka://sys/deadLetters]");
+            ActorCreated deadLetters = new ActorCreated("akka://sys/deadLetters");
             List<ActorEvent> tempList = new List<ActorEvent>(); //Make a temporary list to hold this
             tempList.Add(deadLetters);
             Trace.allEvents.Add(tempList);
 
-            Debug.Log("About to start the client..");
+            Debug.Log("About to start the Network Interface..");
             AsynchronousClient.StartClient();
         }
     }

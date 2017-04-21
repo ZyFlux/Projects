@@ -57,11 +57,16 @@ public class Log : ActorEvent
      * 
      */
     public string text; //To be displayed on the big screen
-    public override void HandleVisualization() { VisualizationHandler.Handle(this); }
+    public override void HandleVisualization()
+    {
+        VisualizationHandler.Handle(this);
+    }
 }
 
 public class MessageDropped : ActorEvent
 {
-    public string actorId; //The actor where the message was dropped
+    public string receiverId;
+    public string senderId;
+    public string msg;
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
 }
