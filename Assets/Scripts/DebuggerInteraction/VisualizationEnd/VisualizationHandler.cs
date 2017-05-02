@@ -35,7 +35,7 @@ public static class VisualizationHandler
         GameObject senderGO = Actors.allActors[currEvent.senderId];
         //Use dictionary of actors to do this
         ActorFunctionality af = senderGO.GetComponent<ActorFunctionality>();
-        af.GenerateMessage(Actors.allActors[currEvent.receiverId]);
+        af.GenerateMessage(Actors.allActors[currEvent.receiverId], currEvent.msg);
       
     }
     public static void Handle(MessageReceived currEvent)

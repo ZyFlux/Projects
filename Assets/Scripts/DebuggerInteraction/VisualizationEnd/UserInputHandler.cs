@@ -45,15 +45,23 @@ public class UserInputHandler : MonoBehaviour
 
     public void QueryState()
     {
-        if (laserPointedActor != null && laserPointedActor.CompareTag("Actor"))
+        if (laserPointedActor != null )
         {
+            if (laserPointedActor.CompareTag("Actor"))
+            {
+                bool toggle = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().ToggleState();
 
-            bool toggle = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().ToggleState() ;
-
-            Debug.Log("Button press for state "+ toggle.ToString());
-            StateRequest sr = new StateRequest(laserPointedActor.name, toggle);
-            NetworkInterface.HandleRequest(sr);
+                Debug.Log("Button press for state " + toggle.ToString());
+                StateRequest sr = new StateRequest(laserPointedActor.name, toggle);
+                NetworkInterface.HandleRequest(sr);
+            }
+            else if (laserPointedActor.CompareTag("Message"))
+            {
+                laserPointedActor.gameObject.GetComponent<MessageFunctionality>().ToggleState();
+            }
         }
+
+        
     }
     public void PausePlay() //TODO- Hook up other scripts to this bool for real pause / play
     {

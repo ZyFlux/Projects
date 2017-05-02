@@ -77,7 +77,7 @@ public class ActorFunctionality : MonoBehaviour
     //Auxiliary functions
 
    
-    public void GenerateMessage(GameObject recipient)
+    public void GenerateMessage(GameObject recipient, string text)
     {
         GameObject MessageSphereInstance = Instantiate(prefabMessageSphereInstance, transform.position, transform.rotation) as GameObject; //Instantiate message sphere prefab
         recipient.GetComponent<ActorFunctionality>().messageQueue.Enqueue(MessageSphereInstance);
@@ -86,6 +86,7 @@ public class ActorFunctionality : MonoBehaviour
         MessageFunctionality mf = MessageSphereInstance.GetComponent<MessageFunctionality>();
         mf.sender = this.gameObject; //Tell the message who the sender is
         mf.recipient = recipient;
+        mf.msg = text;
         Debug.Log("New instance of message created from " + this.gameObject.ToString() + " for " + recipient.gameObject.ToString());
         mf.isActive = true;
         

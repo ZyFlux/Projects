@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MessageFunctionality : MonoBehaviour
 {
+    //Set by ActorFunctionality
     public string msg; //The message carried
     public GameObject sender; //who sent me?
     public GameObject recipient; //who receives me?
@@ -28,11 +29,12 @@ public class MessageFunctionality : MonoBehaviour
     void Start()
     {
         lineRenderer = transform.GetChild(0).gameObject; //This is the LineRenderer. There is also an option to getbyname but this one chose for performance
+        
         if (prefabLink3DText != null)
         {
             infoText = Instantiate(prefabLink3DText); //Instantiate the infoText
-            infoText.transform.parent = this.transform; //Who's the daddy?
-            infoText.transform.position = this.transform.position + new Vector3(0, 0.1f, 0);
+            infoText.transform.parent = transform; //Who's the daddy?
+            infoText.transform.position = transform.position; //+ new Vector3(0, 0.1f, 0);
             infoText.SetActive(false);
 
             infoText.GetComponent<TextMesh>().text = "Sent by " + sender.gameObject.name;
@@ -41,6 +43,16 @@ public class MessageFunctionality : MonoBehaviour
             Debug.LogError("Error! Prefab not found!");
 
         stepsOnStart = Trace.numOfStepsElapsed;
+
+        //Set message string
+        if(msg ==  null)
+        {
+            Debug.Log("The message had no msg field.");
+        }
+        else
+        {
+            infoText.GetComponent<TextMesh>().text = msg;
+        }
     }
 
 
@@ -84,7 +96,18 @@ public class MessageFunctionality : MonoBehaviour
         { Destroy(lineRenderer); }
     }
 
-    Vector3 GetBezierPoint(Vector3 p0, Vector3 p1, Vector3 p2, float t) //Thanks to Wikipedia & catlikecoding internet tutorial 
+    public void ToggleState()
+    {
+        Debug.Log("About to toggle message on/off");
+        if (infoText.activeSelf)
+        {
+            infoText.SetActive(false);
+        }
+        else
+            infoText.SetActive(true);
+    }
+
+    Vector3 GetBezierPoint(Vector3 p0, Vector3 p1, Vector3 p2, float t) //Thanks to Wikipedia & catlikecoding
     {
         t = Mathf.Clamp01(t);
         float oneMinusT = 1f - t;
