@@ -45,6 +45,7 @@ public class ActorFunctionality : MonoBehaviour
         rb.useGravity = false;
         rb.angularDrag = 100.0f;
         rb.drag = 100.0f;
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; //Allow rotation only along Y-axis
 
     }
 

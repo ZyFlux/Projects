@@ -7,21 +7,25 @@ using UnityEngine;
 
 public static class VisualizationHandler
 {
-    //Some shared data 
-    public static Log logInfo;
-
+    public static bool logCreateForEvent = true;
     public static void Handle (ActorCreated currEvent)
     {
         //TODO: Optimize this by putting it in a prefab
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         go.tag = "Actor";
         go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-        go.transform.position = new Vector3(Random.Range(-1.5f, 2.5f), Random.Range(1.25f, 1.9f), Random.Range(-2.0f, 2.0f));
+        go.transform.position = new Vector3(Random.Range(-.5f, 2.5f), Random.Range(1.25f, 1.9f), Random.Range(-1.5f, 1.5f));
         go.transform.name = currEvent.actorId;
         go.AddComponent<ActorFunctionality>(); //Add the script for actor functionality
 
         //Add this to the dictionary
         Actors.allActors.Add(currEvent.actorId, go);
+        if (logCreateForEvent)
+        {
+            //Create a Log of it
+            Log newLog = new Log(0, "Actor created : " + currEvent.actorId);
+            Handle(newLog);
+        }
     }
     public static void Handle (ActorDestroyed currEvent)
     {
@@ -29,6 +33,12 @@ public static class VisualizationHandler
         GameObject.Destroy(Actors.allActors[currEvent.actorId]);
         Actors.allActors.Remove(currEvent.actorId);
 
+        if (logCreateForEvent)
+        {
+            //Create a Log of it
+            Log newLog = new Log(0, "Actor destroyed : " + currEvent.actorId);
+            Handle(newLog);
+        }
     }
     public static void Handle(MessageSent currEvent)
     {
@@ -36,7 +46,14 @@ public static class VisualizationHandler
         //Use dictionary of actors to do this
         ActorFunctionality af = senderGO.GetComponent<ActorFunctionality>();
         af.GenerateMessage(Actors.allActors[currEvent.receiverId], currEvent.msg);
-      
+
+        if (logCreateForEvent)
+        {
+            //Create a Log of it
+            Log newLog = new Log(0, "Message sent : " + currEvent.senderId + " to " + currEvent.receiverId);
+            Handle(newLog);
+        }
+
     }
     public static void Handle(MessageReceived currEvent)
     {
@@ -44,13 +61,20 @@ public static class VisualizationHandler
         //Use dictionary of actors to do this
         ActorFunctionality af = recGO.GetComponent<ActorFunctionality>(); //TODO- Problem here!
         af.ReceiveMessageFromQueue(Actors.allActors[currEvent.senderId]);
+
+        if (logCreateForEvent)
+        {
+            //Create a Log of it
+            Log newLog = new Log(0, "Message received : " + currEvent.receiverId);
+            Handle(newLog);
+        }
     }
     
     public static void Handle(Log currEvent)
     {
         //Maybe also play an error sound?
         //Send message to the main screen to change the text
-        logInfo = currEvent;
+        LogDisplayer.NewLog(currEvent);
      }
 
     public static void Handle(MessageDropped currEvent)
@@ -59,5 +83,12 @@ public static class VisualizationHandler
         //Currently, this is visualized like MessageReceived
         ActorFunctionality af = Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>();
         af.ReceiveMessageFromQueue();
+
+        if (logCreateForEvent)
+        {
+            //Create a Log of it
+            Log newLog = new Log(0, "Message dropped : " + currEvent.receiverId);
+            Handle(newLog);
+        }
     }
 }

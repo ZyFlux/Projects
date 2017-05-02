@@ -48,7 +48,7 @@ public class MessageReceived : ActorEvent
 [System.Serializable]
 public class Log : ActorEvent
 {
-    public int type;
+    public int logType;
     /*
      * 0 = Debug
      * 1 = Info
@@ -60,6 +60,12 @@ public class Log : ActorEvent
     public override void HandleVisualization()
     {
         VisualizationHandler.Handle(this);
+    }
+
+    public Log (int type, string desc)
+    {
+        logType = type;
+        text = desc;
     }
 }
 
