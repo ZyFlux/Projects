@@ -67,7 +67,7 @@ public class MessageFunctionality : MonoBehaviour
             rb.isKinematic = false;   //Rigidbody is a pain
                                       //There has been a collision, now to reset the sender status and make more dynamic changes
             
-            transform.DetachChildren(); //Detach the trail renderer- we do some fancy stuff to show the queue
+            //We do NOT detach trail renderer
   
             transform.rotation = recipient.transform.rotation; //Make sure the message faces the same way as the recipient block
 
@@ -98,7 +98,6 @@ public class MessageFunctionality : MonoBehaviour
 
     public void ToggleState()
     {
-        Debug.Log("About to toggle message on/off");
         if (infoText.activeSelf)
         {
             infoText.SetActive(false);

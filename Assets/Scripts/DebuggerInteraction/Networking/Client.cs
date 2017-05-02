@@ -72,6 +72,19 @@ public static class AsynchronousClient
             Debug.Log(e.ToString());
         }
     }
+
+    public static void SendInitMessage()
+    {
+        //Send an initial query request
+        ActionRequest initialRequest = new ActionRequest("__INIT__", "");
+        string initialRequestString = JsonUtility.ToJson(initialRequest);
+
+
+        // Send test data to the remote device.
+        Send(client, initialRequestString);
+        Debug.Log("We sent " + initialRequestString);
+    } 
+
     public static void FreeSocket()
     {
         // Release the socket.
@@ -98,14 +111,7 @@ public static class AsynchronousClient
             Debug.Log(e.ToString());
         }
 
-        //Send an initial query request
-        ActionRequest initialRequest = new ActionRequest("__INIT__", "");
-        string initialRequestString = JsonUtility.ToJson(initialRequest);
 
-
-        // Send test data to the remote device.
-        Send(client, initialRequestString);
-        Debug.Log("We sent " + initialRequestString);
     }
 
     public static void Receive(Socket client)

@@ -68,7 +68,7 @@ public class UserInputHandler : MonoBehaviour
         isPaused = isPaused ? false : true;
         Debug.Log("Are we Paused? "+isPaused.ToString());
     }
-    
+
 
     public void NextStep() //Go to the next step
     {
@@ -76,5 +76,10 @@ public class UserInputHandler : MonoBehaviour
         ActionRequest ar = new ActionRequest("__NEXT__", ""); //TODO-Make things safe and clear so that the __NEXT__ is only possible at the correct moments
         NetworkInterface.HandleRequest(ar);
         Debug.Log("About to go to the next step");
+    }
+
+    public void InitScene() //Send an init message and start the whole charade
+    {
+        AsynchronousClient.SendInitMessage();
     }
 }
