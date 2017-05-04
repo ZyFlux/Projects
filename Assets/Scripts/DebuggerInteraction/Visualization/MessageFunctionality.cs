@@ -12,7 +12,7 @@ public class MessageFunctionality : MonoBehaviour
     public GameObject infoText; //Is used by other scripts to enable or disable
     
 
-    public int durationOfLineInSteps = 5; //Number of steps after linerenderer is destroyed
+    public int durationOfLineInSteps = 3; //Number of steps after linerenderer is destroyed
 
     public bool isActive = false; //Activity state of the message
 
@@ -34,7 +34,7 @@ public class MessageFunctionality : MonoBehaviour
         {
             infoText = Instantiate(prefabLink3DText); //Instantiate the infoText
             infoText.transform.parent = transform; //Who's the daddy?
-            infoText.transform.position = transform.position; //+ new Vector3(0, 0.1f, 0);
+            infoText.transform.position = transform.position + new Vector3(0, 0.1f, 0); ; //A small offset to have the message at the right place
             infoText.SetActive(false);
 
             infoText.GetComponent<TextMesh>().text = "Sent by " + sender.gameObject.name;
@@ -66,9 +66,9 @@ public class MessageFunctionality : MonoBehaviour
             Rigidbody rb = this.gameObject.GetComponent<Rigidbody>();
             rb.isKinematic = false;   //Rigidbody is a pain
                                       //There has been a collision, now to reset the sender status and make more dynamic changes
-            
+
             //We do NOT detach trail renderer
-  
+            lineRenderer.transform.parent = null; 
             transform.rotation = recipient.transform.rotation; //Make sure the message faces the same way as the recipient block
 
             //Now, we put this somewhere special                                                                                        //To add a little more leeway

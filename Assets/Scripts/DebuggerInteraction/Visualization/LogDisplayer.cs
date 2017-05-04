@@ -12,12 +12,8 @@ public class LogDisplayer : MonoBehaviour
         tm = GetComponent<TextMesh>();
         tm.text = prevText;
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
 
-    }
+
     public static void NewLog(Log currLog)
     {
         

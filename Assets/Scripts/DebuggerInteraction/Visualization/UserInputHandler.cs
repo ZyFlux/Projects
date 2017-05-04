@@ -63,7 +63,7 @@ public class UserInputHandler : MonoBehaviour
 
         
     }
-    public void PausePlay() //TODO- Hook up other scripts to this bool for real pause / play
+    public void PausePlay() 
     {
         isPaused = isPaused ? false : true;
         Debug.Log("Are we Paused? "+isPaused.ToString());
@@ -82,4 +82,5 @@ public class UserInputHandler : MonoBehaviour
     {
         AsynchronousClient.SendInitMessage();
     }
+
 }

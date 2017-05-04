@@ -16,6 +16,7 @@ public class ActorFunctionality : MonoBehaviour
 
 
     private Material mat; //Holds the material
+    public VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter outliner;
 
     public bool getState = false; //Is the state shown (or not)?
     public bool getTag = false;//Is the actor tagged (or not)?
@@ -39,13 +40,18 @@ public class ActorFunctionality : MonoBehaviour
         //Set up stuff for grab capability
         VRTK.VRTK_InteractableObject vrio = gameObject.AddComponent<VRTK.VRTK_InteractableObject>();//Make it grabbable for drag drop
         vrio.isGrabbable = true;
+        vrio.touchHighlightColor = Color.grey;
 
+        //Set up stuff for Outlining
+        outliner = gameObject.AddComponent<VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter>();
+        outliner.Initialise(); //Initialize with an outline colour
+ 
 
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+        rb.freezeRotation = true; //Allow rotation only along Y-axis
         rb.useGravity = false;
         rb.angularDrag = 100.0f;
         rb.drag = 100.0f;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; //Allow rotation only along Y-axis
 
     }
 
@@ -77,7 +83,19 @@ public class ActorFunctionality : MonoBehaviour
     //---------------------------------------------------------------------------------------------------------------------------------------------------
     //Auxiliary functions
 
-   
+   public void MomentaryOutline(Color outlineC, float t)
+    {
+        outliner.Highlight(outlineC);
+        StartCoroutine(RemoveOutlineAfterTime(t));
+    }
+
+    public IEnumerator RemoveOutlineAfterTime(float t)
+    {
+        yield return new WaitForSeconds(t);
+        outliner.Unhighlight();
+    }
+
+
     public void GenerateMessage(GameObject recipient, string text)
     {
         GameObject MessageSphereInstance = Instantiate(prefabMessageSphereInstance, transform.position, transform.rotation) as GameObject; //Instantiate message sphere prefab

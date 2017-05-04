@@ -7,6 +7,7 @@ public class ActorEvent
 {
     public string eventType;
     public virtual void HandleVisualization() { Debug.LogError("Event parent cannot be visualized"); }
+    public virtual void HandleOutline() { Debug.LogError("Event parent cannot be outlined"); }
 }
 
 
@@ -16,6 +17,8 @@ public class ActorCreated : ActorEvent
     public string actorId;
     public override void HandleVisualization()
     { VisualizationHandler.Handle(this); }
+    public override void HandleOutline()
+    { VisualizationHandler.Outline(this); }
     public ActorCreated(string id)
     { actorId = id; }
 }
@@ -26,6 +29,8 @@ public class ActorDestroyed : ActorEvent
     public string actorId;
     public override void HandleVisualization()
     { VisualizationHandler.Handle(this); }
+    public override void HandleOutline()
+    { VisualizationHandler.Outline(this); }
 }
 [System.Serializable]
 public class MessageSent : ActorEvent
@@ -34,6 +39,8 @@ public class MessageSent : ActorEvent
     public string senderId;
     public string msg;
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
+    public override void HandleOutline()
+    { VisualizationHandler.Outline(this); }
 }
 
 [System.Serializable]
@@ -43,6 +50,8 @@ public class MessageReceived : ActorEvent
     public string senderId;
     public string msg;
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
+    public override void HandleOutline()
+    { VisualizationHandler.Outline(this); }
 }
 
 [System.Serializable]
@@ -61,6 +70,8 @@ public class Log : ActorEvent
     {
         VisualizationHandler.Handle(this);
     }
+    public override void HandleOutline()
+    { VisualizationHandler.Outline(this); }
 
     public Log (int type, string desc)
     {
@@ -75,4 +86,6 @@ public class MessageDropped : ActorEvent
     public string senderId;
     public string msg;
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
+    public override void HandleOutline()
+    { VisualizationHandler.Outline(this); }
 }
