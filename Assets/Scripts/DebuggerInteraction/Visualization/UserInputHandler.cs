@@ -6,10 +6,12 @@ public class UserInputHandler : MonoBehaviour
 {
     public static Transform laserPointedActor; //set by SteamVR_LaserPointer and accessed by NetworkInterface during sends
     public static bool isPaused;
+    private bool isOn;
 
     private void Start()
     {
         isPaused = false;
+        isOn = false;
     }
     public void TagUntagActor()
     {
@@ -78,9 +80,20 @@ public class UserInputHandler : MonoBehaviour
         Debug.Log("About to go to the next step");
     }
 
-    public void InitScene() //Send an init message and start the whole charade
+    public void OnOff() //Send an init message and start the whole charade
     {
-        AsynchronousClient.SendInitMessage();
+        if (!isOn)
+        {
+            AsynchronousClient.SendInitMessage();
+            isOn = true; //No check for actual successful init
+        }
+        else
+            StartCoroutine(ApplicationExit());
     }
 
+    IEnumerator ApplicationExit()
+    {
+        yield return new WaitForSeconds(1.0f);
+        Application.Quit();
+    }
 }

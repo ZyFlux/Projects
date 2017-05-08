@@ -12,14 +12,14 @@ public class MessageFunctionality : MonoBehaviour
     public GameObject infoText; //Is used by other scripts to enable or disable
     
 
-    public int durationOfLineInSteps = 3; //Number of steps after linerenderer is destroyed
-
+    public int durationOfLineInSteps = 5; //Number of steps after linerenderer is destroyed
+    private float deltaChange;
     public bool isActive = false; //Activity state of the message
 
 
 
     //Internal usage for curve drawing
-    public int bezierPointResolution = 50; //Number of points in the trajectory
+    public int bezierPointResolution; //Number of points in the trajectory
 
     private int arrayCountKeeper = 0; //Where are we
     private float t = 0.0f;
@@ -53,6 +53,8 @@ public class MessageFunctionality : MonoBehaviour
         {
             infoText.GetComponent<TextMesh>().text = msg;
         }
+
+        deltaChange = 1.0f / durationOfLineInSteps;
     }
 
 
@@ -67,7 +69,7 @@ public class MessageFunctionality : MonoBehaviour
             rb.isKinematic = false;   //Rigidbody is a pain
                                       //There has been a collision, now to reset the sender status and make more dynamic changes
 
-            //We do NOT detach trail renderer
+            //We detach the trail renderer so that weird straight lines are not made
             lineRenderer.transform.parent = null; 
             transform.rotation = recipient.transform.rotation; //Make sure the message faces the same way as the recipient block
 
@@ -92,11 +94,28 @@ public class MessageFunctionality : MonoBehaviour
         }
         //If not active, wait
 
-        if((stepsOnStart + durationOfLineInSteps) == Trace.numOfStepsElapsed) //Destroy linerenderer after durationOfLineInSteps
-        { Destroy(lineRenderer); }
+
+    }
+    public void NewTraceStep() //Because a message is broadcasted by TraceImplement -> Used for step-by-step transparency
+    {
+        if (lineRenderer != null) //lineRenderer hasn't been destroyed yet
+        {
+            if (((stepsOnStart + durationOfLineInSteps) <= Trace.numOfStepsElapsed)) //Destroy linerenderer after durationOfLineInSteps
+            { Destroy(lineRenderer); }
+           
+            else
+            {
+                Color tempCol;
+                tempCol = lineRenderer.GetComponent<Renderer>().material.color;
+                tempCol.a -= deltaChange; //reduce alpha by a delta amount
+
+                lineRenderer.GetComponent<Renderer>().material.color = tempCol;
+            }
+            
+        }
     }
 
-    public void ToggleState()
+    public void ToggleState() //Turn the info text visible / invisible
     {
         if (infoText.activeSelf)
         {
@@ -114,5 +133,11 @@ public class MessageFunctionality : MonoBehaviour
             oneMinusT * oneMinusT * p0 +
             2f * oneMinusT * t * p1 +
             t * t * p2;
+    }
+
+    void OnDestroy() //Delete the line renderer when the message is destroyed
+    {
+        Debug.Log("Deleting the trail renderer to " + recipient.name + " as message has been consumed");
+        Destroy(lineRenderer);
     }
 }

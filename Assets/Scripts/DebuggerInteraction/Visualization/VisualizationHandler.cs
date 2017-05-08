@@ -17,6 +17,7 @@ public class VisualizationHandler : MonoBehaviour
         go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         go.transform.position = new Vector3(Random.Range(0.5f, 3.5f), Random.Range(1.25f, 1.9f), Random.Range(-1.0f, 1.0f));
         go.transform.name = currEvent.actorId;
+        go.transform.parent = TraceImplement.rootOfActors.transform;
         go.AddComponent<ActorFunctionality>(); //Add the script for actor functionality
 
         //Add this to the dictionary

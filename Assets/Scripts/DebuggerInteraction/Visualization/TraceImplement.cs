@@ -7,30 +7,32 @@ using UnityEngine;
 public class TraceImplement : MonoBehaviour {
 
     public float timeDelay = 2.0f; //time delay (in addition to what happens in ImplementNext)
+    public static GameObject rootOfActors;
     private AudioSource audioS;
   
     void Awake()
     {
         audioS = GetComponent<AudioSource>();
+        rootOfActors = GameObject.Find("RootActors"); //The parent to everything
     }
     IEnumerator Start()
     {
         while (true) //Execute indefinitely
         {
-            yield return new WaitForSeconds(timeDelay);
+            yield return new WaitForSeconds(timeDelay); //Time delay for each event visualization
             if (!UserInputHandler.isPaused)
             {
                 if (Trace.NewStepPossible())
                 {
                     audioS.Play(); //Play a sound
                     Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleOutline();    //Do the outlining
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.5f); //Time delay for actual visualization
                     Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
-                    //Undo outlining
+                    rootOfActors.BroadcastMessage("NewTraceStep", SendMessageOptions.DontRequireReceiver);
+
                     Trace.IncrementPointer(); //Let's move to the next event
                 }
-                else
-                    Debug.Log("End of trace reached.");
+
             }
         }
     }

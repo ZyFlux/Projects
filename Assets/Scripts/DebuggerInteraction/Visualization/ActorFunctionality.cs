@@ -16,7 +16,7 @@ public class ActorFunctionality : MonoBehaviour
 
 
     private Material mat; //Holds the material
-    public VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter outliner;
+    private VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter outliner;
 
     public bool getState = false; //Is the state shown (or not)?
     public bool getTag = false;//Is the actor tagged (or not)?
@@ -83,6 +83,8 @@ public class ActorFunctionality : MonoBehaviour
     //---------------------------------------------------------------------------------------------------------------------------------------------------
     //Auxiliary functions
 
+
+    //Outlining
    public void MomentaryOutline(Color outlineC, float t)
     {
         outliner.Highlight(outlineC);
@@ -96,6 +98,7 @@ public class ActorFunctionality : MonoBehaviour
     }
 
 
+    //Messaging
     public void GenerateMessage(GameObject recipient, string text)
     {
         GameObject MessageSphereInstance = Instantiate(prefabMessageSphereInstance, transform.position, transform.rotation) as GameObject; //Instantiate message sphere prefab
@@ -107,8 +110,7 @@ public class ActorFunctionality : MonoBehaviour
         mf.recipient = recipient;
         mf.msg = text;
         Debug.Log("New instance of message created from " + this.gameObject.ToString() + " for " + recipient.gameObject.ToString());
-        mf.isActive = true;
-        
+        mf.isActive = true; 
     }
 
     public void ReceiveMessageFromQueue() //Used for MessageDroppped
@@ -127,7 +129,7 @@ public class ActorFunctionality : MonoBehaviour
         Destroy(consumedMessage);
     }
 
-
+    //Coloring- state changes
     public void ChangeColour(Color colour)
     {
         Debug.Log("About to change colour");

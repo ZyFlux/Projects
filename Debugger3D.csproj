@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.5.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -83,6 +81,8 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Events.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Init.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Trace.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\FocusArea.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\LogDisplayer.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\Client.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\NetworkInterface.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Requests\Requests.cs" />
@@ -90,7 +90,6 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\Actors.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\ChangeVarsText.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\DestroyArcAfterSteps.cs" />
-    <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\LogDisplayer.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\MessageFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\SendMessageHelper.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\TraceImplement.cs" />
