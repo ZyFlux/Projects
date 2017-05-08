@@ -3,30 +3,39 @@
 //TODO- Get Actor descriptor as prefab from Resources
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class VisualizationHandler : MonoBehaviour
 {
     public static bool logCreateForEvent = true;
     public static float outlineTime = 1.0f;
+
+    public static string [] sysActorNames= { "akka://sys/deadLetters", "akka://sys/user/Timer" };
     public static void Handle (ActorCreated currEvent)
     {
         //TODO: Optimize this by putting it in a prefab
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         go.tag = "Actor";
         go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-        go.transform.position = new Vector3(Random.Range(0.5f, 3.5f), Random.Range(1.25f, 1.9f), Random.Range(-1.0f, 1.0f));
         go.transform.name = currEvent.actorId;
-        go.transform.parent = TraceImplement.rootOfActors.transform;
+
+        go.transform.parent = TraceImplement.rootOfActors.transform;//Add it to the root G.O.
         go.AddComponent<ActorFunctionality>(); //Add the script for actor functionality
 
         //Add this to the dictionary
         Actors.allActors.Add(currEvent.actorId, go);
-        if (logCreateForEvent)
+        if (sysActorNames.Any(go.transform.name.Contains))
+            go.transform.position = new Vector3(Random.Range(3.5f, 4.5f), 1f, Random.Range(-2.5f, -3.5f)); //A separate area->Marked in the inspector
+        else
         {
-            //Create a Log of it
-            Log newLog = new Log(0, "Actor created : " + currEvent.actorId);
-            Handle(newLog);
+            go.transform.position = new Vector3(Random.Range(0f, 3.5f), Random.Range(1.25f, 1.9f), Random.Range(-1.5f, 1.5f));
+            if (logCreateForEvent)
+            {
+                //Create a Log of it
+                Log newLog = new Log(0, "Actor created : " + currEvent.actorId);
+                Handle(newLog);
+            }
         }
         Actors.allActors[currEvent.actorId].GetComponent<ActorFunctionality>().MomentaryOutline(Color.magenta, outlineTime/2);
     }
