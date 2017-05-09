@@ -21,6 +21,8 @@ public class ActorFunctionality : MonoBehaviour
     public bool getState = false; //Is the state shown (or not)?
     public bool getTag = false;//Is the actor tagged (or not)?
 
+    public Vector3 originalPosition; //Used to revert to original position after the actor has snapped into focus area once
+
     private static GameObject prefabVarScreen;
     private GameObject varScreen; //Reference to the varScreen
 
@@ -78,6 +80,8 @@ public class ActorFunctionality : MonoBehaviour
         //Set material
         this.GetComponent<MeshRenderer>().material = mat;
 
+        originalPosition = transform.position; //Set the original position
+        Debug.Log(originalPosition);
     } 
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------
