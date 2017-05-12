@@ -7,13 +7,9 @@ public class ActorFunctionality : MonoBehaviour
     //3D text and other prefabs that actor nodes own the asses of
     private static GameObject prefabNameText; //A reference to the prefab that is used for each individual actor
     public GameObject nameText; //Is used by other scripts to enable or disable
-
-
-    //The queue of current messages
-    public Queue<GameObject> messageQueue = new Queue<GameObject>(); //Init queue
-
+    
     private static GameObject prefabMessageSphereInstance;
-
+    private static GameObject prefabMessageQueueBoxInstance;
 
     private Material mat; //Holds the material
     private VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter outliner;
@@ -23,6 +19,7 @@ public class ActorFunctionality : MonoBehaviour
 
     public Vector3 originalPosition; //Used to revert to original position after the actor has snapped into focus area once
 
+    public GameObject messageQueueBox;
     private static GameObject prefabVarScreen;
     private GameObject varScreen; //Reference to the varScreen
 
@@ -38,7 +35,13 @@ public class ActorFunctionality : MonoBehaviour
             mat = new Material(Resources.Load("White") as Material); //mat must be a new material- each actor has its own
         if(!prefabVarScreen)
             prefabVarScreen = Resources.Load("VarsScreen") as GameObject;
-        
+        if (!prefabMessageQueueBoxInstance)
+            prefabMessageQueueBoxInstance = Resources.Load("MessageQueue") as GameObject;
+
+        messageQueueBox = Instantiate(prefabMessageQueueBoxInstance);
+        messageQueueBox.transform.parent = this.transform; //Who's the daddy?
+        messageQueueBox.transform.position = this.transform.position + new Vector3 (0f,0.5f, 0f); //With no offset
+
         //Set up stuff for grab capability
         VRTK.VRTK_InteractableObject vrio = gameObject.AddComponent<VRTK.VRTK_InteractableObject>();//Make it grabbable for drag drop
         vrio.isGrabbable = true;
@@ -106,7 +109,7 @@ public class ActorFunctionality : MonoBehaviour
     public void GenerateMessage(GameObject recipient, string text)
     {
         GameObject MessageSphereInstance = Instantiate(prefabMessageSphereInstance, transform.position, transform.rotation) as GameObject; //Instantiate message sphere prefab
-        recipient.GetComponent<ActorFunctionality>().messageQueue.Enqueue(MessageSphereInstance);
+        recipient.GetComponent<ActorFunctionality>().messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Enqueue(MessageSphereInstance);
         MessageSphereInstance.transform.parent = recipient.transform;
         
         MessageFunctionality mf = MessageSphereInstance.GetComponent<MessageFunctionality>();
@@ -120,7 +123,7 @@ public class ActorFunctionality : MonoBehaviour
     public void ReceiveMessageFromQueue() //Used for MessageDroppped
     {
        
-        GameObject consumedMessage = messageQueue.Dequeue(); //Consume message from queuesssss
+        GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Dequeue(); //Consume message from queuesssss
         Debug.Log("Message " + consumedMessage.ToString() + " dropped by " + this.gameObject.ToString());
         Destroy(consumedMessage);
     }
@@ -128,7 +131,7 @@ public class ActorFunctionality : MonoBehaviour
 
     public void ReceiveMessageFromQueue(GameObject sender)
     {
-        GameObject consumedMessage = messageQueue.Dequeue(); //Consume message from queue
+        GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Dequeue(); //Consume message from queue
         Debug.Log("Message " + consumedMessage.ToString() + " accepted by " + this.gameObject.ToString());
         Destroy(consumedMessage);
     }

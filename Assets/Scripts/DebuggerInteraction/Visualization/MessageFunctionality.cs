@@ -74,7 +74,7 @@ public class MessageFunctionality : MonoBehaviour
             transform.rotation = recipient.transform.rotation; //Make sure the message faces the same way as the recipient block
 
             //Now, we put this somewhere special                                                                                        //To add a little more leeway
-            transform.position = new Vector3(recipient.transform.position.x, recipient.transform.position.y + (transform.localScale.y * 2.1f * recipient.GetComponent<ActorFunctionality>().messageQueue.Count), recipient.transform.position.z);
+            transform.position = new Vector3(recipient.transform.position.x, recipient.transform.position.y + (transform.localScale.y * 2.1f * recipient.GetComponent<ActorFunctionality>().messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Count), recipient.transform.position.z);
             rb.useGravity = true;
 
         }

@@ -57,9 +57,9 @@ public class UserInputHandler : MonoBehaviour
                 StateRequest sr = new StateRequest(laserPointedActor.name, toggle);
                 NetworkInterface.HandleRequest(sr);
             }
-            else if (laserPointedActor.CompareTag("Message"))
+            else if (laserPointedActor.CompareTag("MessageQueue"))
             {
-                laserPointedActor.gameObject.GetComponent<MessageFunctionality>().ToggleState();
+                laserPointedActor.gameObject.GetComponent<MessageQueueFunctionality>().ShowHeadMessage();
             }
         }
 
