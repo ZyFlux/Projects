@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\ChangeVarsText.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\DestroyArcAfterSteps.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\MessageFunctionality.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\MessageQueueFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\SendMessageHelper.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\TraceImplement.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\UserInputHandler.cs" />

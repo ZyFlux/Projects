@@ -21,7 +21,7 @@ public class MessageFunctionality : MonoBehaviour
     //Internal usage for curve drawing
     public int bezierPointResolution; //Number of points in the trajectory
 
-    private int arrayCountKeeper = 0; //Where are we
+    private int arrayCountKeeper = 0; //Where are we?
     private float t = 0.0f;
     private int stepsOnStart;
     private GameObject lineRenderer; //Reference to LineRenderer set in Start()
@@ -30,17 +30,6 @@ public class MessageFunctionality : MonoBehaviour
     {
         lineRenderer = transform.GetChild(0).gameObject; //This is the LineRenderer. There is also an option to getbyname but this one chose for performance
         
-        if (prefabLink3DText != null)
-        {
-            infoText = Instantiate(prefabLink3DText); //Instantiate the infoText
-            infoText.transform.parent = transform; //Who's the daddy?
-            infoText.transform.position = transform.position + new Vector3(0, 0.1f, 0); ; //A small offset to have the message at the right place
-            infoText.SetActive(false);
-
-            infoText.GetComponent<TextMesh>().text = "Sent by " + sender.gameObject.name;
-        }
-        else
-            Debug.LogError("Error! Prefab not found!");
 
         stepsOnStart = Trace.numOfStepsElapsed;
 
@@ -49,37 +38,12 @@ public class MessageFunctionality : MonoBehaviour
         {
             Debug.Log("The message had no msg field.");
         }
-        else
-        {
-            infoText.GetComponent<TextMesh>().text = msg;
-        }
+
 
         deltaChange = 1.0f / durationOfLineInSteps;
     }
 
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject == recipient)
-        {
-            isActive = false;
-
-            this.gameObject.GetComponent<SphereCollider>().isTrigger = false; //We need this no more
-            Rigidbody rb = this.gameObject.GetComponent<Rigidbody>();
-            rb.isKinematic = false;   //Rigidbody is a pain
-                                      //There has been a collision, now to reset the sender status and make more dynamic changes
-
-            //We detach the trail renderer so that weird straight lines are not made
-            lineRenderer.transform.parent = null; 
-            transform.rotation = recipient.transform.rotation; //Make sure the message faces the same way as the recipient block
-
-            //Now, we put this somewhere special                                                                                        //To add a little more leeway
-            transform.position = new Vector3(recipient.transform.position.x, recipient.transform.position.y + (transform.localScale.y * 2.1f * recipient.GetComponent<ActorFunctionality>().messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Count), recipient.transform.position.z);
-            rb.useGravity = true;
-
-        }
-
-    }
     void Update()
     {
         if (isActive)
@@ -113,16 +77,6 @@ public class MessageFunctionality : MonoBehaviour
             }
             
         }
-    }
-
-    public void ToggleState() //Turn the info text visible / invisible
-    {
-        if (infoText.activeSelf)
-        {
-            infoText.SetActive(false);
-        }
-        else
-            infoText.SetActive(true);
     }
 
     Vector3 GetBezierPoint(Vector3 p0, Vector3 p1, Vector3 p2, float t) //Thanks to Wikipedia & catlikecoding
