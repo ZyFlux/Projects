@@ -11,18 +11,16 @@ public class MessageQueueFunctionality : MonoBehaviour
     //The queue of current messages
     public Queue<GameObject> messageQueue = new Queue<GameObject>(); //Init queue
 
-    private static GameObject prefabMessageQueueBoxInstance;
-
     private Material mat; //Holds the material
-    private VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter outliner;
-
     public Vector3 originalPosition; //Used to revert to original position after the actor has snapped into focus area once
-
 
     void Awake()
     {
-        if(!prefabMessageQueueBoxInstance)
-            prefabMessageQueueBoxInstance = Resources.Load("MessageQueue") as GameObject;
+        if (!prefabNameText)
+            prefabNameText = Resources.Load("NameText") as GameObject;
+
+        mat = GetComponent<Material>();
+        mat = new Material(Resources.Load("Node3") as Material);
     }
 
     // Use this for initialization
