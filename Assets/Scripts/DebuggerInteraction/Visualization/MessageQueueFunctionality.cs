@@ -20,9 +20,8 @@ public class MessageQueueFunctionality : MonoBehaviour
             prefabNameText = Resources.Load("NameText") as GameObject;
 
         mat = GetComponent<Material>();
-        mat = new Material(Resources.Load("Node3") as Material);
+        mat = new Material(Resources.Load("White") as Material);
 
-        tag = "MessageQueue";
         GetComponent<Renderer>().enabled = false;
     }
     
@@ -68,7 +67,7 @@ public class MessageQueueFunctionality : MonoBehaviour
 
     public void ToggleMsgQueueInfo()
     {
-        if(contentText.active)
+        if(contentText.activeSelf)
         {
             contentText.SetActive(false);
         } else
