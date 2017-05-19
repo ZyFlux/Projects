@@ -59,7 +59,7 @@ public class UserInputHandler : MonoBehaviour
             }
             else if (laserPointedActor.CompareTag("MessageQueue"))
             {
-                laserPointedActor.gameObject.GetComponent<MessageQueueFunctionality>().ShowHeadMessage();
+                laserPointedActor.gameObject.GetComponent<MessageQueueFunctionality>().ToggleMsgQueueInfo();
             }
         }
 

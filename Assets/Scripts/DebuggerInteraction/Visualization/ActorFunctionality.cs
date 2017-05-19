@@ -109,7 +109,7 @@ public class ActorFunctionality : MonoBehaviour
     public void GenerateMessage(GameObject recipient, string text)
     {
         GameObject MessageSphereInstance = Instantiate(prefabMessageSphereInstance, transform.position, transform.rotation) as GameObject; //Instantiate message sphere prefab
-        recipient.GetComponent<ActorFunctionality>().messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Enqueue(MessageSphereInstance);
+        recipient.GetComponent<ActorFunctionality>().messageQueueBox.GetComponent<MessageQueueFunctionality>().EnqueueToMsgQueue(MessageSphereInstance);
         MessageSphereInstance.transform.parent = recipient.transform;
         
         MessageFunctionality mf = MessageSphereInstance.GetComponent<MessageFunctionality>();
@@ -122,8 +122,7 @@ public class ActorFunctionality : MonoBehaviour
 
     public void ReceiveMessageFromQueue() //Used for MessageDroppped
     {
-       
-        GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Dequeue(); //Consume message from queuesssss
+        GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().DequeueFromMsgQueue(); //Consume message from queuesssss
         Debug.Log("Message " + consumedMessage.ToString() + " dropped by " + this.gameObject.ToString());
         Destroy(consumedMessage);
     }
@@ -131,7 +130,7 @@ public class ActorFunctionality : MonoBehaviour
 
     public void ReceiveMessageFromQueue(GameObject sender)
     {
-        GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Dequeue(); //Consume message from queue
+        GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().DequeueFromMsgQueue(); //Consume message from queue
         Debug.Log("Message " + consumedMessage.ToString() + " accepted by " + this.gameObject.ToString());
         Destroy(consumedMessage);
     }

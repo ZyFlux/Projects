@@ -21,8 +21,11 @@ public class MessageQueueFunctionality : MonoBehaviour
 
         mat = GetComponent<Material>();
         mat = new Material(Resources.Load("Node3") as Material);
-    }
 
+        tag = "MessageQueue";
+        GetComponent<Renderer>().enabled = false;
+    }
+    
     // Use this for initialization
     void Start()
     {
@@ -47,11 +50,34 @@ public class MessageQueueFunctionality : MonoBehaviour
     //---------------------------------------------------------------------------------------------------------------------------------------------------
     //Auxiliary functions
 
-    public void ShowHeadMessage()
+    public void EnqueueToMsgQueue(GameObject msgObj)
     {
-        string headMsgText = messageQueue.Peek().GetComponent<MessageFunctionality>().msg;
-        contentText.GetComponent<TextMesh>().text = "Msg count: " + messageQueue.Count + " \nPeek msg: \n" + headMsgText;
-        contentText.SetActive(true);
+        messageQueue.Enqueue(msgObj);
+        GetComponent<Renderer>().enabled = true;
+    }
+
+    public GameObject DequeueFromMsgQueue()
+    {
+        GameObject msg = messageQueue.Dequeue();
+        if(messageQueue.Count == 0)
+        {
+            GetComponent<Renderer>().enabled = false;
+        }
+        return msg;
+    }
+
+    public void ToggleMsgQueueInfo()
+    {
+        if(contentText.active)
+        {
+            contentText.SetActive(false);
+        } else
+        {
+            string headMsgText = messageQueue.Peek().GetComponent<MessageFunctionality>().msg;
+            contentText.GetComponent<TextMesh>().text = "Msg count: " + messageQueue.Count + " \nPeek msg: \n" + headMsgText;
+            contentText.SetActive(true);
+        }
+
     }
 
 }
