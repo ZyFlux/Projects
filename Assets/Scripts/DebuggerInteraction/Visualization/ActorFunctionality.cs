@@ -182,13 +182,11 @@ public class ActorFunctionality : MonoBehaviour
         if (getTag)
         {
             getTag = false;
- 
             return false;
         }
         else
         {
             getTag = true;
-        
             return true;
         }
     }
