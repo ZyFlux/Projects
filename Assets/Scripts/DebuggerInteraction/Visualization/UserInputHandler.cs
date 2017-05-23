@@ -53,14 +53,32 @@ public class UserInputHandler : MonoBehaviour
             {
                 bool toggle = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().ToggleState();
 
-                Debug.Log("Button press for state " + toggle.ToString());
+                //Now, we also show the message queue box information
+                GameObject mbox = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().messageQueueBox;
+                if (mbox != null)
+                {
+                    MessageQueueFunctionality mQueueFunc = mbox.GetComponent<MessageQueueFunctionality>();
+                    if (mQueueFunc.messageQueue.Count != 0)
+                        mQueueFunc.ToggleMsgQueueInfo();
+                    else
+                        Debug.Log("The queue size is 0, therefore the message box contents are not shown.");
+                }
+                else
+                    Debug.Log("There is no MessageQueueFunctionality attached, therefore the message box contents are not shown.");
+
                 StateRequest sr = new StateRequest(laserPointedActor.name, toggle);
                 NetworkInterface.HandleRequest(sr);
             }
+            /*
             else if (laserPointedActor.CompareTag("MessageQueue"))
             {
-                laserPointedActor.gameObject.GetComponent<MessageQueueFunctionality>().ToggleMsgQueueInfo();
-            }
+                GameObject mbox = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().messageQueueBox;
+                if (mbox != null)
+                    mbox.GetComponent<MessageQueueFunctionality>().ToggleMsgQueueInfo();
+                else
+                    Debug.LogError("There is no MessageQueueFunctionality attached");
+
+            }*/
         }
 
         

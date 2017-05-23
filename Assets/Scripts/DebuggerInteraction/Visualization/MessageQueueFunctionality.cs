@@ -28,12 +28,11 @@ public class MessageQueueFunctionality : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Created message queue " + transform.name);
         if (prefabNameText != null)
         {
             contentText = Instantiate(prefabNameText);
             contentText.transform.parent = this.transform; 
-            contentText.transform.position = this.transform.position - new Vector3(0, 0.3f, 0); //With a small offset
+            contentText.transform.position = this.transform.position + new Vector3(0, transform.localScale.y /*not /2 as we want room for 2 lines*/, 0); //With a small offset
             contentText.SetActive(false); //Initially not visible
         }
         else
@@ -43,8 +42,7 @@ public class MessageQueueFunctionality : MonoBehaviour
         this.GetComponent<MeshRenderer>().material = mat;
 
         originalPosition = transform.position; //Set the original position
-        Debug.Log(originalPosition);
-    } 
+    }
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------
     //Auxiliary functions
@@ -53,15 +51,29 @@ public class MessageQueueFunctionality : MonoBehaviour
     {
         messageQueue.Enqueue(msgObj);
         GetComponent<Renderer>().enabled = true;
+
+        // update the message queue info
+        string headMsgText = messageQueue.Peek().GetComponent<MessageFunctionality>().msg;
+        contentText.GetComponent<TextMesh>().text = "Number of messages: " + messageQueue.Count + " \nNext Message: \n" + headMsgText;
     }
 
     public GameObject DequeueFromMsgQueue()
     {
         GameObject msg = messageQueue.Dequeue();
-        if(messageQueue.Count == 0)
+       
+        if (messageQueue.Count == 0)
         {
+            // do not show message queue object
             GetComponent<Renderer>().enabled = false;
+            // (deactivating contentText when there are no messages disrupts the synchronization of the windows for the actor and its message queue)
+            contentText.GetComponent<TextMesh>().text = "";
         }
+        else
+        {
+            string headMsgText = messageQueue.Peek().GetComponent<MessageFunctionality>().msg;
+            contentText.GetComponent<TextMesh>().text = "Number of messages: " + messageQueue.Count + " \nNext Message: \n" + headMsgText;
+        }
+
         return msg;
     }
 
@@ -70,10 +82,11 @@ public class MessageQueueFunctionality : MonoBehaviour
         if(contentText.activeSelf)
         {
             contentText.SetActive(false);
-        } else
+        }
+        else
         {
             string headMsgText = messageQueue.Peek().GetComponent<MessageFunctionality>().msg;
-            contentText.GetComponent<TextMesh>().text = "Msg count: " + messageQueue.Count + " \nPeek msg: \n" + headMsgText;
+            contentText.GetComponent<TextMesh>().text = "Number of messages: " + messageQueue.Count + " \nNext Message: \n" + headMsgText;
             contentText.SetActive(true);
         }
 

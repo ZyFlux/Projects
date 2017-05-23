@@ -39,8 +39,8 @@ public class ActorFunctionality : MonoBehaviour
             prefabMessageQueueBoxInstance = Resources.Load("MessageQueue") as GameObject;
 
         messageQueueBox = Instantiate(prefabMessageQueueBoxInstance);
-        messageQueueBox.transform.parent = this.transform; //Who's the daddy?
-        messageQueueBox.transform.position = this.transform.position + new Vector3 (0f,transform.localScale.y/2, 0f); //With no offset
+        messageQueueBox.transform.parent = transform; //Who's the daddy?
+        messageQueueBox.transform.position = transform.position + new Vector3 (0f,transform.localScale.y/2, 0f); //With no offset
 
         //Set up stuff for grab capability
         VRTK.VRTK_InteractableObject vrio = gameObject.AddComponent<VRTK.VRTK_InteractableObject>();//Make it grabbable for drag drop
