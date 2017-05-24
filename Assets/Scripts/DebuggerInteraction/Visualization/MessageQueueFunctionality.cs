@@ -31,9 +31,10 @@ public class MessageQueueFunctionality : MonoBehaviour
         if (prefabNameText != null)
         {
             contentText = Instantiate(prefabNameText);
-            contentText.transform.parent = this.transform; 
-            contentText.transform.position = this.transform.position + new Vector3(0, transform.localScale.y /*not /2 as we want room for 2 lines*/, 0); //With a small offset
+            contentText.transform.parent = this.transform;
+            contentText.transform.position = this.transform.position + new Vector3 (0f, 0.13f, 0f); //With a small offset
             contentText.SetActive(false); //Initially not visible
+            contentText.GetComponent<TextMesh>().text = "";
         }
         else
             Debug.LogError("Error! Prefab not found!");
@@ -54,7 +55,7 @@ public class MessageQueueFunctionality : MonoBehaviour
 
         // update the message queue info
         string headMsgText = messageQueue.Peek().GetComponent<MessageFunctionality>().msg;
-        contentText.GetComponent<TextMesh>().text = "Number of messages: " + messageQueue.Count + " \nNext Message: \n" + headMsgText;
+        contentText.GetComponent<TextMesh>().text = "Number of messages: " + messageQueue.Count + " \nNext Message: " + headMsgText;
     }
 
     public GameObject DequeueFromMsgQueue()
@@ -71,7 +72,7 @@ public class MessageQueueFunctionality : MonoBehaviour
         else
         {
             string headMsgText = messageQueue.Peek().GetComponent<MessageFunctionality>().msg;
-            contentText.GetComponent<TextMesh>().text = "Number of messages: " + messageQueue.Count + " \nNext Message: \n" + headMsgText;
+            contentText.GetComponent<TextMesh>().text = "Number of messages: " + messageQueue.Count + " \nNext Message: " + headMsgText;
         }
 
         return msg;
@@ -85,8 +86,7 @@ public class MessageQueueFunctionality : MonoBehaviour
         }
         else
         {
-            string headMsgText = messageQueue.Peek().GetComponent<MessageFunctionality>().msg;
-            contentText.GetComponent<TextMesh>().text = "Number of messages: " + messageQueue.Count + " \nNext Message: \n" + headMsgText;
+
             contentText.SetActive(true);
         }
 

@@ -109,7 +109,6 @@ public class ActorFunctionality : MonoBehaviour
     public void GenerateMessage(GameObject recipient, string text)
     {
         GameObject MessageSphereInstance = Instantiate(prefabMessageSphereInstance, transform.position, transform.rotation) as GameObject; //Instantiate message sphere prefab
-        recipient.GetComponent<ActorFunctionality>().messageQueueBox.GetComponent<MessageQueueFunctionality>().EnqueueToMsgQueue(MessageSphereInstance);
         MessageSphereInstance.transform.parent = recipient.transform;
         
         MessageFunctionality mf = MessageSphereInstance.GetComponent<MessageFunctionality>();
@@ -117,7 +116,9 @@ public class ActorFunctionality : MonoBehaviour
         mf.recipient = recipient;
         mf.msg = text;
         Debug.Log("New instance of message created from " + this.gameObject.ToString() + " for " + recipient.gameObject.ToString());
-        mf.isActive = true; 
+        mf.isActive = true;
+
+        recipient.GetComponent<ActorFunctionality>().messageQueueBox.GetComponent<MessageQueueFunctionality>().EnqueueToMsgQueue(MessageSphereInstance);
     }
 
     public void ReceiveMessageFromQueue() //Used for MessageDroppped

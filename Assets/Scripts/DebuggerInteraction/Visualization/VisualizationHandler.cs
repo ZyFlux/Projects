@@ -11,7 +11,7 @@ public class VisualizationHandler : MonoBehaviour
     public static bool logCreateForEvent = true;
     public static float outlineTime = 1.0f;
 
-    public static string [] sysActorNames= { "akka://sys/deadLetters", "akka://sys/user/Timer" };
+    public static string [] sysActorNames= { "sys/deadLetters", "sys/user/Timer" };
 
     //public Color[][] colourPallette = { }; //2D array so as to maintain an appropriate colour scheme 
     public static void Handle (ActorCreated currEvent)
