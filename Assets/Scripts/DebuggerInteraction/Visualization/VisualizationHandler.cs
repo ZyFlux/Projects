@@ -11,19 +11,50 @@ public class VisualizationHandler : MonoBehaviour
     public static bool logCreateForEvent = true;
     public static float outlineTime = 1.0f;
 
-    public static string [] sysActorNames= { "sys/deadLetters", "sys/user/Timer" };
+    public static string [] sysActorNames= { "DiningPhilosophers/deadLetters", "sys/user/Timer" };
 
     //public Color[][] colourPallette = { }; //2D array so as to maintain an appropriate colour scheme 
+    public static Dictionary<string, GameObject> modelDictionary;
+    public void Awake()
+    {
+        modelDictionary = new Dictionary<string, GameObject>();
+        GameObject temp; 
+        temp = Resources.Load("Cube") as GameObject;
+        modelDictionary.Add("Cube", temp);
+
+        temp = Resources.Load("Sphere") as GameObject;
+        modelDictionary.Add("Sphere", temp);
+
+        temp = Resources.Load("Capsule") as GameObject;
+        modelDictionary.Add("Capsule", temp);
+
+        temp = Resources.Load("Cylinder") as GameObject;
+        modelDictionary.Add("Cylinder", temp);
+
+        temp = Resources.Load("Chopstick") as GameObject;
+        modelDictionary.Add("Chopstick", temp);
+
+        temp = Resources.Load("Postkasten") as GameObject;
+        modelDictionary.Add("Postkasten", temp);
+
+        temp = Resources.Load("Robot") as GameObject;
+        modelDictionary.Add("Robot", temp);
+
+        temp = Resources.Load("Smiley") as GameObject;
+        modelDictionary.Add("Smiley", temp);
+
+    }
     public static void Handle (ActorCreated currEvent)
     {
-        //TODO: Optimize this by putting it in a prefab
-        GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        go.tag = "Actor";
-        go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        GameObject go;
+        if (currEvent.resourceId == null)
+            go = Instantiate(modelDictionary["Cube"]); //If type is not set, we want a cube
+        else
+            go = Instantiate(modelDictionary[currEvent.resourceId]);
+
         go.transform.name = currEvent.actorId;
 
         go.transform.parent = TraceImplement.rootOfActors.transform;//Add it to the root G.O.
-        go.AddComponent<ActorFunctionality>(); //Add the script for actor functionality
 
         //Add this to the dictionary
         Actors.allActors.Add(currEvent.actorId, go);

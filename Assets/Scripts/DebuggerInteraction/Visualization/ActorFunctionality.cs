@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class ActorFunctionality : MonoBehaviour
 {
     //3D text and other prefabs that actor nodes own the asses of
-    private static GameObject prefabNameText; //A reference to the prefab that is used for each individual actor
-    public GameObject nameText; //Is used by other scripts to enable or disable
+    public GameObject prefabNameText; //A reference to the prefab that is used for each individual actor
+    private GameObject nameText; 
     
-    private static GameObject prefabMessageSphereInstance;
-    private static GameObject prefabMessageQueueBoxInstance;
+    public GameObject prefabMessageSphereInstance;
+    public GameObject prefabMessageQueueBox;
 
-    private Material mat; //Holds the material
+
     private VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter outliner;
 
     public bool getState = false; //Is the state shown (or not)?
@@ -20,43 +20,15 @@ public class ActorFunctionality : MonoBehaviour
     public Vector3 originalPosition; //Used to revert to original position after the actor has snapped into focus area once
 
     public GameObject messageQueueBox;
-    private static GameObject prefabVarScreen;
+
+    public GameObject prefabVarScreen;
     private GameObject varScreen; //Reference to the varScreen
 
     void Awake()
     {
-
-        //Initialize all prefabs and important stuff
-        if(!prefabNameText)
-            prefabNameText = Resources.Load("NameText") as GameObject;
-        if(!prefabMessageSphereInstance)
-            prefabMessageSphereInstance = Resources.Load("Message") as GameObject;
-        if (!mat)
-            mat = new Material(Resources.Load("White") as Material); //mat must be a new material- each actor has its own
-        if(!prefabVarScreen)
-            prefabVarScreen = Resources.Load("VarsScreen") as GameObject;
-        if (!prefabMessageQueueBoxInstance)
-            prefabMessageQueueBoxInstance = Resources.Load("MessageQueue") as GameObject;
-
-        messageQueueBox = Instantiate(prefabMessageQueueBoxInstance);
-        messageQueueBox.transform.parent = transform; //Who's the daddy?
-        messageQueueBox.transform.position = transform.position + new Vector3 (0f,transform.localScale.y/2, 0f); //With no offset
-
-        //Set up stuff for grab capability
-        VRTK.VRTK_InteractableObject vrio = gameObject.AddComponent<VRTK.VRTK_InteractableObject>();//Make it grabbable for drag drop
-        vrio.isGrabbable = true;
-        vrio.touchHighlightColor = Color.grey;
-
         //Set up stuff for Outlining
-        outliner = gameObject.AddComponent<VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter>();
+        outliner = gameObject.GetComponent<VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter>();
         outliner.Initialise(); //Initialize with an outline colour
-        outliner.thickness = 2f; //Make it a little wider than standard
-
-        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
-        rb.freezeRotation = true; //Allow rotation only along Y-axis
-        rb.useGravity = false;
-        rb.angularDrag = 100.0f;
-        rb.drag = 100.0f;
 
     }
 
@@ -80,11 +52,14 @@ public class ActorFunctionality : MonoBehaviour
         varScreen.transform.position = this.transform.position - new Vector3(0, 0.3f, 0); //With a small offset
         varScreen.SetActive(false); //Initially not visible
 
-        //Set material
-        this.GetComponent<MeshRenderer>().material = mat;
+
 
         originalPosition = transform.position; //Set the original position
-    
+
+        messageQueueBox = Instantiate(prefabMessageQueueBox);
+        messageQueueBox.transform.parent = transform; //Who's the daddy?
+        messageQueueBox.transform.position = transform.position + new Vector3(0f, transform.localScale.y / 2, 0f); //With no offset
+
     } 
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -139,6 +114,7 @@ public class ActorFunctionality : MonoBehaviour
     //Coloring- state changes
     public void ChangeColour(Color colour)
     {
+        Material mat = GetComponent<MeshRenderer>().material;
         Debug.Log("About to change colour");
         mat.color = colour;
     }

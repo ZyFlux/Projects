@@ -7,10 +7,10 @@ using UnityEngine;
 public class Init : MonoBehaviour {
     public bool isActive;
 	// Use this for initialization
-	void Awake () {
+	void Start () {
         if (isActive)
         {
-            ActorCreated deadLetters = new ActorCreated("sys/deadLetters");
+            ActorCreated deadLetters = new ActorCreated("DiningPhilosophers/deadLetters", "Postkasten"); //Initiallization of initial actor
             List<ActorEvent> tempList = new List<ActorEvent>(); //Make a temporary list to hold this
             tempList.Add(deadLetters);
             Trace.allEvents.Add(tempList);

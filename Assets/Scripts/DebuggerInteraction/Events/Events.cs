@@ -15,12 +15,16 @@ public class ActorEvent
 public class ActorCreated : ActorEvent
 {
     public string actorId;
+    public string resourceId;
     public override void HandleVisualization()
     { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
-    public ActorCreated(string id)
-    { actorId = id; }
+    public ActorCreated(string id, string modelType)
+    {
+        actorId = id;
+        resourceId = modelType;
+    }
 }
 
 [System.Serializable]
