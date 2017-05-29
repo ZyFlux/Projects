@@ -7,16 +7,12 @@ public class MessageFunctionality : MonoBehaviour
     public string msg; //The message carried
     public GameObject sender; //who sent me?
     public GameObject recipient; //who receives me?
-
-    public GameObject prefabLink3DText; //A reference to the prefab that is used for 3D info text
-    public GameObject infoText; //Is used by other scripts to enable or disable
     
-
-    public int durationOfLineInSteps = 5; //Number of steps after linerenderer is destroyed
+    public int durationOfLineInSteps; //Number of steps after linerenderer is destroyed
     private float deltaChange;
     public bool isActive = false; //Activity state of the message
 
-
+    public int marker = -1;
 
     //Internal usage for curve drawing
     public int bezierPointResolution; //Number of points in the trajectory

@@ -8,10 +8,17 @@ public class UserInputHandler : MonoBehaviour
     public static bool isPaused;
     private bool isOn;
 
+    public static List<Color> markersPossible;
+    
     private void Start()
     {
         isPaused = false;
         isOn = false;
+
+        //Add a few elements to markersPossible
+        markersPossible.Add(Color.blue);
+        markersPossible.Add(Color.yellow);
+        markersPossible.Add(Color.white);
     }
     public void TagUntagActor()
     {
@@ -24,6 +31,12 @@ public class UserInputHandler : MonoBehaviour
             NetworkInterface.HandleTagUntagRequestToBeSent(toggle, laserPointedActor.name);
         }
     }
+
+    public void MarkUpcomingMessage() //Marks the upcoming message with a new marker. This helps in visualizing in different colours events that happen in response to this
+    {
+
+    }
+
 
     public void ReceiveFromActor()
     {

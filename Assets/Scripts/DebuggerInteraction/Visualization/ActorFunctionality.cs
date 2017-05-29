@@ -50,7 +50,7 @@ public class ActorFunctionality : MonoBehaviour
         //Set up stuff for Outlining
         outliner = gameObject.AddComponent<VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter>();
         outliner.Initialise(); //Initialize with an outline colour
- 
+        outliner.thickness = 2f; //Make it a little wider than standard
 
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         rb.freezeRotation = true; //Allow rotation only along Y-axis
