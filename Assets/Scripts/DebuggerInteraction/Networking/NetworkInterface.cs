@@ -27,6 +27,11 @@ public static class NetworkInterface
                
                 break;
 
+            case "TOPOGRAPHY_RESPONSE":
+                TopographyResponse tr = (JsonUtility.FromJson<TopographyResponse>(jsonResponse));
+                //One TopographyResponse includes the type and ordered list of actors, which need to be unwrapped
+                TopographyUnwrapper(tr);
+                break;
             default:
                 Debug.LogError("Unable to resolve to a particular class");
                 break;
@@ -81,6 +86,12 @@ public static class NetworkInterface
         SendMessageHelper.RegisterSendMessage(context);
     }
 
+
+    private static void TopographyUnwrapper(TopographyResponse tr)
+    {
+        //TODO:Unwrap and handle topography
+    }
+
     public static void HandleTagUntagRequestToBeSent(bool toggle, string actorId)
     {
         TagActorRequest curr = new TagActorRequest(actorId, toggle);
@@ -100,5 +111,11 @@ public static class NetworkInterface
         string toSend = JsonUtility.ToJson(curr);
         AsynchronousClient.Send(AsynchronousClient.client, toSend);
     }
+    public static void HandleRequest(TopographyRequest curr)
+    {
+        string toSend = JsonUtility.ToJson(curr);
+        AsynchronousClient.Send(AsynchronousClient.client, toSend);
+    }
+
 }
 

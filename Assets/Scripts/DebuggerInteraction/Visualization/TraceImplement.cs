@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TraceImplement : MonoBehaviour {
 
-    public float timeDelay = 2.0f; //time delay (in addition to what happens in ImplementNext)
+    public float timeDelay = 2.5f; //time delay (in addition to what happens in ImplementNext)
     public static GameObject rootOfActors;
     private AudioSource audioS;
   
@@ -26,7 +26,7 @@ public class TraceImplement : MonoBehaviour {
                 {
                     audioS.Play(); //Play a sound
                     Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleOutline();    //Do the outlining
-                    yield return new WaitForSeconds(0.5f); //Time delay for actual visualization
+                    yield return new WaitForSeconds(1f); //Time delay for actual visualization
                     Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
                     rootOfActors.BroadcastMessage("NewTraceStep", SendMessageOptions.DontRequireReceiver);
 

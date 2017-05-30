@@ -30,7 +30,7 @@ public class UserInputHandler : MonoBehaviour
 
     public void MarkUpcomingMessage() //Marks the upcoming message with a new marker. This helps in visualizing in different colours events that happen in response to this
     {
-
+        Debug.Log("About to mark an upcoming message");
     }
 
 
@@ -87,7 +87,15 @@ public class UserInputHandler : MonoBehaviour
         //Send the next message to dispatcher
         ActionRequest ar = new ActionRequest("__NEXT__", ""); //TODO-Make things safe and clear so that the __NEXT__ is only possible at the correct moments
         NetworkInterface.HandleRequest(ar);
-        Debug.Log("About to go to the next step");
+        Debug.Log("About to ask for the next step");
+    }
+
+    public void QueryTopography() //Ask dispatcher what kind of topography it wants
+    {
+        
+        TopographyRequest tr = new TopographyRequest();
+        NetworkInterface.HandleRequest(tr);
+        Debug.Log("About to ask for topography");
     }
 
     public void OnOff() //Send an init message and start the whole charade

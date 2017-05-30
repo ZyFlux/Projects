@@ -44,7 +44,7 @@ public class MessageFunctionality : MonoBehaviour
     {
         if (isActive)
         {
-            if (arrayCountKeeper <= bezierPointResolution && t < 1.0f)
+            if (arrayCountKeeper <= bezierPointResolution && t < 0.9f) //0.9f so as to make sure the arc width does not exceed model width
             {
                 arrayCountKeeper++;
                 t = arrayCountKeeper * 1.0f / bezierPointResolution;

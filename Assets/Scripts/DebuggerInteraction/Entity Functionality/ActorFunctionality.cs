@@ -19,11 +19,14 @@ public class ActorFunctionality : MonoBehaviour
 
     public Vector3 originalPosition; //Used to revert to original position after the actor has snapped into focus area once
 
+    //Message queue
     public GameObject messageQueueBox;
 
+    //States
     public GameObject prefabVarScreen;
     private GameObject varScreen; //Reference to the varScreen
-
+    private Material mat;
+    private Color initialColour;
     void Awake()
     {
         //Set up stuff for Outlining
@@ -58,16 +61,19 @@ public class ActorFunctionality : MonoBehaviour
 
         messageQueueBox = Instantiate(prefabMessageQueueBox);
         messageQueueBox.transform.parent = transform; //Who's the daddy?
-        messageQueueBox.transform.position = transform.position + new Vector3(0f, transform.localScale.y / 2, 0f); //With no offset
+        messageQueueBox.transform.position = transform.position + new Vector3(0f, 0.12f, 0f); //With no offset
 
-    } 
+
+        mat = GetComponent<MeshRenderer>().material; //Set the value of mat to material attached to renderer
+        initialColour = mat.color; //Set initial colour so as to enable reset
+    }
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------
     //Auxiliary functions
 
 
     //Outlining
-   public void MomentaryOutline(Color outlineC, float t)
+    public void MomentaryOutline(Color outlineC, float t)
     {
         outliner.Highlight(outlineC);
         StartCoroutine(RemoveOutlineAfterTime(t));
@@ -114,7 +120,7 @@ public class ActorFunctionality : MonoBehaviour
     //Coloring- state changes
     public void ChangeColour(Color colour)
     {
-        Material mat = GetComponent<MeshRenderer>().material;
+        
         Debug.Log("About to change colour");
         mat.color = colour;
     }
@@ -143,7 +149,7 @@ public class ActorFunctionality : MonoBehaviour
         {
             getState = false;
             varScreen.SetActive(false); //Disable the var screen
-            ChangeColour(Color.white); //Set colour to white- generic
+            ChangeColour(initialColour); //Set colour to white- generic
             return false;
         }
         else

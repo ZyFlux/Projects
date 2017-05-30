@@ -1,6 +1,4 @@
 ﻿//These are sent by the program to us
-
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,6 +7,13 @@ public class QueryRequest
 {
     public string requestType;
 
+}
+public class TopographyRequest : QueryRequest
+{
+    public TopographyRequest()
+    {
+        requestType = "TOPOGRAPHY_REQUEST";
+    }
 }
 
 public class ActionRequest : QueryRequest
@@ -54,7 +59,7 @@ public class TagActorRequest : QueryRequest
 }
 
 
-//New architecture
+//State class encompases variable states and behaviour states as text / colour
 [System.Serializable]
 public class State
 {
@@ -64,20 +69,4 @@ public class State
 }
 
 
-[System.Serializable]
-public class QueryResponse
-{
-    public string responseType;
-    public virtual void HandleThis()
-    { Debug.LogError("Control has passed to the base QueryResponse class"); }
-}
 
-[System.Serializable]
-public class ActionResponse : QueryResponse
-{
-    public List<string> events;
-    public List<State> states;
-     
-    public override void HandleThis()
-    { Debug.Log("Receive Response class"); }
-}
