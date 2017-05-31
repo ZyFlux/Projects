@@ -11,12 +11,14 @@ public class VisualizationHandler : MonoBehaviour
     public static bool logCreateForEvent = true;
     public static float outlineTime = 1.0f;
 
-    public static string [] sysActorNames= { "DiningPhilosophers/deadLetters", "sys/user/Timer" };
+    public static string [] sysActorNames= { "deadLetters", "sys/user/Timer" };
 
     //public Color[][] colourPallette = { }; //2D array so as to maintain an appropriate colour scheme 
     public static Dictionary<string, GameObject> modelDictionary;
     public void Awake()
     {
+
+        //TODO: Optimize by removing Resource calls
         modelDictionary = new Dictionary<string, GameObject>();
         GameObject temp; 
         temp = Resources.Load("Cube") as GameObject;
@@ -104,7 +106,7 @@ public class VisualizationHandler : MonoBehaviour
     {
         GameObject recGO = Actors.allActors[currEvent.receiverId];
         //Use dictionary of actors to do this
-        ActorFunctionality af = recGO.GetComponent<ActorFunctionality>(); //TODO- Problem here!
+        ActorFunctionality af = recGO.GetComponent<ActorFunctionality>(); 
         af.ReceiveMessageFromQueue(Actors.allActors[currEvent.senderId]);
 
         if (logCreateForEvent)
@@ -134,6 +136,28 @@ public class VisualizationHandler : MonoBehaviour
             //Create a Log of it
             Log newLog = new Log(0, "Message dropped : " + currEvent.receiverId);
             Handle(newLog);
+        }
+    }
+
+    public static void Handle(TopographyResponse tr)
+    {
+
+        switch (tr.topographyType)
+        {
+            case "RING":
+                List<Vector3> positions = RingGenerator.Create(tr.orderedActorIds.Count);
+
+                for (int i = 0; i < tr.orderedActorIds.Count; i++)
+                {
+                    //This hack because of some random GetComponentFastPath error  
+                    GameObject actorConcerned = Actors.allActors[tr.orderedActorIds[i]];
+                    SendMessageContext context = new SendMessageContext(actorConcerned, "MoveToAPosition", positions[i], SendMessageOptions.RequireReceiver);
+                    SendMessageHelper.RegisterSendMessage(context);
+                }
+                break;
+            default:
+                Debug.LogError("Unknown Topography type response received. Doing nothing.");
+                break;
         }
     }
 

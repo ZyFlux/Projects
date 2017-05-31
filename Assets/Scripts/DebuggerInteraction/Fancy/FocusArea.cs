@@ -22,11 +22,6 @@ public class FocusArea : MonoBehaviour
         controllerWithLaser.GetComponent<VRTK.VRTK_ControllerEvents>().TriggerClicked += new VRTK.ControllerInteractionEventHandler(Snap); //Listen to trigger event
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void Snap(object sender, VRTK.ControllerInteractionEventArgs e)
     {

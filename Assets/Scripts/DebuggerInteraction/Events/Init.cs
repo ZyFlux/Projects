@@ -10,7 +10,7 @@ public class Init : MonoBehaviour {
 	void Start () {
         if (isActive)
         {
-            ActorCreated deadLetters = new ActorCreated("DiningPhilosophers/deadLetters", "Postkasten"); //Initiallization of initial actor
+            ActorCreated deadLetters = new ActorCreated("deadLetters", "Postkasten"); //Initiallization of initial actor
             List<ActorEvent> tempList = new List<ActorEvent>(); //Make a temporary list to hold this
             tempList.Add(deadLetters);
             Trace.allEvents.Add(tempList);

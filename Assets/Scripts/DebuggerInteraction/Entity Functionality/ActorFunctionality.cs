@@ -18,7 +18,7 @@ public class ActorFunctionality : MonoBehaviour
     public bool getTag = false;//Is the actor tagged (or not)?
 
     public Vector3 originalPosition; //Used to revert to original position after the actor has snapped into focus area once
-
+    public Vector3 modelOffset; //Because models aren't always oriented at 0,0,0
     //Message queue
     public GameObject messageQueueBox;
 
@@ -56,12 +56,11 @@ public class ActorFunctionality : MonoBehaviour
         varScreen.SetActive(false); //Initially not visible
 
 
-
         originalPosition = transform.position; //Set the original position
 
         messageQueueBox = Instantiate(prefabMessageQueueBox);
         messageQueueBox.transform.parent = transform; //Who's the daddy?
-        messageQueueBox.transform.position = transform.position + new Vector3(0f, 0.12f, 0f); //With no offset
+        messageQueueBox.transform.position = transform.position + new Vector3(0f, 0.1f, 0f) - modelOffset; //With no offset
 
 
         mat = GetComponent<MeshRenderer>().material; //Set the value of mat to material attached to renderer
@@ -115,6 +114,12 @@ public class ActorFunctionality : MonoBehaviour
         GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().DequeueFromMsgQueue(); //Consume message from queue
         Debug.Log("Message " + consumedMessage.ToString() + " accepted by " + this.gameObject.ToString());
         Destroy(consumedMessage);
+    }
+
+    public void MoveToAPosition(Vector3 pos)
+    {
+        transform.position = pos;
+        originalPosition = transform.position;
     }
 
     //Coloring- state changes

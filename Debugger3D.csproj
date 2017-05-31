@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Trace.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\FocusArea.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\LogDisplayer.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\RingGenerator.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\Client.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\NetworkInterface.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Requests\Requests.cs" />

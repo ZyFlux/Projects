@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MessageFunctionality : MonoBehaviour
 {
@@ -21,7 +20,7 @@ public class MessageFunctionality : MonoBehaviour
     private float t = 0.0f;
     private int stepsOnStart;
     private GameObject lineRenderer; //Reference to LineRenderer set in Start()
-
+    private Vector3 recipientOffset;
     void Start()
     {
         lineRenderer = transform.GetChild(0).gameObject; //This is the LineRenderer. There is also an option to getbyname but this one chose for performance
@@ -37,6 +36,8 @@ public class MessageFunctionality : MonoBehaviour
 
 
         deltaChange = 1.0f / durationOfLineInSteps;
+        recipientOffset = recipient.GetComponent<ActorFunctionality>().modelOffset;
+
     }
 
 
@@ -44,12 +45,17 @@ public class MessageFunctionality : MonoBehaviour
     {
         if (isActive)
         {
-            if (arrayCountKeeper <= bezierPointResolution && t < 0.9f) //0.9f so as to make sure the arc width does not exceed model width
+            if (arrayCountKeeper <= bezierPointResolution && t < 1.0f) 
             {
                 arrayCountKeeper++;
                 t = arrayCountKeeper * 1.0f / bezierPointResolution;
-                transform.position = GetBezierPoint(sender.transform.position, new Vector3((sender.transform.position.x + recipient.transform.position.x) / 2, 3f, (sender.transform.position.z + recipient.transform.position.z) / 2), recipient.transform.position, t);
+                transform.position = GetBezierPoint(sender.transform.position, new Vector3((sender.transform.position.x + recipient.transform.position.x ) / 2, 3f, (sender.transform.position.z + recipient.transform.position.z) / 2), recipient.transform.position - recipientOffset, t);
                 //The overflow of arrayCountKeeper is handled by the MessageSphere
+            }
+            else
+            {
+                isActive = false;
+                transform.DetachChildren(); //Detach the line renderer
             }
         }
         //If not active, wait

@@ -89,7 +89,8 @@ public static class NetworkInterface
 
     private static void TopographyUnwrapper(TopographyResponse tr)
     {
-        //TODO:Unwrap and handle topography
+
+        VisualizationHandler.Handle(tr);
     }
 
     public static void HandleTagUntagRequestToBeSent(bool toggle, string actorId)
