@@ -16,15 +16,15 @@ public static class NetworkInterface
                 //Debug.Log("Received an action response");
                 ActionResponse curr = (JsonUtility.FromJson<ActionResponse>(jsonResponse));
                 //One ActionResponse includes a list of events for one atomic step
-                List<ActorEvent> tempList = new List<ActorEvent>();
+                List<ActorEvent> tempList1 = new List<ActorEvent>();
                 foreach (string ev in curr.events)
-                    tempList.Add(EventUnwrapper(ev));
-                if(tempList.Count > 0)
-                    Trace.allEvents.Add(tempList);
+                    tempList1.Add(EventUnwrapper(ev));
+                if(tempList1.Count > 0)
+                    Trace.allEvents.Add(tempList1);
 
                 foreach (State st in curr.states)
                     StateUnwrapper(st);
-               
+
                 break;
 
             case "TOPOGRAPHY_RESPONSE":
@@ -77,7 +77,7 @@ public static class NetworkInterface
         }
         return ev;
     }
-    private static void StateUnwrapper(State st)
+    private static void StateUnwrapper(State st) //TODO: Change the state later, when the trace step comes
     {
         //Send the state to Actor
         GameObject actorConcerned = Actors.allActors[st.actorId];

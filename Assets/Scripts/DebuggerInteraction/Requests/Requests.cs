@@ -59,14 +59,7 @@ public class TagActorRequest : QueryRequest
 }
 
 
-//State class encompases variable states and behaviour states as text / colour
-[System.Serializable]
-public class State
-{
-    public string actorId;
-    public Color behavior;
-    public string vars; //All variables separated by new line
-}
+
 
 
 
