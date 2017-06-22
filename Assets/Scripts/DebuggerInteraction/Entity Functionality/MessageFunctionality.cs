@@ -11,8 +11,6 @@ public class MessageFunctionality : MonoBehaviour
     private float deltaChange;
     public bool isActive = false; //Activity state of the message
 
-    public int marker = -1;
-
     //Internal usage for curve drawing
     public int bezierPointResolution; //Number of points in the trajectory
 
@@ -21,6 +19,9 @@ public class MessageFunctionality : MonoBehaviour
     private int stepsOnStart;
     private GameObject lineRenderer; //Reference to LineRenderer set in Start()
     private Vector3 recipientOffset;
+
+    public MarkerRepresentation representationHolding; //Set from MarkerFunctionality attached to actor
+
     void Start()
     {
         lineRenderer = transform.GetChild(0).gameObject; //This is the LineRenderer. There is also an option to getbyname but this one chose for performance
@@ -89,6 +90,10 @@ public class MessageFunctionality : MonoBehaviour
             oneMinusT * oneMinusT * p0 +
             2f * oneMinusT * t * p1 +
             t * t * p2;
+    }
+    public void ClearMark() //Clear the representation held
+    {
+        representationHolding = new MarkerRepresentation(); //clear the representation held
     }
 
     void OnDestroy() //Delete the line renderer when the message is destroyed

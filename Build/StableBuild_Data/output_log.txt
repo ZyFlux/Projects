@@ -1,0 +1,56 @@
+Initialize engine version: 5.5.3f1 (4d2f809fd6f3)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1080 (ID=0x1b80)
+    Vendor:   NVIDIA
+    VRAM:     8110 MB
+    Driver:   22.21.13.8205
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+Platform assembly: C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.VR.dll (this message is harmless)
+Loading C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\UnityEngine.VR.dll into Unity Child Domain
+- Completed reload, in  0.317 seconds
+Platform assembly: C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\mathur\Documents\UnityProjects\Debugger3D\Build\StableBuild_Data\Managed\System.dll (this message is harmless)
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1920x1200 59Hz; virtual: 3840x1204 at -1920,0
+<RI> Initialized touch support.
+OpenVR initialized!
+ 
+(Filename:  Line: 381)
+
+UnloadTime: 9.812110 ms
+Connected to lighthouse:LHR-3049A8AE
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Cooking::cookConvexMesh: user-provided hull must have less than 256 vertices!
+ 
+(Filename: ..\..\PhysXCooking\src\Cooking.cpp Line: 273)
+
+Failed to create Convex Mesh from source mesh "Mesh1". Source mesh is likely have too many smooth surface regions. Please reduce the surface smoothness of the source mesh. Alternatively turn on Inflate Mesh and increase the Skin Width sufficiently for this mesh.
+ 
+(Filename:  Line: 54)
+
+About to start the Network Interface..
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it.
+
+  at System.Net.Sockets.Socket.Connect (System.Net.EndPoint remoteEP, Boolean requireSocketPolicy) [0x00000] in <filename unknown>:0 
+  at System.Net.Sockets.Socket+Worker.Connect () [0x00000] in <filename unknown>:0 
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+

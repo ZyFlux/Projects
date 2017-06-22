@@ -46,7 +46,7 @@ public class HelpTextController : MonoBehaviour {
                 else
                 {
                     tm.color = Color.red;
-                    tm.text = "Action currently not possible";
+                    tm.text = "Please wait for current events to finish";
                 }
                 break;
             case 2:
@@ -66,7 +66,7 @@ public class HelpTextController : MonoBehaviour {
                 else
                 {
                     tm.color = Color.red;
-                    tm.text = "Action currently not possible";
+                    tm.text = "Please wait for current events to finish";
                 }
                 break;
             case 3:
@@ -86,7 +86,7 @@ public class HelpTextController : MonoBehaviour {
                 else
                 {
                     tm.color = Color.red;
-                    tm.text = "Action currently not possible";
+                    tm.text = "Please wait for current events to finish";
                 }
                 break;
             case 4:

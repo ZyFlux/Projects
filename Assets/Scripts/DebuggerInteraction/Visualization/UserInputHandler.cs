@@ -18,7 +18,6 @@ public class UserInputHandler : MonoBehaviour
     }
     public void TagUntagActor()
     {
-        Debug.Log("Umm...");
         if (CheckLaserPointer())
         {
             Debug.Log("About to tag/untag actor");
@@ -30,9 +29,18 @@ public class UserInputHandler : MonoBehaviour
 
     public void MarkUpcomingMessage() //Marks the upcoming message with a new marker. This helps in visualizing in different colours events that happen in response to this
     {
-        Debug.Log("About to mark an upcoming message");
-    }
+        if (CheckLaserPointer())
+        {
+            Debug.Log("About to mark an upcoming message");
+            laserPointedActor.GetComponent<MarkerFunctionality>().MarkUnmarkThis();
 
+        }
+    }
+    public void ClearMarkings()
+    {
+        //Clear all markings and re-init
+        Debug.Log("About to clear all markings");
+    }
 
     public void ReceiveFromActor()
     {
@@ -47,7 +55,7 @@ public class UserInputHandler : MonoBehaviour
         }
         else
         {
-
+            //Do nothing
         }
     }
 
@@ -64,6 +72,7 @@ public class UserInputHandler : MonoBehaviour
         }
         else
         {
+            //Do nothing
         }
     }
 
@@ -89,6 +98,15 @@ public class UserInputHandler : MonoBehaviour
         Debug.Log("Are we Paused? "+isPaused.ToString());
     }
 
+    public void GoFaster()
+    {
+
+    }
+
+    public void GoSlower()
+    {
+
+    }
 
     public void NextStep() //Go to the next step
     {
