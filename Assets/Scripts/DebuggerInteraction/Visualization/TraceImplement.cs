@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class TraceImplement : MonoBehaviour {
 
-    public float timeDelay = 2.5f; //time delay (in addition to what happens in ImplementNext)
+    public static float timeDelay = 2.5f; //time delay (in addition to what happens in ImplementNext)
+    public static float timeDelayForOutline;
     public static GameObject rootOfActors;
     private AudioSource audioS;
   

@@ -5,23 +5,20 @@ using UnityEngine;
 public class Markers : MonoBehaviour
 {
     public static List<MarkerRepresentation> listOfMarkerColoursAvailable;
-
+    public static List<GameObject> markedObjects;
     private void Awake()
     {
         Initialize();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-
-    void Initialize()
+    public static void Initialize()
     {
         listOfMarkerColoursAvailable = new List<MarkerRepresentation>(2);
         listOfMarkerColoursAvailable.Add(new MarkerRepresentation(1, new Color(1f, 0f, 0f, 0.1f)));
         listOfMarkerColoursAvailable.Add(new MarkerRepresentation(2, new Color(0f, 0f, 1f, 0.1f)));
+
+        markedObjects = new List<GameObject>();
     }
     public static MarkerRepresentation AssignNewMarker()
     {
@@ -38,10 +35,7 @@ public class Markers : MonoBehaviour
         }
     }
 
-    public void ClearMark()
-    {
-        Initialize();
-    }
+
 }
 
 public class MarkerRepresentation

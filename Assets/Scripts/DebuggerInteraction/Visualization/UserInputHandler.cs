@@ -40,6 +40,8 @@ public class UserInputHandler : MonoBehaviour
     {
         //Clear all markings and re-init
         Debug.Log("About to clear all markings");
+        Markers.Initialize();
+        TraceImplement.rootOfActors.BroadcastMessage("ClearMark");
     }
 
     public void ReceiveFromActor()
@@ -100,12 +102,12 @@ public class UserInputHandler : MonoBehaviour
 
     public void GoFaster()
     {
-
+        SpeedControl.IncreaseSpeed();
     }
 
     public void GoSlower()
     {
-
+        SpeedControl.DecreaseSpeed();
     }
 
     public void NextStep() //Go to the next step

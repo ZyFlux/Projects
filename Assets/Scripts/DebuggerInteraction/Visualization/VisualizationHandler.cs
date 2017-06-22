@@ -9,7 +9,7 @@ using UnityEngine;
 public class VisualizationHandler : MonoBehaviour
 {
     public static bool logCreateForEvent = true;
-    public static float outlineTime = 1.0f;
+    public static float outlineTime = 1f;
 
     public static string [] sysActorNames= { "deadLetters", "Timer" };
 

@@ -11,8 +11,9 @@ public class MessageFunctionality : MonoBehaviour
     private float deltaChange;
     public bool isActive = false; //Activity state of the message
 
+    public static int bezierPointResolution;
     //Internal usage for curve drawing
-    public int bezierPointResolution; //Number of points in the trajectory
+    private int bezierRes; //Number of points in the trajectory
 
     private int arrayCountKeeper = 0; //Where are we?
     private float t = 0.0f;
@@ -38,29 +39,31 @@ public class MessageFunctionality : MonoBehaviour
 
         deltaChange = 1.0f / durationOfLineInSteps;
         recipientOffset = recipient.GetComponent<ActorFunctionality>().modelOffset;
-
+        bezierRes = bezierPointResolution;
     }
 
 
     void Update()
     {
-        if (isActive)
+        if (!UserInputHandler.isPaused) //To enable pausing
         {
-            if (arrayCountKeeper <= bezierPointResolution && t < 1.0f) 
+            if (isActive)
             {
-                arrayCountKeeper++;
-                t = arrayCountKeeper * 1.0f / bezierPointResolution;
-                transform.position = GetBezierPoint(sender.transform.position, new Vector3((sender.transform.position.x + recipient.transform.position.x ) / 2, 3f, (sender.transform.position.z + recipient.transform.position.z) / 2), recipient.transform.position - recipientOffset, t);
-                //The overflow of arrayCountKeeper is handled by the MessageSphere
+                if (arrayCountKeeper <= bezierRes && t < 1.0f)
+                {
+                    arrayCountKeeper++;
+                    t = arrayCountKeeper * 1.0f / bezierRes;
+                    transform.position = GetBezierPoint(sender.transform.position, new Vector3((sender.transform.position.x + recipient.transform.position.x) / 2, 3f, (sender.transform.position.z + recipient.transform.position.z) / 2), recipient.transform.position - recipientOffset, t);
+                    //The overflow of arrayCountKeeper is handled by the MessageSphere
+                }
+                else
+                {
+                    isActive = false;
+                    transform.DetachChildren(); //Detach the line renderer
+                }
             }
-            else
-            {
-                isActive = false;
-                transform.DetachChildren(); //Detach the line renderer
-            }
+            //If not active, wait
         }
-        //If not active, wait
-
 
     }
     public void NewTraceStep() //Because a message is broadcasted by TraceImplement -> Used for step-by-step transparency

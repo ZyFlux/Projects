@@ -125,6 +125,12 @@ public class HelpTextController : MonoBehaviour {
                     tm.text = "Only possible when poiniting at an actor";
                 }
                 break;
+            case 7:
+                tm.text = "Go faster. Current speed is " + SpeedControl.speed.ToString() + "x";
+                break;
+            case 8:
+                tm.text = "Go slower. Current speed is " + SpeedControl.speed.ToString() + "x";
+                break;
         }
     }
     public void PausePlay()
@@ -150,6 +156,22 @@ public class HelpTextController : MonoBehaviour {
     {
         index = 0;
         tm.text = "Start / Stop simulation";
+    }
+
+    public void ClearMark()
+    {
+        index = 0;
+        tm.text = "Clear markings";
+    }
+
+    public void GoFaster()
+    {
+        index = 7;   
+    }
+
+    public void GoSlower()
+    {
+        index = 8;
     }
 
     public void Next()
