@@ -13,7 +13,6 @@ public class VisualizationHandler : MonoBehaviour
 
     public static string [] sysActorNames= { "deadLetters", "Timer" };
 
-    //public Color[][] colourPallette = { }; //2D array so as to maintain an appropriate colour scheme 
     public static Dictionary<string, GameObject> modelDictionary;
     public void Awake()
     {
@@ -169,18 +168,36 @@ public class VisualizationHandler : MonoBehaviour
     }
     public static void Outline(ActorDestroyed currEvent)
     {
-        Actors.allActors[currEvent.actorId].GetComponent<ActorFunctionality>().MomentaryOutline(Color.red, outlineTime);
+        Color col = Color.magenta;
+        MarkerFunctionality mf = Actors.allActors[currEvent.actorId].GetComponent<MarkerFunctionality>();
+        if(mf.status == 2) //Actor is marked
+        {
+            col = mf.representationHolding.colourOfMarker;
+        }
+        Actors.allActors[currEvent.actorId].GetComponent<ActorFunctionality>().MomentaryOutline(col, outlineTime);
 
     }
     public static void Outline(MessageSent currEvent)
     {
-        Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>().MomentaryOutline(Color.magenta, outlineTime);
+        Color col = Color.magenta;
+        MarkerFunctionality mf = Actors.allActors[currEvent.senderId].GetComponent<MarkerFunctionality>();
+        if (mf.status == 2) //Actor is marked
+        {
+            col = mf.representationHolding.colourOfMarker;
+        }
+        Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>().MomentaryOutline(col, outlineTime);
         Actors.allActors[currEvent.senderId].GetComponent<ActorFunctionality>().MomentaryOutline(Color.white, outlineTime);
     }
     public static void Outline(MessageReceived currEvent)
     {
-        Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>().MomentaryOutline(Color.magenta, outlineTime);
+        Color col = Color.magenta;
+        MarkerFunctionality mf = Actors.allActors[currEvent.receiverId].GetComponent<MarkerFunctionality>();
+        if (mf.status == 2) //Actor is marked
+        {
+            col = mf.representationHolding.colourOfMarker;
+        }
         Actors.allActors[currEvent.senderId].GetComponent<ActorFunctionality>().MomentaryOutline(Color.white, outlineTime);
+        Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>().MomentaryOutline(col, outlineTime);
     }
 
     public static void Outline(Log currEvent)
@@ -190,7 +207,13 @@ public class VisualizationHandler : MonoBehaviour
 
     public static void Outline(MessageDropped currEvent)
     {
-        Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>().MomentaryOutline(Color.red, outlineTime);
+        Color col = Color.magenta;
+        MarkerFunctionality mf = Actors.allActors[currEvent.receiverId].GetComponent<MarkerFunctionality>();
+        if (mf.status == 2) //Actor is marked
+        {
+            col = mf.representationHolding.colourOfMarker;
+        }
+        Actors.allActors[currEvent.receiverId].GetComponent<ActorFunctionality>().MomentaryOutline(col, outlineTime);
         Actors.allActors[currEvent.senderId].GetComponent<ActorFunctionality>().MomentaryOutline(Color.white, outlineTime);
     }
 

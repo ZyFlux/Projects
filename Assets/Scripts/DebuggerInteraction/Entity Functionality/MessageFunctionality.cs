@@ -26,8 +26,13 @@ public class MessageFunctionality : MonoBehaviour
     void Start()
     {
         lineRenderer = transform.GetChild(0).gameObject; //This is the LineRenderer. There is also an option to getbyname but this one chose for performance
-        
-
+        if(representationHolding != null)
+        {
+            Color tempCol = representationHolding.colourOfMarker;
+            lineRenderer.GetComponent<Renderer>().material.color = tempCol;
+        }
+        else
+            lineRenderer.GetComponent<Renderer>().material.color = Color.magenta;
         stepsOnStart = Trace.numOfStepsElapsed;
 
         //Set message string
