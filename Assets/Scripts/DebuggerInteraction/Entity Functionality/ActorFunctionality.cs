@@ -197,7 +197,7 @@ public class ActorFunctionality : MonoBehaviour
         }
     }
 
-    public bool ToggleTag()
+    public bool ToggleTag() //Is not used directly for impacting visual representations
     {
         if (getTag)
         {

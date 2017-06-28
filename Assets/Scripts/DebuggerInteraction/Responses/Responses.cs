@@ -29,3 +29,14 @@ public class TopographyResponse : QueryResponse //Special, as this executes imme
     public override void HandleThis()
     { Debug.Log("Receive Response class"); }
 }
+
+public class TagActorResponse : QueryResponse
+{
+    public string actorId;
+    public bool toTag; //True- Tag, False- Untag
+}
+
+public class TagReachedResponse : QueryResponse
+{
+    public string actorId; //The actor whose tag has been reached
+}

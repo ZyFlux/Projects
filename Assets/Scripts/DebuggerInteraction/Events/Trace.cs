@@ -19,7 +19,6 @@ public static class Trace
             return true;
         else
             return false;
-      
     }
 
     public static void IncrementPointer() //Used to safely increment pointer

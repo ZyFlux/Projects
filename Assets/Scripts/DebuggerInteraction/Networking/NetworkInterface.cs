@@ -32,6 +32,16 @@ public static class NetworkInterface
                 //One TopographyResponse includes the type and ordered list of actors, which need to be unwrapped
                 TopographyUnwrapper(tr);
                 break;
+
+            case "TAG_RESPONSE":
+                TagActorResponse tar = (JsonUtility.FromJson<TagActorResponse>(jsonResponse));
+                TagResponseUnwrapper(tar);
+                break;
+
+            case "TAG_REACHED_RESPONSE":
+                TagReachedResponse trr = (JsonUtility.FromJson<TagReachedResponse>(jsonResponse));
+                TagReachedResponseUnwrapper(trr);
+                break;
             default:
                 Debug.LogError("Unable to resolve to a particular class");
                 break;
@@ -89,10 +99,23 @@ public static class NetworkInterface
 
     private static void TopographyUnwrapper(TopographyResponse tr)
     {
-
         VisualizationHandler.Handle(tr);
     }
-
+    private static void TagResponseUnwrapper(TagActorResponse tar)
+    {
+        GameObject actorConcerned = Actors.allActors[tar.actorId];
+        //Make the send message threadsafe
+        SendMessageContext context = new SendMessageContext(actorConcerned, "TagUntag", tar, SendMessageOptions.RequireReceiver);
+        SendMessageHelper.RegisterSendMessage(context);
+    }
+    private static void TagReachedResponseUnwrapper(TagReachedResponse trr)
+    {
+        GameObject actorConcerned = Actors.allActors[trr.actorId];
+        //Make the send message threadsafe
+        SendMessageContext context = new SendMessageContext(actorConcerned, "TagReached", trr, SendMessageOptions.RequireReceiver);
+        SendMessageHelper.RegisterSendMessage(context);
+    }
+    
     public static void HandleTagUntagRequestToBeSent(bool toggle, string actorId)
     {
         TagActorRequest curr = new TagActorRequest(actorId, toggle);

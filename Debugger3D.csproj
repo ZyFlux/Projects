@@ -91,6 +91,8 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\Markers.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\RingGenerator.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\SpeedControl.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\SupressFunctionality.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\TagFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\Client.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\NetworkInterface.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Requests\Requests.cs" />

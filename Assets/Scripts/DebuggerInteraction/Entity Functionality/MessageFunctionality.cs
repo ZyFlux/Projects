@@ -26,7 +26,7 @@ public class MessageFunctionality : MonoBehaviour
     void Start()
     {
         lineRenderer = transform.GetChild(0).gameObject; //This is the LineRenderer. There is also an option to getbyname but this one chose for performance
-        if(representationHolding != null)
+        if(representationHolding != null && representationHolding.index == 2)
         {
             Color tempCol = representationHolding.colourOfMarker;
             lineRenderer.GetComponent<Renderer>().material.color = tempCol;

@@ -13,8 +13,11 @@ public class UserInputHandler : MonoBehaviour
     {
         isPaused = false;
         isOn = false;
+    }
 
-
+    private string GetWordForNext() //This resolves the keyword we need to send depending on if actors are tagged or not
+    {
+        return "__NEXT__";
     }
     public void TagUntagActor()
     {
@@ -51,7 +54,7 @@ public class UserInputHandler : MonoBehaviour
             if (CheckLaserPointer())
             {
                 Debug.Log("About to receive from actor");
-                ActionRequest rr = new ActionRequest("__NEXT__", laserPointedActor.name);
+                ActionRequest rr = new ActionRequest(GetWordForNext(), laserPointedActor.name);
                 NetworkInterface.HandleRequest(rr);
             }
         }
@@ -115,7 +118,7 @@ public class UserInputHandler : MonoBehaviour
         if (CheckAtomicStepIndex())
         {
             //Send the next message to dispatcher
-            ActionRequest ar = new ActionRequest("__NEXT__", ""); //TODO-Make things safe and clear so that the __NEXT__ is only possible at the correct moments
+            ActionRequest ar = new ActionRequest(GetWordForNext(), ""); 
             NetworkInterface.HandleRequest(ar);
             Debug.Log("About to ask for the next step");
         }
