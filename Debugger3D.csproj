@@ -79,7 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\DebuggerInteraction\Entity Functionality\ActorFunctionality.cs" />
-    <Compile Include="Assets\Scripts\DebuggerInteraction\Entity Functionality\ConsistencyHandler.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Entity Functionality\MessageFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Entity Functionality\MessageQueueFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Events.cs" />

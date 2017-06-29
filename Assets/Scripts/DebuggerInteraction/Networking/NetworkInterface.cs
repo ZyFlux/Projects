@@ -110,6 +110,8 @@ public static class NetworkInterface
     }
     private static void TagReachedResponseUnwrapper(TagReachedResponse trr)
     {
+        AutoNext.autoNextActivated = false; //Disable Auto-next
+
         GameObject actorConcerned = Actors.allActors[trr.actorId];
         //Make the send message threadsafe
         SendMessageContext context = new SendMessageContext(actorConcerned, "TagReached", trr, SendMessageOptions.RequireReceiver);
