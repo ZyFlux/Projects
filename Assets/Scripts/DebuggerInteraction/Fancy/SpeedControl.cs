@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpeedControl : MonoBehaviour
 {
     public static int speed; //Larger the value, greater the speed of playback
-    //1,2,3,4,5
+    //larger num for greater speed
     void Awake()
     {
         speed = 3;

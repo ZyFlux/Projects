@@ -14,6 +14,8 @@ public class ActorFunctionality : MonoBehaviour
 
     private VRTK.Highlighters.VRTK_OutlineObjectCopyHighlighter outliner;
 
+    public bool suppressed = false; //Initially, not suppressed
+
     public bool getState = false; //Is the state shown (or not)?
     public bool getTag = false;//Is the actor tagged (or not)?
 

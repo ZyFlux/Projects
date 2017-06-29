@@ -63,7 +63,8 @@ public class MarkerFunctionality : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Currently, only actors with messages can be marked");
+            Log newLog = new Log(1, "Only Actors with messages can be marked"); //Create a Log
+            VisualizationHandler.Handle(newLog); //Send it to the Visualization Handler to be handled
         }
     }
 

@@ -33,6 +33,9 @@ public class TagFunctionality : MonoBehaviour {
 
     public void TagReached(TagReachedResponse trr)
     {
+        Log newLog = new Log(1, "Breakpoint hit : " + transform.name); //Create a Log
+        VisualizationHandler.Handle(newLog); //Send it to the Visualization Handler to be handled
+
         //Blink the visualRepresentation
         StartCoroutine(Blinker());
     }

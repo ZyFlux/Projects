@@ -15,7 +15,7 @@ public class UserInputHandler : MonoBehaviour
         isOn = false;
     }
 
-    private string GetWordForNext() //This resolves the keyword we need to send depending on if actors are tagged or not
+    private string GetWordForNext() //This resolves the keyword we need to send for next step
     {
         return "__NEXT__";
     }

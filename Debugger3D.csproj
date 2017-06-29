@@ -79,11 +79,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\DebuggerInteraction\Entity Functionality\ActorFunctionality.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Entity Functionality\ConsistencyHandler.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Entity Functionality\MessageFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Entity Functionality\MessageQueueFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Events.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Init.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Trace.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\AutoNext.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\FocusArea.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\HelpTextController.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\LogDisplayer.cs" />
@@ -91,7 +93,6 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\Markers.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\RingGenerator.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\SpeedControl.cs" />
-    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\SupressFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\TagFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\Client.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Networking\NetworkInterface.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\Actors.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\ChangeVarsText.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\DestroyArcAfterSteps.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\SendMessageHelper.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\TraceImplement.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Visualization\UserInputHandler.cs" />

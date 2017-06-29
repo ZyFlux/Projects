@@ -41,12 +41,12 @@ public class HelpTextController : MonoBehaviour {
                 if (possibilityOfNext)
                 {
                     tm.color = col;
-                    tm.text = "Next step in trace";
+                    tm.text = "Next step in trace (Auto-next :" + (AutoNext.autoNextActivated ? "on)" : "off)");
                 }
                 else
                 {
                     tm.color = Color.red;
-                    tm.text = "Please wait for current events to finish";
+                    tm.text = "Please wait for current events to finish (Auto-next :" + (AutoNext.autoNextActivated ? "on)" : "off)");
                 }
                 break;
             case 2:
