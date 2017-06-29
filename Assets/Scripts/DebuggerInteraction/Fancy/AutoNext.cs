@@ -8,7 +8,9 @@ public class AutoNext : MonoBehaviour {
     public static bool autoNextActivated = false;
     public float secondsToHoldForAutoNext = 1.5f;
     private float counter;
-	// Use this for initialization
+
+    
+    // Use this for initialization
 	void Start ()
     {
         counter = 0f;	
@@ -26,9 +28,11 @@ public class AutoNext : MonoBehaviour {
             autoNextActivated = false;
         }
 
-        if(autoNextActivated && !Trace.NewStepPossible())
+        if(autoNextActivated)
         {
+
             gameObject.GetComponent<UserInputHandler>().NextStep(); //go to the next step
+
         }
 	}
 

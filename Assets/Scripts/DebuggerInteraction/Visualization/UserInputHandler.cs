@@ -8,6 +8,7 @@ public class UserInputHandler : MonoBehaviour
     public static bool isPaused;
     private bool isOn;
 
+    private int indexAtNext = -1;
     
     private void Start()
     {
@@ -117,10 +118,18 @@ public class UserInputHandler : MonoBehaviour
     {
         if (CheckAtomicStepIndex())
         {
-            //Send the next message to dispatcher
-            ActionRequest ar = new ActionRequest(GetWordForNext(), ""); 
-            NetworkInterface.HandleRequest(ar);
-            Debug.Log("About to ask for the next step");
+            if (indexAtNext < Trace.allEvents.Count) //Make sure an indefinite number of Nexts are not sent
+            {
+                //Send the next message to dispatcher
+                ActionRequest ar = new ActionRequest(GetWordForNext(), "");
+                NetworkInterface.HandleRequest(ar);
+                Debug.Log("About to ask for the next step");
+
+                indexAtNext = Trace.allEvents.Count;
+            }
+            else
+                Debug.Log("Successive next cannot been sent until a reply is received");
+
         }
         else
         {
