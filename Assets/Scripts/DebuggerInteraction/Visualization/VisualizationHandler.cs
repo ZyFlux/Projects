@@ -96,7 +96,7 @@ public class VisualizationHandler : MonoBehaviour
         if (logCreateForEvent)
         {
             //Create a Log of it
-            Log newLog = new Log(0, "Message sent : " + currEvent.senderId + " to " + currEvent.receiverId);
+            Log newLog = new Log(0, "Message sent : " + currEvent.senderId + " to " + currEvent.receiverId + ", message : " + currEvent.msg);
             Handle(newLog);
         }
 
@@ -111,7 +111,7 @@ public class VisualizationHandler : MonoBehaviour
         if (logCreateForEvent)
         {
             //Create a Log of it
-            Log newLog = new Log(0, "Message received : " + currEvent.receiverId);
+            Log newLog = new Log(0, "Message received : " + currEvent.receiverId + ", message : " + currEvent.msg);
             Handle(newLog);
         }
     }

@@ -12,7 +12,6 @@ public static class Trace
     public static int pointerToCurrAtomicStep = 0; //Pointer to the current atomic step
     public static int numOfStepsElapsed = 0;
 
-
     public static bool NewStepPossible()
     {
         if (pointerToCurrAtomicStep < allEvents.Count)

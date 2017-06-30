@@ -5,9 +5,11 @@ using UnityEngine;
 
 public static class NetworkInterface
 {
-	
+    public static bool requestResponseBalance = true;
     public static void HandleResponseReceived(string jsonResponse)
     {
+        requestResponseBalance = true; //Just got a response to our request
+
         Debug.Log("Debugger sent us " + jsonResponse);
         QueryResponse currResponse = (JsonUtility.FromJson<QueryResponse>(jsonResponse));
         switch (currResponse.responseType)
@@ -19,7 +21,7 @@ public static class NetworkInterface
                 List<ActorEvent> tempList1 = new List<ActorEvent>();
                 foreach (string ev in curr.events)
                     tempList1.Add(EventUnwrapper(ev));
-                if(tempList1.Count > 0)
+                if (tempList1.Count > 0)
                     Trace.allEvents.Add(tempList1);
 
                 foreach (State st in curr.states)
@@ -41,6 +43,9 @@ public static class NetworkInterface
             case "TAG_REACHED_RESPONSE":
                 TagReachedResponse trr = (JsonUtility.FromJson<TagReachedResponse>(jsonResponse));
                 TagReachedResponseUnwrapper(trr);
+                break;
+            case "EOT_RESPONSE":
+                EOTResponseUnwrapper();
                 break;
             default:
                 Debug.LogError("Unable to resolve to a particular class");
@@ -110,37 +115,68 @@ public static class NetworkInterface
     }
     private static void TagReachedResponseUnwrapper(TagReachedResponse trr)
     {
-        AutoNext.autoNextActivated = false; //Disable Auto-next
+        AutoNext.ResetEverything(); //Disable Auto-next
 
         GameObject actorConcerned = Actors.allActors[trr.actorId];
         //Make the send message threadsafe
         SendMessageContext context = new SendMessageContext(actorConcerned, "TagReached", trr, SendMessageOptions.RequireReceiver);
         SendMessageHelper.RegisterSendMessage(context);
     }
-    
+
+    private static void EOTResponseUnwrapper()
+    {
+        //EOT is reached-> No more Auto-next
+        AutoNext.ResetEverything();
+        Debug.Log("EOT reached");
+    }
+
     public static void HandleTagUntagRequestToBeSent(bool toggle, string actorId)
     {
-        TagActorRequest curr = new TagActorRequest(actorId, toggle);
-        string toSend = JsonUtility.ToJson(curr);
-        AsynchronousClient.Send(AsynchronousClient.client, toSend);
-        Debug.Log("We sent a tag actor request");
+        if (CheckAndResetRequestPossibility())
+        {
+            TagActorRequest curr = new TagActorRequest(actorId, toggle);
+            string toSend = JsonUtility.ToJson(curr);
+            AsynchronousClient.Send(AsynchronousClient.client, toSend);
+            Debug.Log("We sent a tag actor request");
+        }
     }
 
     public static void HandleRequest(StateRequest curr)
     {
-        string toSend = JsonUtility.ToJson(curr);
-        AsynchronousClient.Send(AsynchronousClient.client, toSend);
+        if (CheckAndResetRequestPossibility())
+        {
+
+            string toSend = JsonUtility.ToJson(curr);
+            AsynchronousClient.Send(AsynchronousClient.client, toSend);
+        }
     }
 
     public static void HandleRequest(ActionRequest curr)
     {
-        string toSend = JsonUtility.ToJson(curr);
-        AsynchronousClient.Send(AsynchronousClient.client, toSend);
+        if (CheckAndResetRequestPossibility())
+        {
+            string toSend = JsonUtility.ToJson(curr);
+            AsynchronousClient.Send(AsynchronousClient.client, toSend);
+        }
     }
     public static void HandleRequest(TopographyRequest curr)
     {
-        string toSend = JsonUtility.ToJson(curr);
-        AsynchronousClient.Send(AsynchronousClient.client, toSend);
+        if (CheckAndResetRequestPossibility())
+        {
+            string toSend = JsonUtility.ToJson(curr);
+            AsynchronousClient.Send(AsynchronousClient.client, toSend);
+        }
+    }
+
+    public static bool CheckAndResetRequestPossibility()
+    {
+        if (requestResponseBalance)
+        {
+            requestResponseBalance = false; //Set to false as something will now be sent
+            return true;
+        }
+        else
+            return false;
     }
 
 }

@@ -13,6 +13,7 @@ public class QueryResponse
 
 public class ActionResponse : QueryResponse
 {
+    public int stepNum;
     public List<string> events;
     public List<State> states;
 
@@ -39,4 +40,9 @@ public class TagActorResponse : QueryResponse
 public class TagReachedResponse : QueryResponse
 {
     public string actorId; //The actor whose tag has been reached
+}
+
+public class EOTResponse : QueryResponse //Sent when trace has ended
+{
+
 }

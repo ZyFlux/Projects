@@ -7,8 +7,8 @@ public class AutoNext : MonoBehaviour {
     //Is auto-next functionality activated?
     public static bool autoNextActivated = false;
     public float secondsToHoldForAutoNext = 1.5f;
-    private float counter;
-
+    private static float counter;
+    private static float tempCounter;
     
     // Use this for initialization
 	void Start ()
@@ -49,6 +49,11 @@ public class AutoNext : MonoBehaviour {
     {
         if (autoNextActivated)
             counter = 0f;
+    }
+    public static void ResetEverything()
+    {
+        autoNextActivated = false;
+        counter = 0f;
     }
 
 }

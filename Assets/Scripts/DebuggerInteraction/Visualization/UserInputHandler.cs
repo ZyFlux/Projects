@@ -8,7 +8,7 @@ public class UserInputHandler : MonoBehaviour
     public static bool isPaused;
     private bool isOn;
 
-    private int indexAtNext = -1;
+    private int indexAtNext = -1; //Index of the atomic step (set when going forward in a trace)
     
     private void Start()
     {
@@ -54,9 +54,11 @@ public class UserInputHandler : MonoBehaviour
         {
             if (CheckLaserPointer())
             {
+
                 Debug.Log("About to receive from actor");
                 ActionRequest rr = new ActionRequest(GetWordForNext(), laserPointedActor.name);
                 NetworkInterface.HandleRequest(rr);
+                
             }
         }
         else
@@ -71,9 +73,11 @@ public class UserInputHandler : MonoBehaviour
         {
             if (CheckLaserPointer())
             {
+        
                 Debug.Log("About to drop from actor");
                 ActionRequest rr = new ActionRequest("__DROP__", laserPointedActor.name);
                 NetworkInterface.HandleRequest(rr);
+           
             }
         }
         else
@@ -84,7 +88,7 @@ public class UserInputHandler : MonoBehaviour
 
     public void QueryState()
     {
-        if (CheckLaserPointer())
+        if (CheckLaserPointer() )
         {
             bool toggle = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().ToggleState();
 
@@ -118,23 +122,14 @@ public class UserInputHandler : MonoBehaviour
     {
         if (CheckAtomicStepIndex())
         {
-            if (indexAtNext < Trace.allEvents.Count) //Make sure an indefinite number of Nexts are not sent
-            {
-                //Send the next message to dispatcher
-                ActionRequest ar = new ActionRequest(GetWordForNext(), "");
-                NetworkInterface.HandleRequest(ar);
-                Debug.Log("About to ask for the next step");
-
-                indexAtNext = Trace.allEvents.Count;
-            }
-            else
-                Debug.Log("Successive next cannot been sent until a reply is received");
-
+            //Send the next message to dispatcher
+            ActionRequest ar = new ActionRequest(GetWordForNext(), "");
+            NetworkInterface.HandleRequest(ar);
+            Debug.Log("About to ask for the next step");
         }
         else
         {
-            //Do something to let the user know he / she is not ready
-            Debug.Log("Not going to ask for the next step as the trace hasn't been played out yet");
+            //Let the user know he / she is not ready
         }
     }
 
@@ -178,4 +173,5 @@ public class UserInputHandler : MonoBehaviour
         else
             return false;
     }
+
 }

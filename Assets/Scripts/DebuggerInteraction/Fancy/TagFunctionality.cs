@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TagFunctionality : MonoBehaviour {
     public GameObject visualRepresentationPrefab; //Set in the inspector (arrow prefab)
-    public float yOffset = 0.3f;
+    public Vector3 Offset = new Vector3(0.03f, 0.3f, 0f);
     private GameObject visualRepresentation;
 
     public static int numTagged = 0;
@@ -16,7 +16,7 @@ public class TagFunctionality : MonoBehaviour {
         {
             visualRepresentation = Instantiate(visualRepresentationPrefab);
 
-            visualRepresentation.transform.position = transform.position + new Vector3(0f, yOffset, 0f); //With a y-offset so that it is above
+            visualRepresentation.transform.position = transform.position + Offset; //With a offset so that it is directly above
 
             visualRepresentation.transform.parent = transform; //Who's the daddy?
 

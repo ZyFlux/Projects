@@ -16,6 +16,8 @@ public class ActorCreated : ActorEvent
 {
     public string actorId;
     public string resourceId;
+    public Vector3 position;
+    public bool isSuppressed;
     public override void HandleVisualization()
     { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
@@ -42,6 +44,8 @@ public class MessageSent : ActorEvent
     public string receiverId;
     public string senderId;
     public string msg;
+    public bool isSuppressed;
+
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
@@ -53,6 +57,7 @@ public class MessageReceived : ActorEvent
     public string receiverId;
     public string senderId;
     public string msg;
+
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
