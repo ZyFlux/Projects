@@ -26,9 +26,15 @@ public class TraceImplement : MonoBehaviour {
                 if (Trace.NewStepPossible())
                 {
                     audioS.Play(); //Play a sound
-                    Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleOutline();    //Do the outlining
-                    yield return new WaitForSeconds(1f); //Time delay for actual visualization
-                    Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
+                    if (!Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].isSuppressed)
+                    {
+                        Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleOutline();    //Do the outlining
+                        yield return new WaitForSeconds(1f); //Time delay for actual visualization
+                        Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
+                    }
+                    else
+                        Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleDiscreetly();
+
                     rootOfActors.BroadcastMessage("NewTraceStep", SendMessageOptions.DontRequireReceiver);
 
                     Trace.IncrementPointer(); //Let's move to the next event

@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HelpTextController : MonoBehaviour {
+public class HelpTextController : MonoBehaviour
+{
     private TextMesh tm;
     private Color col;
     private bool possibilityOfNext;
     private bool possibilityOfPointedAction;
     private int index;
     // Use this for initialization
-	void Start () {
+    void Start()
+    {
         tm = GetComponent<TextMesh>();
         col = tm.color;
         possibilityOfNext = true;
         index = -1;
-	}
+    }
     private void Update()
     {
         if (UserInputHandler.CheckAtomicStepIndex())
-        { 
+        {
             possibilityOfNext = true;
         }
         else
@@ -35,7 +37,7 @@ public class HelpTextController : MonoBehaviour {
             possibilityOfPointedAction = false;
         }
 
-        switch(index)
+        switch (index)
         {
             case 1:
                 if (possibilityOfNext)
@@ -131,6 +133,18 @@ public class HelpTextController : MonoBehaviour {
             case 8:
                 tm.text = "Go slower. Current speed is " + SpeedControl.speed.ToString() + "x";
                 break;
+            case 9:
+                if (possibilityOfPointedAction)
+                {
+                    tm.color = col;
+                    tm.text = "Suppress actor";
+                }
+                else
+                {
+                    tm.color = Color.red;
+                    tm.text = "Only possible when poiniting at an actor";
+                }
+                break;
         }
     }
     public void PausePlay()
@@ -141,7 +155,7 @@ public class HelpTextController : MonoBehaviour {
 
     public void Topography()
     {
-        index = 0; 
+        index = 0;
         tm.text = "Get topography";
     }
 
@@ -149,7 +163,7 @@ public class HelpTextController : MonoBehaviour {
     {
         index = 0;
         tm.color = col;
-        tm.text = "";        
+        tm.text = "";
     }
 
     public void OnOff()
@@ -166,7 +180,7 @@ public class HelpTextController : MonoBehaviour {
 
     public void GoFaster()
     {
-        index = 7;   
+        index = 7;
     }
 
     public void GoSlower()
@@ -198,6 +212,11 @@ public class HelpTextController : MonoBehaviour {
     public void Mark()
     {
         index = 6;
+    }
+
+    public void Suppress()
+    {
+        index = 9;
     }
 
 

@@ -12,8 +12,8 @@ public class QueryResponse
 
 
 public class ActionResponse : QueryResponse
-{
-    public int stepNum;
+{ 
+    public int stepNum; //Additionally, the stepNumber of the dispatcher is sent
     public List<string> events;
     public List<State> states;
 
@@ -46,3 +46,15 @@ public class EOTResponse : QueryResponse //Sent when trace has ended
 {
 
 }
+public class SuppressActorResponse : QueryResponse //Sent to acknowledge suppression
+{
+    public string actorId;
+    public bool toSuppress;
+}
+
+public class StepResponse : QueryResponse //History at step stepNum
+{
+    public List<string> stepActions;
+    public List<State> states;
+}
+

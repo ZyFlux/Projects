@@ -6,8 +6,10 @@ using UnityEngine;
 public class ActorEvent
 {
     public string eventType;
+    public bool isSuppressed; //is its' visualization suppressed?
     public virtual void HandleVisualization() { Debug.LogError("Event parent cannot be visualized"); }
     public virtual void HandleOutline() { Debug.LogError("Event parent cannot be outlined"); }
+    public virtual void HandleDiscreetly() { Debug.LogError("Event parent cannot be discreetly handled"); }
 }
 
 
@@ -16,12 +18,16 @@ public class ActorCreated : ActorEvent
 {
     public string actorId;
     public string resourceId;
-    public Vector3 position;
-    public bool isSuppressed;
+    public Vector3 position; //position it is at
+
     public override void HandleVisualization()
     { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
+
+    public override void HandleDiscreetly()
+    { VisualizationHandler.Handle(this); }
+
     public ActorCreated(string id, string modelType)
     {
         actorId = id;
@@ -33,6 +39,7 @@ public class ActorCreated : ActorEvent
 public class ActorDestroyed : ActorEvent
 {
     public string actorId;
+
     public override void HandleVisualization()
     { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
@@ -44,11 +51,13 @@ public class MessageSent : ActorEvent
     public string receiverId;
     public string senderId;
     public string msg;
-    public bool isSuppressed;
 
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
+    public override void HandleDiscreetly()
+    { VisualizationHandler.Handle(this); }
+
 }
 
 [System.Serializable]
@@ -61,6 +70,9 @@ public class MessageReceived : ActorEvent
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
+    public override void HandleDiscreetly()
+    { VisualizationHandler.Handle(this); }
+
 }
 
 [System.Serializable]
@@ -82,6 +94,9 @@ public class Log : ActorEvent
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
 
+    public override void HandleDiscreetly()
+    { VisualizationHandler.Handle(this); }
+
     public Log (int type, string desc)
     {
         logType = type;
@@ -94,9 +109,13 @@ public class MessageDropped : ActorEvent
     public string receiverId;
     public string senderId;
     public string msg;
+
     public override void HandleVisualization() { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
+    public override void HandleDiscreetly()
+    { VisualizationHandler.Handle(this); }
+
 }
 //State class encompases variable states and behaviour states as text / colour
 [System.Serializable]

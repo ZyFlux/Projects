@@ -58,6 +58,17 @@ public class TagActorRequest : QueryRequest
     }
 }
 
+public class SuppressActorRequest : QueryRequest
+{
+    public string actorId;
+    public bool toSuppress;
+}
+
+public class StepRequest : QueryRequest //Request for a particular step
+{
+    public int stepNum;
+}
+
 
 
 

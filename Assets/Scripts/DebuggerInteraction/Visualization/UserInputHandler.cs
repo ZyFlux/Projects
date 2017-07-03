@@ -9,7 +9,9 @@ public class UserInputHandler : MonoBehaviour
     private bool isOn;
 
     private int indexAtNext = -1; //Index of the atomic step (set when going forward in a trace)
-    
+
+    private float counterOnOff = 0f; //Used for long holds
+
     private void Start()
     {
         isPaused = false;
@@ -148,14 +150,34 @@ public class UserInputHandler : MonoBehaviour
             AsynchronousClient.SendInitMessage();
             isOn = true; //No check for actual successful init
         }
-        else
+    }
+
+    public void OnOffHeld() //Long hold on the OnOff button
+    {
+        counterOnOff += Time.deltaTime;
+        if (counterOnOff > 1.0f)
+        {
             StartCoroutine(ApplicationExit());
+        }
+    }
+    public void OnOffReset() //Resets the counter
+    {
+        counterOnOff = 0f;
     }
 
     IEnumerator ApplicationExit()
     {
         yield return new WaitForSeconds(1.0f);
         Application.Quit();
+    }
+
+    public void SuppressActor()
+    {
+        if (CheckLaserPointer())
+        {
+            //Suppress Visualization of the laserPointedActor
+            SuppressActorRequest sar = new SuppressActorRequest();
+        }
     }
 
     public static bool CheckAtomicStepIndex() //Are we up to pace on the atomic step level

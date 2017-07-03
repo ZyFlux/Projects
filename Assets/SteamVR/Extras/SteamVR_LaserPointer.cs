@@ -138,9 +138,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
         }
         pointer.transform.localPosition = new Vector3(0f, 0f, dist/2f);
 
-
-        //Transfer the previous contact name to public static var
+        //Modified for UserInputHandler to make inferences
         UserInputHandler.laserPointedActor = previousContact;
-    
     }
 }
