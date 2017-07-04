@@ -50,6 +50,11 @@ public class SuppressActorResponse : QueryResponse //Sent to acknowledge suppres
 {
     public string actorId;
     public bool toSuppress;
+    public SuppressActorResponse (string id, bool tS)
+    {
+        toSuppress = tS;
+        actorId = id;
+    }
 }
 
 public class StepResponse : QueryResponse //History at step stepNum

@@ -47,6 +47,10 @@ public static class NetworkInterface
             case "EOT_RESPONSE":
                 EOTResponseUnwrapper();
                 break;
+            case "SUPPRESS_ACTOR_RESPONSE":
+                SuppressActorResponse sar = JsonUtility.FromJson<SuppressActorResponse>(jsonResponse);
+                SuppressResponseUnwrapper(sar);
+                break;
             default:
                 Debug.LogError("Unable to resolve to a particular class");
                 break;
@@ -130,6 +134,15 @@ public static class NetworkInterface
         Debug.Log("EOT reached");
     }
 
+    private static void SuppressResponseUnwrapper(SuppressActorResponse sar)
+    {
+        //Suppress response reached-> inform accordingly
+        GameObject actorConcerned = Actors.allActors[sar.actorId];
+        //Make the send message threadsafe
+        SendMessageContext context = new SendMessageContext(actorConcerned, "SuppressOnOff", sar, SendMessageOptions.RequireReceiver);
+        SendMessageHelper.RegisterSendMessage(context);
+    }
+
     public static void HandleTagUntagRequestToBeSent(bool toggle, string actorId)
     {
         if (CheckAndResetRequestPossibility())
@@ -160,6 +173,15 @@ public static class NetworkInterface
         }
     }
     public static void HandleRequest(TopographyRequest curr)
+    {
+        if (CheckAndResetRequestPossibility())
+        {
+            string toSend = JsonUtility.ToJson(curr);
+            AsynchronousClient.Send(AsynchronousClient.client, toSend);
+        }
+    }
+
+    public static void HandleRequest(SuppressActorRequest curr)
     {
         if (CheckAndResetRequestPossibility())
         {

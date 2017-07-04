@@ -137,7 +137,7 @@ public class HelpTextController : MonoBehaviour
                 if (possibilityOfPointedAction)
                 {
                     tm.color = col;
-                    tm.text = "Suppress actor";
+                    tm.text = "Suppress / Unsuppress actor";
                 }
                 else
                 {

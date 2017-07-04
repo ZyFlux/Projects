@@ -175,8 +175,10 @@ public class UserInputHandler : MonoBehaviour
     {
         if (CheckLaserPointer())
         {
+            bool toSuppress = laserPointedActor.GetComponent<Suppression>().isSuprressed ? false : true;
             //Suppress Visualization of the laserPointedActor
-            SuppressActorRequest sar = new SuppressActorRequest();
+            SuppressActorRequest sar = new SuppressActorRequest(laserPointedActor.name, toSuppress);
+            NetworkInterface.HandleRequest(sar);
         }
     }
 

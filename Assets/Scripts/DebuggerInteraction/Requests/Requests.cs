@@ -62,6 +62,12 @@ public class SuppressActorRequest : QueryRequest
 {
     public string actorId;
     public bool toSuppress;
+
+    public SuppressActorRequest(string id, bool tS)
+    {
+        actorId = id;
+        toSuppress = tS;
+    }
 }
 
 public class StepRequest : QueryRequest //Request for a particular step

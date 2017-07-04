@@ -6,7 +6,8 @@ public class MessageFunctionality : MonoBehaviour
     public string msg; //The message carried
     public GameObject sender; //who sent me?
     public GameObject recipient; //who receives me?
-    
+    public bool isDiscreet = false;
+
     public int durationOfLineInSteps; //Number of steps after linerenderer is destroyed
     private float deltaChange;
     public bool isActive = false; //Activity state of the message
@@ -45,6 +46,13 @@ public class MessageFunctionality : MonoBehaviour
         deltaChange = 1.0f / durationOfLineInSteps;
         recipientOffset = recipient.GetComponent<ActorFunctionality>().modelOffset;
         bezierRes = bezierPointResolution;
+
+        if(isDiscreet) //If the message is discreet, then we do not visualize the curve
+        {
+            transform.DetachChildren();
+            transform.position = recipient.transform.position - recipientOffset; //Set position to the recipient
+            isActive = false; //Set activity to false 
+        }
     }
 
 

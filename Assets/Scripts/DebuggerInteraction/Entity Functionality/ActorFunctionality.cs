@@ -114,6 +114,33 @@ public class ActorFunctionality : MonoBehaviour
         raf.messageQueueBox.GetComponent<MessageQueueFunctionality>().EnqueueToMsgQueue(MessageSphereInstance); //Enqueue the message
     }
 
+    public void GenerateMessageDiscreetly(GameObject recipient, string text)
+    {
+        GameObject MessageSphereInstance = Instantiate(prefabMessageSphereInstance, transform.position, transform.rotation) as GameObject; //Instantiate message sphere prefab
+        MessageSphereInstance.transform.parent = recipient.transform;
+
+        MessageFunctionality mf = MessageSphereInstance.GetComponent<MessageFunctionality>();
+        mf.sender = gameObject; //Tell the message who the sender is
+        mf.recipient = recipient;
+        mf.msg = text;
+        mf.isDiscreet = true;
+
+        //For spreading marking appropriately
+        mf.representationHolding = GetComponent<MarkerFunctionality>().representationHolding; //Set the current marker to the message
+
+
+        Debug.Log("New instance of message created from " + this.gameObject.ToString() + " for " + recipient.gameObject.ToString());
+        mf.isActive = true;
+
+        ActorFunctionality raf = recipient.GetComponent<ActorFunctionality>();
+        if (raf.messageQueueBox.GetComponent<MessageQueueFunctionality>().messageQueue.Count == 0)
+        {
+            //set the status accordingly (this is the only message in the queue)
+            recipient.GetComponent<MarkerFunctionality>().MessageMark(mf.representationHolding);
+        }
+        raf.messageQueueBox.GetComponent<MessageQueueFunctionality>().EnqueueToMsgQueue(MessageSphereInstance); //Enqueue the message
+    }
+
     public void ReceiveMessageFromQueue() //Used for MessageDroppped
     {
         GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().DequeueFromMsgQueue(); //Consume message from queue
@@ -146,6 +173,42 @@ public class ActorFunctionality : MonoBehaviour
             }
         }
        
+        Debug.Log("Message " + consumedMessage.ToString() + " accepted by " + this.gameObject.ToString());
+        Destroy(consumedMessage);
+    }
+
+    public void ReceiveMessageFromQueueDiscreetly() //Used for MessageDroppped
+    {
+        GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().DequeueFromMsgQueue(); //Consume message from queue
+        Debug.Log("Message " + consumedMessage.ToString() + " dropped by " + this.gameObject.ToString());
+        Destroy(consumedMessage);
+    }
+
+
+    public void ReceiveMessageFromQueueDiscreetly(GameObject sender)
+    {
+        MarkerFunctionality mrkrf = GetComponent<MarkerFunctionality>();
+        MessageQueueFunctionality mqf = messageQueueBox.GetComponent<MessageQueueFunctionality>();
+
+        GameObject consumedMessage = messageQueueBox.GetComponent<MessageQueueFunctionality>().DequeueFromMsgQueue(); //Consume message from queue
+
+        //check queue status and do marking logic
+        if (mrkrf.status == 1)//Message marked
+        {
+            mrkrf.Escalate();
+        }
+        else if (mrkrf.status == -1) //Nothing marked thus far
+        {
+            if (mqf.messageQueue.Count > 0)
+            {
+                if (mqf.messageQueue.Peek().GetComponent<MessageFunctionality>().representationHolding.index != -1)
+                {
+                    //marked
+                    mrkrf.MessageMark(mqf.messageQueue.Peek().GetComponent<MessageFunctionality>().representationHolding);
+                }
+            }
+        }
+
         Debug.Log("Message " + consumedMessage.ToString() + " accepted by " + this.gameObject.ToString());
         Destroy(consumedMessage);
     }
