@@ -7,6 +7,8 @@ public static class Trace
 {
     public static List<List<ActorEvent>> allEvents = new List<List<ActorEvent>>(); //List of atomic steps
 
+    public static Dictionary<int, int> visualizationToDispatcherIndexMapper = new Dictionary<int, int>(); //Maps visualization step to dispatcher step
+    
     //public static List<ActorEvent> currBatch = new List<ActorEvent>();
     public static int pointerToCurrEvent = 0; //Points to the currently active event
     public static int pointerToCurrAtomicStep = 0; //Pointer to the current atomic step

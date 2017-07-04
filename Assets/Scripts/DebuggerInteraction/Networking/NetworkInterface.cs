@@ -12,13 +12,17 @@ public static class NetworkInterface
 
         Debug.Log("Debugger sent us " + jsonResponse);
         QueryResponse currResponse = (JsonUtility.FromJson<QueryResponse>(jsonResponse));
+        
         switch (currResponse.responseType)
         {
             case "ACTION_RESPONSE":
                 //Debug.Log("Received an action response");
                 ActionResponse curr = (JsonUtility.FromJson<ActionResponse>(jsonResponse));
+                
+                //TODO: Code to Map Visualization id to event id
+
                 //One ActionResponse includes a list of events for one atomic step
-                List<ActorEvent> tempList1 = new List<ActorEvent>();
+                List <ActorEvent> tempList1 = new List<ActorEvent>();
                 foreach (string ev in curr.events)
                     tempList1.Add(EventUnwrapper(ev));
                 if (tempList1.Count > 0)

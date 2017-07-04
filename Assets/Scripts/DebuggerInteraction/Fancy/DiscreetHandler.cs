@@ -82,7 +82,7 @@ public class DiscreetHandler : MonoBehaviour {
     {
         //Maybe also play an error sound?
         //Send message to the main screen to change the text
-        LogDisplayer.NewLog(currEvent);
+        LogManager.NewLog(currEvent);
     }
 
     public static void Handle(MessageDropped currEvent)

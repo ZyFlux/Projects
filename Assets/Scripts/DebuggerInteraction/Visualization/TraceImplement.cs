@@ -29,7 +29,7 @@ public class TraceImplement : MonoBehaviour {
                     if (!Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].isSuppressed)
                     {
                         Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleOutline();    //Do the outlining
-                        yield return new WaitForSeconds(1f); //Time delay for actual visualization
+                        yield return new WaitForSeconds(0.25f); //Time delay for actual visualization
                         Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
                     }
                     else

@@ -65,6 +65,7 @@ public class SuppressActorRequest : QueryRequest
 
     public SuppressActorRequest(string id, bool tS)
     {
+        requestType = "SUPPRESS_ACTOR_REQUEST";
         actorId = id;
         toSuppress = tS;
     }

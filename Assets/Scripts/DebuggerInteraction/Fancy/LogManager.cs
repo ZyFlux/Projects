@@ -2,11 +2,14 @@
 
 using UnityEngine;
 
-public class LogDisplayer : MonoBehaviour
+public class LogManager : MonoBehaviour
 {
     static TextMesh tm;
     static string prevText = "--No recent log--";
     static string colourTagTextEnd = "</color>";
+
+    public GameObject textPrefab;
+
     private void Start()
     {
         tm = GetComponent<TextMesh>();
