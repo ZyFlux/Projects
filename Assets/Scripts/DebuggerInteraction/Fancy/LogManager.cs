@@ -1,19 +1,20 @@
 ﻿//Attached to LogText and uses shared structures VisualizationHandler.logInfo
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LogManager : MonoBehaviour
 {
-    static TextMesh tm;
     static string prevText = "--No recent log--";
     static string colourTagTextEnd = "</color>";
 
-    public GameObject textPrefab;
+    private List<GameObject> logs; //List of all logs generated
 
+    public GameObject textPrefab;
+    public int maxSize = 15; //Max size of log
     private void Start()
     {
-        tm = GetComponent<TextMesh>();
-        tm.text = prevText;
+        logs = new List<GameObject>();
     }
 
 
@@ -42,10 +43,29 @@ public class LogManager : MonoBehaviour
                 break;
         }
         string currText = colourTagTextStart+currLog.text+colourTagTextEnd;
-        prevText = currText + "\n" + prevText;
-
-        tm.text = prevText;
+        GameObject newLog = Instantiate(textPrefab);
+        newLog.GetComponent<TextMesh>().text = currText;
+        newLog.transform.parent = transform;
+        newLog.transform.position = transform.position;
+        AdjustPositionOfPreviousLogs(); //Adjust position of other logs
+        logs.Add(newLog);
+        AdjustSize(); //Make sure the log isn't longer than maxSize
 
         //Though the log may go on indefinitely, some scroll feature is required
-    } 
+    }
+    private void AdjustPositionOfPreviousLogs()
+    {
+        foreach (GameObject obj in logs)
+        {
+            obj.transform.position -= new Vector3(0f, 0.2f, 0f); 
+        }
+    }
+    private void AdjustSize()
+    {
+        if (logs.Count > maxSize)
+        {
+            Destroy(logs[0]);
+            logs.RemoveAt(0);
+        }
+    }
 }
