@@ -15,6 +15,7 @@ public class VisualizationHandler : MonoBehaviour
     public static string [] sysActorNames= { "deadLetters", "Timer" };
 
     public static Dictionary<string, GameObject> modelDictionary;
+    private static GameObject logHead; //Set on Awake(), this is the parent of all logs
     public void Awake()
     {
 
@@ -45,6 +46,7 @@ public class VisualizationHandler : MonoBehaviour
         temp = Resources.Load("Smiley") as GameObject;
         modelDictionary.Add("Smiley", temp);
 
+        logHead = GameObject.Find("Logs");
     }
     public static void Handle (ActorCreated currEvent)
     {
@@ -121,7 +123,9 @@ public class VisualizationHandler : MonoBehaviour
     {
         //Maybe also play an error sound?
         //Send message to the main screen to change the text
-        LogManager.NewLog(currEvent);
+
+        SendMessageContext context = new SendMessageContext(logHead, "NewLog", currEvent, SendMessageOptions.RequireReceiver);
+        SendMessageHelper.RegisterSendMessage(context);
      }
 
     public static void Handle(MessageDropped currEvent)

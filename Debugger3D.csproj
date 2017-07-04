@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.5.3f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -95,6 +93,7 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\MarkerFunctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\Markers.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\RingGenerator.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\SingularLogFuctionality.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\SpeedControl.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\Suppression.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\TagFunctionality.cs" />

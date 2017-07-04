@@ -26,7 +26,7 @@ public class ActorCreated : ActorEvent
     { VisualizationHandler.Outline(this); }
 
     public override void HandleDiscreetly()
-    { VisualizationHandler.Handle(this); }
+    { DiscreetHandler.Handle(this); }
 
     public ActorCreated(string id, string modelType)
     {
@@ -44,6 +44,9 @@ public class ActorDestroyed : ActorEvent
     { VisualizationHandler.Handle(this); }
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
+    public override void HandleDiscreetly()
+    { DiscreetHandler.Handle(this); }
+
 }
 [System.Serializable]
 public class MessageSent : ActorEvent
@@ -56,7 +59,7 @@ public class MessageSent : ActorEvent
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
     public override void HandleDiscreetly()
-    { VisualizationHandler.Handle(this); }
+    { DiscreetHandler.Handle(this); }
 
 }
 
@@ -71,7 +74,7 @@ public class MessageReceived : ActorEvent
     public override void HandleOutline()
     { VisualizationHandler.Outline(this); }
     public override void HandleDiscreetly()
-    { VisualizationHandler.Handle(this); }
+    { DiscreetHandler.Handle(this); }
 
 }
 

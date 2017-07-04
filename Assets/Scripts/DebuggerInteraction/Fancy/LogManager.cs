@@ -17,7 +17,7 @@ public class LogManager : MonoBehaviour
     }
 
 
-    public static void NewLog(Log currLog)
+    public void NewLog(Log currLog)
     {
         
         string colourTagTextStart = "";

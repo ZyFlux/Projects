@@ -29,7 +29,7 @@ public class DiscreetHandler : MonoBehaviour {
             {
                 //Create a Log of it
                 Log newLog = new Log(0, "Actor created : " + currEvent.actorId);
-                Handle(newLog);
+                VisualizationHandler.Handle(newLog);
             }
         }
         SuppressActorResponse sar = new SuppressActorResponse(go.transform.name, true);
@@ -46,7 +46,7 @@ public class DiscreetHandler : MonoBehaviour {
         {
             //Create a Log of it
             Log newLog = new Log(0, "Actor destroyed : " + currEvent.actorId);
-            Handle(newLog);
+            VisualizationHandler.Handle(newLog);
         }
     }
     public static void Handle(MessageSent currEvent)
@@ -55,11 +55,12 @@ public class DiscreetHandler : MonoBehaviour {
         //Use dictionary of actors to do this
         ActorFunctionality af = senderGO.GetComponent<ActorFunctionality>();
         af.GenerateMessageDiscreetly(Actors.allActors[currEvent.receiverId], currEvent.msg);
+        Debug.Log("Sending message discreetly");
         if (logCreateForEvent)
         {
             //Create a Log of it
             Log newLog = new Log(0, "Message sent : " + currEvent.senderId + " to " + currEvent.receiverId + ", message : " + currEvent.msg);
-            Handle(newLog);
+            VisualizationHandler.Handle(newLog);
         }
 
     }
@@ -74,16 +75,10 @@ public class DiscreetHandler : MonoBehaviour {
         {
             //Create a Log of it
             Log newLog = new Log(0, "Message received : " + currEvent.receiverId + ", message : " + currEvent.msg);
-            Handle(newLog);
+            VisualizationHandler.Handle(newLog);
         }
     }
 
-    public static void Handle(Log currEvent)
-    {
-        //Maybe also play an error sound?
-        //Send message to the main screen to change the text
-        LogManager.NewLog(currEvent);
-    }
 
     public static void Handle(MessageDropped currEvent)
     {
@@ -96,7 +91,7 @@ public class DiscreetHandler : MonoBehaviour {
         {
             //Create a Log of it
             Log newLog = new Log(0, "Message dropped : " + currEvent.receiverId);
-            Handle(newLog);
+            VisualizationHandler.Handle(newLog);
         }
     }
 }
