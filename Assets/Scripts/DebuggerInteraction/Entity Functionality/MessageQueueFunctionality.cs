@@ -78,6 +78,17 @@ public class MessageQueueFunctionality : MonoBehaviour
         return msg;
     }
 
+    public void EmptyQueue() //Called from TraceImplement to clear the entire queue while restructructing actors for consistent history
+    {
+        while (messageQueue.Count > 0)
+        {
+            GameObject go = messageQueue.Dequeue();
+            Destroy(go);
+        }
+        GetComponent<Renderer>().enabled = false;
+        contentText.GetComponent<TextMesh>().text = "";
+    }
+
     public void ToggleMsgQueueInfo()
     {
         if(contentText.activeSelf)

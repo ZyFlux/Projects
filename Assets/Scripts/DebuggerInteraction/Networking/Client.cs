@@ -46,12 +46,6 @@ public static class AsynchronousClient
         try
         {
             // Establish the remote endpoint for the socket.
-            // The name of the 
-            // remote device is "wks-55-71".
-            /*
-            IPHostEntry ipHostInfo = Dns.Resolve("wks-55-71");
-            IPAddress ipAddress = ipHostInfo.AddressList[0];
-            */
             IPEndPoint remoteEP = new IPEndPoint(System.Net.IPAddress.Parse(/*"139.19.183.9"*/"127.0.0.1"), port);
 
             // Create a TCP/IP socket.

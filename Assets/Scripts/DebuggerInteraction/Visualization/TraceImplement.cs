@@ -20,26 +20,55 @@ public class TraceImplement : MonoBehaviour {
     {
         while (true) //Execute indefinitely
         {
-            yield return new WaitForSeconds(timeDelay); //Time delay for each event visualization
-            if (!UserInputHandler.isPaused)
+            if (Trace.stepEvents.Count == 0 && Trace.stepStates.Count == 0) //If there are no historical steps to be implemented
             {
-                if (Trace.NewStepPossible())
+                yield return new WaitForSeconds(timeDelay); //Time delay for each event visualization
+                if (!UserInputHandler.isPaused)
                 {
-                    audioS.Play(); //Play a sound
-                    if (!Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].isSuppressed)
+                    if (Trace.NewStepPossible())
                     {
-                        Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleOutline();    //Do the outlining
-                        yield return new WaitForSeconds(0.25f); //Time delay for actual visualization
-                        Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
+                        audioS.Play(); //Play a sound
+                        if (!Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].isSuppressed)
+                        {
+                            Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleOutline();    //Do the outlining
+                            yield return new WaitForSeconds(0.25f); //Time delay for actual visualization
+                            Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleVisualization();
+                        }
+                        else
+                            Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleDiscreetly();
+
+                        rootOfActors.BroadcastMessage("NewTraceStep", SendMessageOptions.DontRequireReceiver);
+
+                        Trace.IncrementPointer(); //Let's move to the next event
                     }
-                    else
-                        Trace.allEvents[Trace.pointerToCurrAtomicStep][Trace.pointerToCurrEvent].HandleDiscreetly();
 
-                    rootOfActors.BroadcastMessage("NewTraceStep", SendMessageOptions.DontRequireReceiver);
-
-                    Trace.IncrementPointer(); //Let's move to the next event
+                }
+            }
+            else //There ARE historical steps to be implemented
+            {
+                Debug.Log("Implementing step response");
+                bool prevLogDispValue = DiscreetHandler.logCreateForEvent;
+                DiscreetHandler.logCreateForEvent = false; //Because it does not make sense to display logs of this
+                
+                //Empty all message queues
+                foreach(var item in Actors.allActors)
+                {
+                    ActorFunctionality af = item.Value.GetComponent<ActorFunctionality>();
+                    af.messageQueueBox.GetComponent<MessageQueueFunctionality>().EmptyQueue();
+                    //Make sure the queueBoxes don't appear anymore
                 }
 
+                foreach (ActorEvent ev in Trace.stepEvents)
+                {
+                    ev.HandleDiscreetly();
+                }
+
+                foreach (State st in Trace.stepStates)
+                {
+                    NetworkInterface.StateUnwrapper(st);
+                }
+                DiscreetHandler.logCreateForEvent = prevLogDispValue;
+                Trace.stepEvents = new List<ActorEvent>(); //Reset the list as everything has been implelented
             }
         }
     }

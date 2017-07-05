@@ -57,9 +57,10 @@ public class SuppressActorResponse : QueryResponse //Sent to acknowledge suppres
     }
 }
 
-public class StepResponse : QueryResponse //History at step stepNum
+public class StepResponse : QueryResponse //History at step stepNum - sent by the dispatcher to convey a historical step
 {
-    public List<string> stepActions;
+    public int stepNum;
+    public List<string> events;
     public List<State> states;
 }
 

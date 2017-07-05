@@ -92,7 +92,11 @@ public class SteamVR_LaserPointer : MonoBehaviour
         Ray raycast = new Ray(transform.position, transform.forward);
         RaycastHit hit;
         bool bHit = Physics.Raycast(raycast, out hit);
-
+        if(bHit)
+        {
+            //Modified for UserInputHandler to make inferences
+            UserInputHandler.laserPointedActor = hit.collider.transform; //So as to resolve all collisions to children
+        }
         if(previousContact && previousContact != hit.transform)
         {
             PointerEventArgs args = new PointerEventArgs();
@@ -138,7 +142,6 @@ public class SteamVR_LaserPointer : MonoBehaviour
         }
         pointer.transform.localPosition = new Vector3(0f, 0f, dist/2f);
 
-        //Modified for UserInputHandler to make inferences
-        UserInputHandler.laserPointedActor = previousContact;
+
     }
 }

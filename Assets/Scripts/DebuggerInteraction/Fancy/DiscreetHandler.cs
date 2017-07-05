@@ -55,7 +55,7 @@ public class DiscreetHandler : MonoBehaviour {
         //Use dictionary of actors to do this
         ActorFunctionality af = senderGO.GetComponent<ActorFunctionality>();
         af.GenerateMessageDiscreetly(Actors.allActors[currEvent.receiverId], currEvent.msg);
-        Debug.Log("Sending message discreetly");
+
         if (logCreateForEvent)
         {
             //Create a Log of it

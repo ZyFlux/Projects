@@ -39,6 +39,7 @@ public class ActorCreated : ActorEvent
 public class ActorDestroyed : ActorEvent
 {
     public string actorId;
+    public string resourceId; //Added to support backtracking on the dispatcher end
 
     public override void HandleVisualization()
     { VisualizationHandler.Handle(this); }

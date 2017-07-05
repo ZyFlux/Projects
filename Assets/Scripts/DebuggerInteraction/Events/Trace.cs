@@ -5,7 +5,10 @@ using UnityEngine;
 
 public static class Trace
 {
-    public static List<List<ActorEvent>> allEvents = new List<List<ActorEvent>>(); //List of atomic steps
+    public static List<List<ActorEvent>> allEvents = new List<List<ActorEvent>>(); //List of atomic visualization steps (not same as dispatcher)
+
+    public static List<ActorEvent> stepEvents = new List<ActorEvent>(); //List of steps received via StepResponse -> Must be empty when not implementing a step response
+    public static List<State> stepStates = new List<State>();
 
     public static Dictionary<int, int> visualizationToDispatcherIndexMapper = new Dictionary<int, int>(); //Maps visualization step to dispatcher step
     

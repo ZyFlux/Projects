@@ -181,6 +181,8 @@ public class UserInputHandler : MonoBehaviour
             NetworkInterface.HandleRequest(sar);
         }
     }
+    
+    //Step request directly sent to Network Interface
 
     public static bool CheckAtomicStepIndex() //Are we up to pace on the atomic step level
     {

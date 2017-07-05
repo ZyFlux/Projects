@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Init.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Events\Trace.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\AutoNext.cs" />
+    <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\DetectHistoricalStepClick.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\DiscreetHandler.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\FocusArea.cs" />
     <Compile Include="Assets\Scripts\DebuggerInteraction\Fancy\GoToHistoryButton.cs" />

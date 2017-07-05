@@ -18,16 +18,21 @@ public static class NetworkInterface
             case "ACTION_RESPONSE":
                 //Debug.Log("Received an action response");
                 ActionResponse curr = (JsonUtility.FromJson<ActionResponse>(jsonResponse));
-                
-                //TODO: Code to Map Visualization id to event id
 
+
+                
                 //One ActionResponse includes a list of events for one atomic step
                 List <ActorEvent> tempList1 = new List<ActorEvent>();
                 foreach (string ev in curr.events)
                     tempList1.Add(EventUnwrapper(ev));
                 if (tempList1.Count > 0)
-                    Trace.allEvents.Add(tempList1);
+                {
+                    int stepNum = curr.stepNum;
 
+                    Trace.visualizationToDispatcherIndexMapper.Add(Trace.allEvents.Count, stepNum); //stepNum may be -1 for invalid dispatcher steps
+
+                    Trace.allEvents.Add(tempList1);
+                }
                 foreach (State st in curr.states)
                     StateUnwrapper(st);
 
@@ -54,6 +59,27 @@ public static class NetworkInterface
             case "SUPPRESS_ACTOR_RESPONSE":
                 SuppressActorResponse sar = JsonUtility.FromJson<SuppressActorResponse>(jsonResponse);
                 SuppressResponseUnwrapper(sar);
+                break;
+
+            case "STEP_RESPONSE":
+                Debug.Log("Received a historical step as response");
+
+                StepResponse sr = (JsonUtility.FromJson<StepResponse>(jsonResponse));
+
+                int id = sr.stepNum; //Store the StepNum  
+
+                List<ActorEvent> listOfEvents = new List<ActorEvent>(); //This list consists of the net difference we need to do
+
+                //Unwrap specific parts in the same way
+                foreach (string ev in sr.events)
+                    Trace.stepEvents.Add(EventUnwrapper(ev)); //Send these events to a special list
+
+                //State unwrapping is done later as the actors at prior stepNum are not the same as current stepNum
+                //StateUnwrapping done in TraceImplement
+
+                //Send message to Reevaluate log
+                SendMessageContext context = new SendMessageContext(VisualizationHandler.logHead, "ReevaluateList", id, SendMessageOptions.RequireReceiver);
+                SendMessageHelper.RegisterSendMessage(context);
                 break;
             default:
                 Debug.LogError("Unable to resolve to a particular class");
@@ -100,7 +126,7 @@ public static class NetworkInterface
         }
         return ev;
     }
-    private static void StateUnwrapper(State st) //TODO: Change the state later, when the trace step comes
+    public static void StateUnwrapper(State st) //Also accessed from TraceImplement
     {
         //Send the state to Actor
         GameObject actorConcerned = Actors.allActors[st.actorId];
@@ -192,6 +218,14 @@ public static class NetworkInterface
             string toSend = JsonUtility.ToJson(curr);
             AsynchronousClient.Send(AsynchronousClient.client, toSend);
         }
+    }
+
+    public static void HandleRequest(StepRequest curr)
+    {
+        string toSend = JsonUtility.ToJson(curr);
+        AsynchronousClient.Send(AsynchronousClient.client, toSend);
+
+        Debug.Log("We sent a step request");
     }
 
     public static bool CheckAndResetRequestPossibility()

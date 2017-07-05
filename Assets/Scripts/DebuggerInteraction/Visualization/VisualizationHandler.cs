@@ -15,7 +15,7 @@ public class VisualizationHandler : MonoBehaviour
     public static string [] sysActorNames= { "deadLetters", "Timer" };
 
     public static Dictionary<string, GameObject> modelDictionary;
-    private static GameObject logHead; //Set on Awake(), this is the parent of all logs
+    public static GameObject logHead; //Set on Awake(), this is the parent of all logs
     public void Awake()
     {
 

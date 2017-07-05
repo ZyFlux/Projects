@@ -40,7 +40,6 @@ public class SendMessageHelper : MonoBehaviour
             }
 
             context.Target.SendMessage(context.MethodName, context.Value, context.Options);
-            Debug.Log("Sending a message to AF");
         }
     }
 }

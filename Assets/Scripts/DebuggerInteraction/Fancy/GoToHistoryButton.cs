@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GoToHistoryButton : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public int indexOfDispatcher; //index of the dispatcher
+
+
+    public void HandleClick()
+    {
+                                        //We decrement by 1 to get the correct id
+        StepRequest sr = new StepRequest(indexOfDispatcher-1);
+        NetworkInterface.HandleRequest(sr);
+    }
 }

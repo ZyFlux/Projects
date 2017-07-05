@@ -20,7 +20,7 @@ public class SpeedControl : MonoBehaviour
             CalibrateVars();
         }
         else
-            Debug.LogError("Already at top speed");
+            Debug.Log("Already at top speed");
     }
 
     public static void DecreaseSpeed()
@@ -31,7 +31,7 @@ public class SpeedControl : MonoBehaviour
             CalibrateVars();
         }
         else
-            Debug.LogError("Already at lowest speed");
+            Debug.Log("Already at lowest speed");
     }
 
     private static void CalibrateVars()
