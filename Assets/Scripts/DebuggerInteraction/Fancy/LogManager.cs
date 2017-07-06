@@ -10,7 +10,7 @@ public class LogManager : MonoBehaviour
     private static int atomicStepForSingularHistoryExecution = -1;
     private static int currDispatcherStep = -1;
 
-    private static List<GameObject> logs; //List of all logs generated
+    private List<GameObject> logs; //List of all logs generated
 
     public GameObject textPrefab;
     public int maxSize = 15; //Max size of log
@@ -70,7 +70,7 @@ public class LogManager : MonoBehaviour
             }
 
             if (dictValue > -1) //If it was a valid step
-                atomicStepForSingularHistoryExecution = Trace.pointerToCurrAtomicStep; //set local index to Atomic step
+                atomicStepForSingularHistoryExecution = Trace.pointerToCurrAtomicStep; //set local index to Atomic step to ensure history button creation happens only once
         }
 
         newLog.GetComponent<SingularLogFuctionality>().index = currDispatcherStep;
@@ -99,7 +99,7 @@ public class LogManager : MonoBehaviour
         {
             if (go.GetComponent<SingularLogFuctionality>().index < stepNum)
             {
-                passableList.Add(go); //We need this in the log
+                passableList.Insert(0,go); //We need this in the beginning
             }
             else
                 Destroy(go); //Destroy it

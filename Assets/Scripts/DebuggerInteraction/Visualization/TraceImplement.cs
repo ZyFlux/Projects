@@ -54,19 +54,26 @@ public class TraceImplement : MonoBehaviour {
                 foreach(var item in Actors.allActors)
                 {
                     ActorFunctionality af = item.Value.GetComponent<ActorFunctionality>();
-                    af.messageQueueBox.GetComponent<MessageQueueFunctionality>().EmptyQueue();
-                    //Make sure the queueBoxes don't appear anymore
+                    af.messageQueueBox.GetComponent<MessageQueueFunctionality>().EmptyQueue(); //Empty all actors' queues
+
+                    //Clear all markings
+                    Markers.Initialize();
+                    rootOfActors.BroadcastMessage("ClearMark");
+
+                    //Clear breakpoints
+                    rootOfActors.BroadcastMessage("ClearTag");
                 }
 
-                foreach (ActorEvent ev in Trace.stepEvents)
+                foreach (ActorEvent ev in Trace.stepEvents) //Handle each event discreetly
                 {
                     ev.HandleDiscreetly();
                 }
 
-                foreach (State st in Trace.stepStates)
+                foreach (State st in Trace.stepStates) //Set the states now as all events have been handled
                 {
                     NetworkInterface.StateUnwrapper(st);
                 }
+
                 DiscreetHandler.logCreateForEvent = prevLogDispValue;
                 Trace.stepEvents = new List<ActorEvent>(); //Reset the list as everything has been implelented
             }

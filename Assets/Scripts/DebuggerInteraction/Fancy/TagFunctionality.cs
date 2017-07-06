@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class TagFunctionality : MonoBehaviour {
     public GameObject visualRepresentationPrefab; //Set in the inspector (arrow prefab)
-    public Vector3 Offset = new Vector3(0.03f, 0.3f, 0f);
+    
     private GameObject visualRepresentation;
 
     public static int numTagged = 0;
+
+    public bool getTag = false;//Is the actor tagged (or not)?
+
+    public Vector3 Offset = new Vector3(0.03f, 0.3f, 0f);
 
     public void TagUntag(TagActorResponse tar)
     {
@@ -50,6 +54,29 @@ public class TagFunctionality : MonoBehaviour {
             yield return new WaitForSeconds(0.75f);
             visualRepresentation.transform.localScale = origScale; //Back to original
             yield return new WaitForSeconds(0.75f);
+        }
+    }
+
+    public void ClearTag()
+    {
+        if(getTag)
+        {
+            getTag = false;
+            Destroy(visualRepresentation);
+        }
+    }
+
+    public bool ToggleTag() //Is not used directly for impacting visual representations
+    {
+        if (getTag)
+        {
+            getTag = false;
+            return false;
+        }
+        else
+        {
+            getTag = true;
+            return true;
         }
     }
 

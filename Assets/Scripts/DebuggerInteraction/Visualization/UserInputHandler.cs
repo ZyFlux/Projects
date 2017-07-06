@@ -5,6 +5,7 @@ using UnityEngine;
 public class UserInputHandler : MonoBehaviour
 {
     public static Transform laserPointedActor; //set by SteamVR_LaserPointer and accessed by NetworkInterface during sends
+    public static Transform laserPointedCollider;
     public static bool isPaused;
     private bool isOn;
 
@@ -28,7 +29,7 @@ public class UserInputHandler : MonoBehaviour
         {
             Debug.Log("About to tag/untag actor");
 
-            bool toggle = laserPointedActor.gameObject.GetComponent<ActorFunctionality>().ToggleTag();
+            bool toggle = laserPointedActor.gameObject.GetComponent<TagFunctionality>().ToggleTag();
             NetworkInterface.HandleTagUntagRequestToBeSent(toggle, laserPointedActor.name);
         }
     }

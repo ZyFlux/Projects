@@ -62,11 +62,12 @@ public static class NetworkInterface
                 break;
 
             case "STEP_RESPONSE":
-                Debug.Log("Received a historical step as response");
 
                 StepResponse sr = (JsonUtility.FromJson<StepResponse>(jsonResponse));
 
                 int id = sr.stepNum; //Store the StepNum  
+
+                Debug.Log("Received response of step " + (id+1));
 
                 List<ActorEvent> listOfEvents = new List<ActorEvent>(); //This list consists of the net difference we need to do
 
@@ -77,10 +78,12 @@ public static class NetworkInterface
                 //State unwrapping is done later as the actors at prior stepNum are not the same as current stepNum
                 //StateUnwrapping done in TraceImplement
 
-                //Send message to Reevaluate log
-                SendMessageContext context = new SendMessageContext(VisualizationHandler.logHead, "ReevaluateList", id, SendMessageOptions.RequireReceiver);
-                SendMessageHelper.RegisterSendMessage(context);
+                //Send message to Reevaluate log- newer logs need to be deleted
+                SendMessageContext context = new SendMessageContext(VisualizationHandler.logHead, "ReevaluateList", id + 1, SendMessageOptions.RequireReceiver);
+                SendMessageHelper.RegisterSendMessage(context);                                                     //state at n -1 is sent
                 break;
+
+
             default:
                 Debug.LogError("Unable to resolve to a particular class");
                 break;
@@ -225,7 +228,7 @@ public static class NetworkInterface
         string toSend = JsonUtility.ToJson(curr);
         AsynchronousClient.Send(AsynchronousClient.client, toSend);
 
-        Debug.Log("We sent a step request");
+        Debug.Log("We sent a request for step " + curr.stepNum);
     }
 
     public static bool CheckAndResetRequestPossibility()

@@ -19,9 +19,9 @@ public class DetectHistoricalStepClick : MonoBehaviour
 
     private void CheckHistoricalBlock(object sender, ControllerInteractionEventArgs e)
     {
-        if(UserInputHandler.laserPointedActor.CompareTag("HistoricalStep"))
+        if(UserInputHandler.laserPointedCollider.CompareTag("HistoricalStep"))
         {
-            UserInputHandler.laserPointedActor.GetComponent<GoToHistoryButton>().HandleClick();
+            UserInputHandler.laserPointedCollider.GetComponent<GoToHistoryButton>().HandleClick();
         }
     }
 

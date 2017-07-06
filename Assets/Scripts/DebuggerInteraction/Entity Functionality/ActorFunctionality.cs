@@ -17,7 +17,7 @@ public class ActorFunctionality : MonoBehaviour
     public bool suppressed = false; //Initially, not suppressed
 
     public bool getState = false; //Is the state shown (or not)?
-    public bool getTag = false;//Is the actor tagged (or not)?
+
 
     public Vector3 originalPosition; //Used to revert to original position after the actor has snapped into focus area once
     public Vector3 modelOffset; //Because models aren't always oriented at 0,0,0
@@ -262,19 +262,6 @@ public class ActorFunctionality : MonoBehaviour
         }
     }
 
-    public bool ToggleTag() //Is not used directly for impacting visual representations
-    {
-        if (getTag)
-        {
-            getTag = false;
-            return false;
-        }
-        else
-        {
-            getTag = true;
-            return true;
-        }
-    }
 }
 
 
