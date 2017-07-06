@@ -9,7 +9,7 @@ public class GoToHistoryButton : MonoBehaviour {
 
     public void HandleClick()
     {
-                                        //We decrement by 1 to get the correct id
+
         StepRequest sr = new StepRequest(indexOfDispatcher);
         NetworkInterface.HandleRequest(sr);
     }
