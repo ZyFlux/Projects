@@ -112,6 +112,11 @@ public class MessageFunctionality : MonoBehaviour
         representationHolding = new MarkerRepresentation(); //clear the representation held
     }
 
+    public void DeleteTrail()
+    {
+        Debug.Log("Deleting trail renderer unnaturally (perhaps because the actor moved)");
+        Destroy(lineRenderer);
+    }
     void OnDestroy() //Delete the line renderer when the message is destroyed
     {
         Debug.Log("Deleting the trail renderer to " + recipient.name + " as message has been consumed");

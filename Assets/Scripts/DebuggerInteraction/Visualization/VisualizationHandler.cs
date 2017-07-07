@@ -146,6 +146,7 @@ public class VisualizationHandler : MonoBehaviour
     public static void Handle(TopographyResponse tr)
     {
 
+
         switch (tr.topographyType)
         {
             case "RING":

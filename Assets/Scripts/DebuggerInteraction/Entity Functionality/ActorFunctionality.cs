@@ -217,6 +217,9 @@ public class ActorFunctionality : MonoBehaviour
     {
         transform.position = pos;
         originalPosition = transform.position;
+
+        //Delete the trails attached to it
+        BroadcastMessage("DeleteTrail");
     }
 
     //Coloring- state changes
