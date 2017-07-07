@@ -48,8 +48,8 @@ public class TagFunctionality : MonoBehaviour {
     {
         int currStep = Trace.numOfStepsElapsed;
         Vector3 origScale = visualRepresentation.transform.localScale;
-        while (currStep == Trace.numOfStepsElapsed)
-        {
+        while ((currStep == Trace.numOfStepsElapsed) && numTagged > 0)
+        {                                               //Extra check condition to make sure this does not continue when history is queried
             visualRepresentation.transform.localScale = new Vector3 (0f, 0f, 0f); //Make the object so small- it's invisible
             yield return new WaitForSeconds(0.75f);
             visualRepresentation.transform.localScale = origScale; //Back to original
@@ -62,6 +62,7 @@ public class TagFunctionality : MonoBehaviour {
         if(getTag)
         {
             getTag = false;
+            numTagged--;
             Destroy(visualRepresentation);
         }
     }

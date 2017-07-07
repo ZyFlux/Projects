@@ -169,7 +169,7 @@ public class HelpTextController : MonoBehaviour
     public void OnOff()
     {
         index = 0;
-        tm.text = "Start / Stop simulation";
+        tm.text = "Start simulation (long press to Quit once started)";
     }
 
     public void ClearMark()
