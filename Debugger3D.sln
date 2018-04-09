@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Debugger3D", "Debugger3D.csproj", "{2EDE1C89-E4F1-FD53-7F05-6D0AC5986F2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Debugger3D.Editor", "Debugger3D.Editor.csproj", "{11CD1901-5409-770D-34A4-2E1DB5357E03}"

@@ -107,7 +107,7 @@ public class HelpTextController : MonoBehaviour
                 if (possibilityOfPointedAction)
                 {
                     tm.color = col;
-                    tm.text = "Tag / Untag pointed actor";
+                    tm.text = "Set breakpoint";
                 }
                 else
                 {
